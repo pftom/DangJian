@@ -11,7 +11,7 @@ export const header = (METHOD, token) => ({
 })
 
 export const commonApi = {
-  base: 'http://106.14.146.36/',
+  base: 'http://127.0.0.1:7001/',
   news: 'home/news/',
   events: 'home/events/',
   login: 'users/login/',

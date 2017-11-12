@@ -41,16 +41,16 @@ class TabThreeScreenOne extends Component {
     let { profile, navigation } = this.props;
 
     if (profile) {
-      profile = profile && JSON.parse(profile);
+      // profile = profile && JSON.parse(profile);
     } else {
       profile = {
-                    avatar: '',
-                    college: '',
-                    full_name: '',
-                    identity: '',
-                    major: '',
-                    sex: '',
-                  }
+                  avatar: '',
+                  college: '',
+                  full_name: '',
+                  identity: '',
+                  major: '',
+                  sex: '',
+                }
     }
     return (
       <View style={styles.container}>

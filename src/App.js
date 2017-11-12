@@ -67,9 +67,9 @@ class App extends Component {
     render() {
         console.log('logged', this.state.isLogged);
         const { authenticated } = this.props;
-        if (this.state.isLogged && authenticated) {
+        // if (this.state.isLogged && authenticated) {
           return <AppNavigation />
-        }
+        // }
         return <Login />;
     }
 }

@@ -33,6 +33,8 @@ import {
   REQUEST_EVENTS,
 } from '../../../constants';
 
+// construct action array for map useage
+const ACTIONS = [REQUEST_EVENTS, REQUEST_NEWS];
 
 const TAB = [
   {
@@ -45,12 +47,11 @@ const TAB = [
   }
 ];
 
+// construct cache array
 var cachedResults = {
   items: [],
   total: 0,
 }
-
-const ACTIONS = [REQUEST_EVENTS, REQUEST_NEWS];
 
 
 const { width, height } = Dimensions.get('window');
