@@ -9,11 +9,6 @@ import ModalActivity from './ModalActivity';
 import { handleTime } from '../../util/index';
 import ModalMessage from './ModalMessage';
 
-
-import { submitConfirm } from '../../actions/user';
-import { fetchEventsActive } from '../../actions/home';
-import {  fetchAttend } from '../../actions/content';
-
 const { width, height } = Dimensions.get('window');
 
 const MODAL_TEXT = {
@@ -45,7 +40,7 @@ class ActivityItem extends Component {
 
   dispatchAttend() {
     const { dispatch, token, id } = this.props;
-    dispatch(fetchAttend(id, token));
+    // dispatch(fetchAttend(id, token));
   }
 
   componentWillUnmount() {
@@ -148,7 +143,7 @@ class ActivityBox extends Component {
           isRefreshing: true,
         });
         this.waitRefreshing();
-      this.props.dispatch(fetchEventsActive());
+      // this.props.dispatch(fetchEventsActive());
     } else {
       that.setState({
         isRefreshing: true,
@@ -159,7 +154,7 @@ class ActivityBox extends Component {
         return;
       }
       
-      this.props.dispatch(fetchEventsActive(activeEvents.next[activeEvents.next.length - 1]));
+      // this.props.dispatch(fetchEventsActive(activeEvents.next[activeEvents.next.length - 1]));
     }
     
   }

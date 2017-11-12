@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { TouchableWithoutFeedback, Modal, View, Text, StyleSheet } from 'react-native';
 
-import { submitConfirm } from '../../actions/user';
-
 class ModalMessage extends Component {
 
   componentWillUnmount() {
@@ -11,7 +9,7 @@ class ModalMessage extends Component {
 
   hideModal() {
     this.timer = setTimeout(() => {
-      this.props.dispatch(submitConfirm());
+      // this.props.dispatch(submitConfirm());
     }, 1500)
   }
 
@@ -25,7 +23,7 @@ class ModalMessage extends Component {
           visible={this.props.failure}
           transparent={true}
         >
-          <TouchableWithoutFeedback onPress={() => this.props.dispatch(submitConfirm())}>
+          <TouchableWithoutFeedback>
             <View style={styles.box}>
             <View style={styles.modalBox}>
                 <View style={styles.btnBox}>

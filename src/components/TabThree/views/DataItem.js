@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Image, Switch, Dimensions, TextInput, Touchable
 import { connect } from 'react-redux';
 
 import SelectPhoto from './SelectPhoto';
-import { logout } from '../../../actions/user';
+// import { logout } from '../../../actions/user';
 const width = Dimensions.get('window').width;
 
 const AUTHORITY = [8, 9, 10, 11, 13];
@@ -57,7 +57,7 @@ class PersonDataItem extends Component {
         {
           id === 13
           ? (
-            <TouchableOpacity onPress={() => dispatch(logout())}>
+            <TouchableOpacity onPress={() => {/*dispatch(logout() )*/}}>
               <View style={id === 13 && styles.left}>
                 <Text style={[styles.title, id === 13 && styles.title13]}>{this.props.title}</Text>
               </View>

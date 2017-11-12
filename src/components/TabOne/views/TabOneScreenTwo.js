@@ -12,7 +12,6 @@ import { connect } from 'react-redux';
 import HTMLView from 'react-native-html-render';
 
 import Header from '../../common/Header';
-import { fetchEvent, fetchNew } from '../../../actions/content';
 import px2dp from '../../../util/index';
 import {
   REQUEST_SINGLE_NEWS,
@@ -38,16 +37,16 @@ class TabOneScreenTwo extends PureComponent {
 
 
   componentDidMount() {
-    let { state, dispatch } = this.props.navigation;
-    let { data } = state.params;
-    this.setState({
-      isRefreshing: true,
-    })
-    if (ACTIONS[data.type] === REQUEST_EVENT) {
-      dispatch(fetchEvent(data.id));
-    } else if (ACTIONS[data.type] === REQUEST_SINGLE_NEWS) {
-      dispatch(fetchNew(data.id));
-    }
+    // let { state, dispatch } = this.props.navigation;
+    // let { data } = state.params;
+    // this.setState({
+    //   isRefreshing: true,
+    // })
+    // if (ACTIONS[data.type] === REQUEST_EVENT) {
+    //   dispatch(fetchEvent(data.id));
+    // } else if (ACTIONS[data.type] === REQUEST_SINGLE_NEWS) {
+    //   dispatch(fetchNew(data.id));
+    // }
   }
 
   waitRefreshing() {

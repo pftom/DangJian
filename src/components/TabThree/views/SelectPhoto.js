@@ -26,7 +26,7 @@ class SelectPhoto extends Component {
     
     this.state = {
       avatarSource: this.props.avatar,
-    }
+    };
 
     this.selectPhotoTapped = this.selectPhotoTapped.bind(this);
   }

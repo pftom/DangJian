@@ -3,7 +3,15 @@
 import queryString from 'query-string';
 import _ from 'lodash';
 
-import { header } from './config';
+// The http header for request
+const header = (METHOD, token) => ({
+  method: METHOD,
+  headers: {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json',
+    'Authorization': 'Token ' + token,
+  }
+});
 
 let request = {};
 

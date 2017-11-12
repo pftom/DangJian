@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import { Text, View, StyleSheet, Image, TouchableOpacity, Alert } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
-import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
 
 import px2dp from '../../../util/index';
 import Header from '../../common/Header'
 import SettingItem from './SettingItem';
 import SelectPhoto from './SelectPhoto';
+
+// import base uri for present photo
+import { base } from '../../../util/';
 
 const ITEMS = [
   {
@@ -38,43 +40,34 @@ const SCREEN = [ "MessageBox", "ActivityBox", "PersonData", "Setting" ];
 
 class TabThreeScreenOne extends Component {
   render() {
-    let { profile, navigation } = this.props;
-
-    if (profile) {
-      // profile = profile && JSON.parse(profile);
-    } else {
-      profile = {
-                  avatar: '',
-                  college: '',
-                  full_name: '',
-                  identity: '',
-                  major: '',
-                  sex: '',
-                }
-    }
+    const { profile, navigation } = this.props;
     return (
       <View style={styles.container}>
-        <View style={styles.upSide}>
-          <SelectPhoto num={1} avatar={profile.avatar} />
-          <View style={styles.rightSide}>
-            <View style={styles.identityBox}>
-              <Text style={styles.name}>{profile.full_name}</Text>
-              <Text style={styles.identity}>{profile.identity}</Text>
-            </View>
-            <TouchableOpacity onPress={() => navigation.navigate('PersonData', { data: profile })}>
-              <LinearGradient
-                colors={[ '#FF0467', '#FC7437']}
-                start={{x: 0.0, y: 0.0}} end={{x: 1.0, y: 1.0}}
-                style={styles.profileGradient}
-              >
-                <View style={styles.profileBox}>
-                  <Image source={require('../img/person_data.png')} style={styles.profileImg} />
-                  <Text style={styles.profileText}>查看个人档案</Text>
+        {
+          profile && (
+            <View style={styles.upSide}>
+              <SelectPhoto num={1} avatar={base + profile.avatar} />
+              <View style={styles.rightSide}>
+                <View style={styles.identityBox}>
+                  <Text style={styles.name}>{profile.name}</Text>
+                  <Text style={styles.identity}>{profile.identity}</Text>
                 </View>
-              </LinearGradient>
-            </TouchableOpacity>
-          </View>
-        </View>
+                <TouchableOpacity onPress={() => navigation.navigate('PersonData', { profile })}>
+                  <LinearGradient
+                    colors={[ '#FF0467', '#FC7437']}
+                    start={{x: 0.0, y: 0.0}} end={{x: 1.0, y: 1.0}}
+                    style={styles.profileGradient}
+                  >
+                    <View style={styles.profileBox}>
+                      <Image source={require('../img/person_data.png')} style={styles.profileImg} />
+                      <Text style={styles.profileText}>查看个人档案</Text>
+                    </View>
+                  </LinearGradient>
+                </TouchableOpacity>
+              </View>
+            </View>
+          )
+        }
         <View style={styles.downSide}>
           <View style={styles.gradientBox}>
             <LinearGradient 
@@ -93,17 +86,6 @@ class TabThreeScreenOne extends Component {
     )
   }
 }
-
-TabThreeScreenOne.navigationOptions = ({ navigation }) => ({
-  headerTitle: (
-    <View style={styles.headerTitle}>
-      <Header 
-        headerText="我的账号"
-        navigation={navigation}
-      />
-    </View>
-  ),
-})
 
 const styles = StyleSheet.create({
   headerTitle: {
@@ -183,11 +165,6 @@ const styles = StyleSheet.create({
     color: '#D0011B',
     backgroundColor: 'transparent',
   }
-})
-
-
-const mapStateToProps = (state) => ({
-  profile: state.storage.data || state.users.usersProfile.data,
 });
 
-export default connect(mapStateToProps)(TabThreeScreenOne);
+export default TabThreeScreenOne;

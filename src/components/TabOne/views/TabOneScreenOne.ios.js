@@ -23,11 +23,9 @@ import Header from '../../common/Header';
 import ScrollHeader from './ScrollHeader';
 import DefaultTabBar from './DefaultTabBar';
 import px2dp from '../../../util';
-import { commonApi, header } from '../../../util/config';
 import request from '../../../util/request';
 
 
-import { fetchEvents, fetchNews } from '../../../actions/home';
 import {
   REQUEST_NEWS,
   REQUEST_EVENTS,
@@ -106,13 +104,13 @@ class TabOneScreenOne extends Component {
         return;
       }
       
-      this.props.dispatch(fetchNews(news.next[news.next.length - 1]));
+      // this.props.dispatch(fetchNews(news.next[news.next.length - 1]));
     } else if (ACTIONS[id] === REQUEST_EVENTS) {
       let { events } = this.props.events;
       if (!events.next) {
         return
       }
-      this.props.dispatch(fetchEvents(events.next[events.next.length - 1]));
+      // this.props.dispatch(fetchEvents(events.next[events.next.length - 1]));
     }
   }
 

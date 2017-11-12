@@ -2,6 +2,11 @@
 
 import { Dimensions } from 'react-native';
 
+// import all file in one place
+
+export * from './api';
+export { default as request } from './request';
+
 const deviceH = Dimensions.get('window').height;
 const deviceW = Dimensions.get('window').width;
 

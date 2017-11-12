@@ -1,32 +1,55 @@
 import { combineReducers } from 'redux';
 
+// import all action constants in one place
 import {
   REQUEST_CHANGE_PASSWD,
   REQUEST_CHANGE_PASSWD_SUCCESSFUL,
   REQUEST_CHANGE_PASSWD_FAILURE,
-  REQUEST_PERSON_PROFILE,
-  REQUEST_PERSON_PROFILE_SUCCESSFUL,
-  REQUEST_PERSON_PROFILE_FAILURE,
-} from '../constants';
 
-const initialProfile = {
-  isFetching: false,
-  data: {},
-  success: false,
-  err: false,
+  // profile constants
+  GET_PROFILE,
+  GET_PROFILE_SUCCESS,
+  GET_PROFILE_ERROR,
+} from '../constants/';
+
+// profile reducer initial state
+const initialProfileState = {
+  userProfile: null,
+  isGetProfile: false,
+  getProfileSuccess: false,
+  getProfileError: false,
 }
 
-
-function usersProfile (state = initialProfile, action) {
+// profile reducer
+function profile(state = initialProfileState, action) {
   switch(action.type) {
-    case REQUEST_PERSON_PROFILE:
-      return { ...state, isFetching: true };
-    case REQUEST_PERSON_PROFILE_SUCCESSFUL:
-      console.log('data', action);
-      return { ...state, data: action.data, isFetching: false, success: true, err: false };
-    case REQUEST_PERSON_PROFILE_FAILURE:
-      return { ...state, err: true, isFetching: false, success: false };
-    default: return state;
+
+    case GET_PROFILE:
+      return { 
+        ...state, 
+        isGetProfile: true,
+        getProfileSuccess: false,
+        getProfileError: false,
+      };
+
+    case GET_PROFILE_SUCCESS:
+      const { profile } = action.payload;
+      return {
+        ...state,
+        userProfile: profile,
+        isGetProfile: false,
+        getProfileSuccess: true,
+      };
+
+    case GET_PROFILE_ERROR:
+      return {
+        ...state,
+        isGetProfile: false,
+        getProfileError: true,
+      };
+
+    default:
+      return state;
   }
 }
 
@@ -49,6 +72,6 @@ function usersAuth (state = initialUserState, action) {
 }
 
 export default combineReducers({
-  usersProfile,
+  profile,
   usersAuth,
 });

@@ -25,7 +25,7 @@ import Carousel1 from './Carousel1';
 
 const { width, height } = Dimensions.get('window');
 
-import { fetchEvents, fetchNews } from '../../../actions/home';
+// import { fetchEvents, fetchNews } from '../../../actions/home';
 
 import {
   REQUEST_NEWS,
@@ -270,9 +270,9 @@ const ScrollableTabView = React.createClass({
       isRefreshing: true,
     })
     if (ACTIONS[id] === REQUEST_NEWS) {
-      this.props.dispatch(fetchNews());
+      // this.props.dispatch(fetchNews());
     } else if (ACTIONS[id] === REQUEST_EVENTS) {
-      this.props.dispatch(fetchEvents());
+      // this.props.dispatch(fetchEvents());
     }
   },
 

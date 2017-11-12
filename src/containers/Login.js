@@ -5,8 +5,6 @@ import LinearGradient from 'react-native-linear-gradient';
 import { connect } from 'react-redux';
 import ModalMessage from '../components/common/ModalMessage';
 
-import { fetchLogin } from '../actions/user';
-
 class Login extends Component {
 
     constructor(props) {
@@ -28,10 +26,10 @@ class Login extends Component {
     
 
     submit() {
-      this.props.dispatch(fetchLogin({
-        username: this.state.value1 || '',
-        password: this.state.value2 || '',
-      }))
+      // this.props.dispatch(fetchLogin({
+      //   username: this.state.value1 || '',
+      //   password: this.state.value2 || '',
+      // }))
     }
 
     render() {

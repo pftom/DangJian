@@ -3,7 +3,6 @@ import { View, Text, Image, TouchableOpacity, TextInput, ScrollView , Dimensions
 import { connect } from 'react-redux';
 
 import Header from './Header';
-import { fetchChangePasswd } from '../../actions/user';
 import ModalMessage from '../common/ModalMessage';
 
 const width = Dimensions.get('window').width;

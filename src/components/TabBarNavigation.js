@@ -4,7 +4,7 @@ import { TabNavigator, TabBarBottom } from 'react-navigation';
 
 import TabOneNavigation from './TabOne/views/TabOneScreenOne';
 import TabTwoNavigation from './TabTwo/views/TabTwoScreenOne';
-import TabThreeNavigation from './TabThree/views/TabThreeScreenOne';
+import TabThreeNavigation from '../containers/AccountContainer';
 
 
 const routeConfigs = {
@@ -24,11 +24,11 @@ const routeConfigs = {
       screen: TabTwoNavigation,
       navigationOptions: {
         tabBarLabel: '在线学习',
-        tabBarIcon: ({ tintColor }) => ( <
-            Image source = { require('./TabTwo/img/logo.png') }
-            style = {
-                [styles.icon2, { tintColor: tintColor }]
-            }
+        tabBarIcon: ({ tintColor }) => ( 
+            <Image source = { require('./TabTwo/img/logo.png') }
+                style = {
+                    [styles.icon2, { tintColor: tintColor }]
+                }
             />
         )
       }
