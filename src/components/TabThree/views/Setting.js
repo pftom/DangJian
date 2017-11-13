@@ -7,10 +7,6 @@ import DataItem from './DataItem';
 
 const DATA = [
   {
-    id: 8,
-    title: '消息推送通知',
-  },
-  {
     id: 9,
     title: '修改密码',
   },
@@ -48,11 +44,11 @@ class Setting extends Component {
     const { navigation } = this.props;
     let itemOne = [], itemTwo = [], itemThree = [], itemFour = [];
     DATA.map((item, key) => {
-      if (key <= 1) {
+      if (key < 1) {
         itemOne.push(<DataItem {...item} switchValue={this.state.switchValue } handleValueChange={this.handleValueChange} key={item.id} navigation={navigation} DATA={DATA} />);
-      } else if (key <= 3 ) {
+      } else if (key < 3 ) {
         itemTwo.push(<DataItem {...item} key={item.id} navigation={navigation} DATA={DATA} />); 
-      } else if (key <= 4) {
+      } else if (key < 4) {
         itemThree.push(<DataItem {...item} dispatch={this.props.dispatch} showModal={this.showModal} key={item.id} navigation={navigation} DATA={DATA} />);
       } else {
         itemFour.push(<DataItem {...item} key={item.id} navigation={navigation} DATA={DATA} />);

@@ -2,11 +2,18 @@ import React, { Component } from 'react';
 import { View,  StyleSheet,  ScrollView } from 'react-native';
 import SinglePicker from 'mkp-react-native-picker';
 
+// import antd-mobile component for better development
 import Header from '../../common/Header';
 import PersonDataItem from './DataItem';
 
 // import base url for present image
 import { base } from '../../../util/';
+
+// import antd-mobile
+import List from 'antd-mobile/lib/list';
+const Item = List.Item;
+const Brief = List.Brief;
+
 
 // construct all need data in this function
 const constructData = (data) => {
@@ -15,15 +22,7 @@ const constructData = (data) => {
   // get all keys of this data
   const dataKeys = Object.keys(data);
 
-  const mapKeyToTitle = {
-    'avatar': '头像',
-    'name': '姓名',
-    'sex': '性别',
-    'identity': '身份',
-    'college': '学院',
-    'major': '专业',
-    'studentId': '学号',
-  };
+  
 
   dataKeys.map((item, key) => {
     const filterKeys = Object.keys(mapKeyToTitle);
@@ -42,17 +41,75 @@ const constructData = (data) => {
   return constructedData;
 }
 
+// map all need render data from keys to content
+const mapKeyToTitle = {
+  'avatar': '头像',
+  'name': '姓名',
+  'sex': '性别',
+  'identity': '身份',
+  'college': '学院',
+  'major': '专业',
+  'studentId': '学号',
+};
+// map sex
+const mapSex = {
+  'M': '男',
+  'W': '女',
+};
+
+
 class PersonData extends Component {
 
   
   render() {
     const { profile } = this.props.navigation.state.params;
-    let itemOne = [];
-    let itemTwo = [];
+
+    // declare what need rendered 
+    let renderFirstList = [];
+    let renderSecondList = [];
+    // if the profile exist
+    if (profile) {
+
+      // get all the key of mapKeyToTitle
+      const needRenderProfileKeys = Object.keys(mapKeyToTitle);
+      let i = 0;
+      for ( ; i < needRenderProfileKeys.length; i++) {
+        // use a variable to replace needRenderProfileKeys[i]
+        const simpleKey = needRenderProfileKeys[i];
+        if (i <= 2) {
+          // split the list to two section
+          // if simpleKey === 'sex', do the mapSex, ep: 'M' => '男'
+          renderFirstList.push({
+            extra: simpleKey === 'sex' ? mapSex[ profile[ simpleKey ] ] : profile[ simpleKey ],
+            content: mapKeyToTitle[ simpleKey ],
+          })
+        } else {
+          renderSecondList.push({
+            extra: profile[ simpleKey ],
+            content: mapKeyToTitle[ simpleKey ],
+          })
+        }
+      }
+    }
+
+    
     return (
       <ScrollView style={styles.container}>
-        <View style={styles.itemContainer}>{itemOne}</View>
-        <View style={styles.itemContainer}>{itemTwo}</View>
+        <List style={styles.firstList}>
+          {
+            renderFirstList.map((item, key) => (
+              <Item extra={item.extra} key={key}>{item.content}</Item>
+            ))
+          }
+        </List>
+
+        <List style={styles.secondList}>
+        {
+          renderSecondList.map((item, key) => (
+            <Item extra={item.extra} key={key}>{item.content}</Item>
+          ))
+        }
+      </List>
       </ScrollView>
     )
   }
@@ -89,6 +146,13 @@ const styles = StyleSheet.create({
   },
   singlePicker: {
     backgroundColor: '#f5f6f7',
+  },
+
+  firstList: {
+    marginTop: 20,
+  },
+  secondList: {
+    marginTop: 30,
   }
 })
 

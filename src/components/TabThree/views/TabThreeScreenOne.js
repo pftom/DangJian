@@ -40,33 +40,31 @@ const SCREEN = [ "MessageBox", "ActivityBox", "PersonData", "Setting" ];
 
 class TabThreeScreenOne extends Component {
   render() {
-    const { profile, navigation } = this.props;
+    let { profile, navigation } = this.props;
     return (
       <View style={styles.container}>
         {
-          profile && (
             <View style={styles.upSide}>
-              <SelectPhoto num={1} avatar={base + profile.avatar} />
+              <SelectPhoto num={1} avatar={profile && ( base + profile.avatar )} />
               <View style={styles.rightSide}>
                 <View style={styles.identityBox}>
-                  <Text style={styles.name}>{profile.name}</Text>
-                  <Text style={styles.identity}>{profile.identity}</Text>
+                  <Text style={styles.name}>{profile ? profile.name : 'Node.js' }</Text>
+                  <Text style={styles.identity}>{profile ? profile.identity : '❤️'}</Text>
                 </View>
                 <TouchableOpacity onPress={() => navigation.navigate('PersonData', { profile })}>
                   <LinearGradient
-                    colors={[ '#FF0467', '#FC7437']}
-                    start={{x: 0.0, y: 0.0}} end={{x: 1.0, y: 1.0}}
-                    style={styles.profileGradient}
-                  >
-                    <View style={styles.profileBox}>
-                      <Image source={require('../img/person_data.png')} style={styles.profileImg} />
-                      <Text style={styles.profileText}>查看个人档案</Text>
-                    </View>
-                  </LinearGradient>
+                  colors={[ '#FF0467', '#FC7437']}
+                  start={{x: 0.0, y: 0.0}} end={{x: 1.0, y: 1.0}}
+                  style={styles.profileGradient}
+                >
+                  <View style={styles.profileBox}>
+                    <Image source={require('../img/person_data.png')} style={styles.profileImg} />
+                    <Text style={styles.profileText}>查看个人档案</Text>
+                  </View>
+                </LinearGradient>
                 </TouchableOpacity>
               </View>
             </View>
-          )
         }
         <View style={styles.downSide}>
           <View style={styles.gradientBox}>

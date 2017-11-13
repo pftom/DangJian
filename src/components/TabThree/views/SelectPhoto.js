@@ -65,10 +65,12 @@ class SelectPhoto extends Component {
 
   render() {
     const { num } = this.props;
+    const { avatarSource } = this.state;
+    console.log('avatarSource', avatarSource);
     return (
       <TouchableOpacity onPress={this.selectPhotoTapped}>
         <View style={[num == 1 ? styles.avatarContainer1 : styles.avatarContainer2, styles.avatarContainer, {marginBottom: 20}]}>
-        <Image style={num == 1 ? styles.avatar1 : styles.avatar2 } source={{ uri: this.state.avatarSource }} />
+        <Image style={num == 1 ? styles.avatar1 : styles.avatar2 } source={ avatarSource ? { uri: avatarSource } : require('../img/nodejs.png')} />
         </View>
       </TouchableOpacity>
     )
