@@ -10,99 +10,49 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import HTMLView from 'react-native-html-render';
+// import markdown render
+import Markdown from 'react-native-simple-markdown';
 
 import Header from '../../common/Header';
 import px2dp from '../../../util/index';
-import {
-  REQUEST_SINGLE_NEWS,
-  REQUEST_EVENT,
-} from '../../../constants';
 
 const { width, height } = Dimensions.get('window');
 
-const ACTIONS = [
-  REQUEST_EVENT, 
-  REQUEST_SINGLE_NEWS,
-];
 import { handleTime } from '../../../util/index';
 
+// import base url for present photo
+import { base } from '../../../util/';
+
 class TabOneScreenTwo extends PureComponent {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      isRefreshing: false,
-    }
-  }
-
-
-  componentDidMount() {
-    // let { state, dispatch } = this.props.navigation;
-    // let { data } = state.params;
-    // this.setState({
-    //   isRefreshing: true,
-    // })
-    // if (ACTIONS[data.type] === REQUEST_EVENT) {
-    //   dispatch(fetchEvent(data.id));
-    // } else if (ACTIONS[data.type] === REQUEST_SINGLE_NEWS) {
-    //   dispatch(fetchNew(data.id));
-    // }
-  }
-
-  waitRefreshing() {
-    const that = this;
-    setTimeout(() => {
-      that.setState({
-        isRefreshing: false,
-      });
-    }, 500);
-  }
-
   render() {
-    let { event, single_news, navigation } = this.props;
-    let { data } = navigation.state.params;
-    let res = data.type == 0 ? event.event : single_news.new;
-    let time = handleTime(res.created || '');
-    let isFetching = data.type == 0 ? event.isFetching : single_news.isFetching;
-    if (isFetching) {
-      this.waitRefreshing();
-    }
-
+    // get the data from the parent component
+    const { data } = this.props;
     return (
       <View style={styles.containerBox}>
           <ScrollView
             showsVerticalScrollIndicator={false}
         >
-          <View style={styles.container}>
-            <View style={styles.header}>
-              {!!res.photo && <Image source={{ uri: res.photo }} style={styles.pic} />}
-              {!!data.pic && <View style={styles.picBox}><Image source={data.pic} style={styles.avatar} /></View>}
-              <Text style={[ styles.title, data.title && styles.head]}>{res.title || data.title}</Text>
-              {!!res.created && <Text style={styles.time}>{time}</Text>}
-            </View>
-            <View style={styles.content}>
-              <HTMLView
-                value={res.body || data.content}
-              />
-            </View>
-          </View>
+          {
+            data && (
+              <View style={styles.container}>
+                <View style={styles.header}>
+                  <Image source={{ uri: base + data.image }} style={styles.pic} />
+                  <Text style={[ styles.title, data.title && styles.head]}>{data.title}</Text>
+                  <Text style={styles.time}>{handleTime(data.createdAt)}</Text>
+                </View>
+                <View style={styles.content}>
+                  <Markdown>
+                  #hhhh
+                  </Markdown>
+                </View>
+              </View>
+            )
+          }
         </ScrollView>
       </View>
     )
   }
 }
-
-TabOneScreenTwo.navigationOptions = ({ navigation }) => ({
-  headerTitle: (
-    <View style={styles.headerTitle}>
-      <Header 
-        headerText={navigation.state.params.title}
-        logoLeft={require('../img/back.png')}
-        navigation={navigation}
-      />
-    </View>
-  ),
-})
 
 const styles = StyleSheet.create({
   container: {
@@ -153,10 +103,8 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: '#000000',
   },
-  headerTitle: {
-    top: -10,
-  },
-})
+});
+
 
 const htmlStyles = StyleSheet.create({
   strong: {
@@ -169,11 +117,6 @@ const htmlStyles = StyleSheet.create({
     fontSize: 18,
     color: '#000000',
   }
-})
+});
 
-const mapStateToProps = (state) => ({
-  event: state.content.event,
-  single_news: state.content.single_news,
-})
-
-export default connect(mapStateToProps)(TabOneScreenTwo);
+export default TabOneScreenTwo;

@@ -15,41 +15,41 @@ import {
 // construct initial need attend events state
 const initialNewsState = {
   isGettingNews: false,
-  getNewsuccess: false,
+  getNewSuccess: false,
   getNewsError: false,
-  News: [],
+  news: [],
   errorMsg: null,
 };
 
-const News = (state = initialNewsState, action) => {
+const news = (state = initialNewsState, action) => {
   switch (action.type) {
-    case GET_SINGLE_NEWS:
+    case GET_NEWS:
       return {
         ...state,
-        isGettingEvents: true,
-        getEventsSuccess: false,
-        getEventsError: false,
+        isGettingNews: true,
+        getNewSuccess: false,
+        getNewsError: false,
       };
 
-    case GET_SINGLE_NEWS_SUCCESS:
-      // if get events success, merge the res into the state tree
-      const { needAttendEvents } = action.payload;
+    case GET_NEWS_SUCCESS:
+      // if get news success, merge the res into the state tree
+      const { news } = action.payload;
 
       return {
         ...state,
-        needAttendEvents,
-        isGettingEvents: false,
-        getEventsSuccess: true,
+        news,
+        isGettingNews: false,
+        getNewSuccess: true,
       };
 
-    case GET_ATTEND_EVENTS_ERROR:
-      // if get events error, merge error message into the state tree
+    case GET_NEWS_ERROR:
+      // if get news error, merge error message into the state tree
       const { errorMsg } = action;
       return {
         ...state,
         errorMsg,
-        isGettingEvents: false,
-        getEventsError: true,
+        isGettingNews: false,
+        getNewsError: true,
       };
 
     default:
@@ -59,44 +59,44 @@ const News = (state = initialNewsState, action) => {
 };
 
 
-// construct initial need attend events state
-const initialSingleNeedAttendEventsState = {
-  isGettingEvent: false,
-  getEventSuccess: false,
-  getEventError: false,
-  singleEvent: null,
+// construct initial single news state
+const initialSingleNewsState = {
+  isGettingSingleNews: false,
+  getSingleNewsSuccess: false,
+  getSingleNewsError: false,
+  singleNews: null,
   errorMsg: null,
 };
 
-const singleEvent = (state = initialSingleNeedAttendEventsState, action) => {
+const singleNews = (state = initialSingleNewsState, action) => {
   switch (action.type) {
-    case GET_SINGLE_ATTEND_EVENT:
+    case GET_SINGLE_NEWS:
       return {
         ...state,
-        isGettingEvent: true,
-        getEventSuccess: false,
-        getEventError: false,
+        isGettingSingleNews: true,
+        getSingleNewsSuccess: false,
+        getSingleNewsError: false,
       };
 
-    case GET_SINGLE_ATTEND_EVENT_SUCCESS:
+    case GET_SINGLE_NEWS_SUCCESS:
       // if get events success, merge the res into the state tree
-      const { singleEvent } = action.payload;
+      const { singleNews } = action.payload;
 
       return {
         ...state,
-        singleEvent,
-        isGettingEvent: false,
-        getEventSuccess: true,
+        singleNews,
+        isGettingSingleNews: false,
+        getSingleNewsSuccess: true,
       };
 
-    case GET_SINGLE_ATTEND_EVENT_ERROR:
+    case GET_SINGLE_NEWS_ERROR:
       // if get events error, merge error message into the state tree
       const { errorMsg } = action;
       return {
         ...state,
         errorMsg,
-        isGettingEvent: false,
-        getEventError: true,
+        isGettingSingleNews: false,
+        getSingleNewsError: true,
       };
 
     default:
@@ -106,6 +106,6 @@ const singleEvent = (state = initialSingleNeedAttendEventsState, action) => {
 };
 
 export default combineReducers({
-  needAttendEvents,
-  singleEvent,
+  news,
+  singleNews,
 });

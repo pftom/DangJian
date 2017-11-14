@@ -55,6 +55,7 @@ function* getSingleNeedAttendEvents(action) {
     // if get single need attend  successfully, dispatch action and return needAttendEvents to redux-store
     yield put({ type: GET_SINGLE_ATTEND_EVENT_SUCCESS, payload: { singleEvent }});
   } catch(e) {
+    console.log('e', e);
     // if get single need attend error, dispatch error action & error message for better `debug`
     yield put({ type: GET_SINGLE_ATTEND_EVENT_ERROR, errorMsg: e.msg });
   }
@@ -64,8 +65,8 @@ function* getSingleNeedAttendEvents(action) {
 function* watchGetSingleNeedAttendEvents() {
   while (true) {
     // LISTEN GET_ATTEND
-    yield take(GET_SINGLE_ATTEND_EVENT);
-    yield call(getSingleNeedAttendEvents);
+    const action = yield take(GET_SINGLE_ATTEND_EVENT);
+    yield call(getSingleNeedAttendEvents, action);
   }
 }
 

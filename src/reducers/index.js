@@ -9,6 +9,7 @@ import content from './content';
 // add improvement for the reducer
 import users from './users';
 import events from './events';
+import news from './news';
 
 const AppReducers = combineReducers({
   nav,
@@ -19,6 +20,7 @@ const AppReducers = combineReducers({
   
   users,
   events,
+  news,
   form: formReducer,
 });
 
