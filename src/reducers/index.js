@@ -6,7 +6,9 @@ import auth from './auth';
 import storage from './storage';
 import home from './home';
 import content from './content';
+// add improvement for the reducer
 import users from './users';
+import events from './events';
 
 const AppReducers = combineReducers({
   nav,
@@ -14,7 +16,9 @@ const AppReducers = combineReducers({
   home,
   content,
   storage,
+  
   users,
+  events,
   form: formReducer,
 });
 

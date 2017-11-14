@@ -18,13 +18,15 @@ const initialProfileState = {
   isGetProfile: false,
   getProfileSuccess: false,
   getProfileError: false,
-}
+  errorMsg: null,
+};
 
 // profile reducer
 function profile(state = initialProfileState, action) {
   switch(action.type) {
 
     case GET_PROFILE:
+      // if start get profile, update the status for better UI presentation
       return { 
         ...state, 
         isGetProfile: true,
@@ -33,6 +35,7 @@ function profile(state = initialProfileState, action) {
       };
 
     case GET_PROFILE_SUCCESS:
+      // if get profile success, merge profile into the state tree
       const { profile } = action.payload;
       return {
         ...state,
@@ -42,8 +45,11 @@ function profile(state = initialProfileState, action) {
       };
 
     case GET_PROFILE_ERROR:
+      // if get profile error, merge errorMsg for better debug
+      const { errorMsg } = action;
       return {
         ...state,
+        errorMsg,
         isGetProfile: false,
         getProfileError: true,
       };

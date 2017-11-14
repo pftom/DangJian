@@ -17,9 +17,9 @@ export default function px2dp(px) {
 }
 
 export const handleTime = (time) => {
-  let afterTime = '';
-  afterTime += time.slice(0, 10);
-  afterTime += ' ';
-  afterTime += time.slice(11, 19);
-  return afterTime;
+  const newDate = new Date(time);
+
+  const constructTime = `${newDate.getFullYear()}年${newDate.getMonth()+1}月${newDate.getDate()}日`;
+  
+  return constructTime;
 }

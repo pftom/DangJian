@@ -10,7 +10,7 @@ import PersonDataItem from './DataItem';
 import { base } from '../../../util/';
 
 // import antd-mobile
-import List from 'antd-mobile/lib/list';
+import { List } from 'antd-mobile';
 const Item = List.Item;
 const Brief = List.Brief;
 
@@ -104,12 +104,12 @@ class PersonData extends Component {
         </List>
 
         <List style={styles.secondList}>
-        {
-          renderSecondList.map((item, key) => (
-            <Item extra={item.extra} key={key}>{item.content}</Item>
-          ))
-        }
-      </List>
+          {
+            renderSecondList.map((item, key) => (
+              <Item extra={item.extra} key={key}>{item.content}</Item>
+            ))
+          }
+        </List>
       </ScrollView>
     )
   }

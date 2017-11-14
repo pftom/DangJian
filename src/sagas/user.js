@@ -5,7 +5,7 @@ import {
   // get profile constants
   GET_PROFILE,
   GET_PROFILE_SUCCESS,
-  GET_PROFILE_ERROR
+  GET_PROFILE_ERROR,
 
 } from '../constants/';
 // import api & request function

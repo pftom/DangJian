@@ -10,8 +10,8 @@ const base = 'http://127.0.0.1:7001';
 // all home api in one place
 // arrow func for yield single api
 const homeApi = (id) => ({
-  news: '/home/news',
-  events: '/home/events',
+  getNews: '/home/news',
+  getEvents: '/home/events',
   getSingleNews: `/home/news/${id}`,
   getSingleEvent: `/home/events/${id}`,
 });

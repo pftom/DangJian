@@ -10,6 +10,14 @@ import { handleTime } from '../../util/index';
 import ModalMessage from './ModalMessage';
 
 const { width, height } = Dimensions.get('window');
+// import base for presentation image
+import { base } from '../../util/';
+
+// import action constants
+import {
+  GET_SINGLE_ATTEND_EVENT,
+  GET_SINGLE_NEWS,
+} from '../../constants/';
 
 const MODAL_TEXT = {
   modalTitle: '加载完成了喽😀！开始签到吧！',
@@ -65,16 +73,24 @@ class ActivityItem extends Component {
       </LinearGradient>
     );
     return (
-      <TouchableOpacity onPress={() => this.props.navigation.navigate("TabOneScreenTwo", { data: { type: 0, id: this.props.id }, title: '校园活动' })}>
+      <TouchableOpacity onPress={() => 
+        this.props.navigation.navigate(
+          "TabOneScreenTwo", 
+          { /* explicit type for better understand */
+            data: { type: GET_SINGLE_ATTEND_EVENT, id: this.props._id }, 
+            title: '校园活动' 
+          })
+        }>
         <View style={styles.containerItem} >
-        <Image source={{ uri: this.props.photo }} style={styles.pic} />
+        <Image source={{ uri: base + this.props.image }} style={styles.pic} />
         <LinearGradient
           colors={['rgba(0, 0, 0, 0)', 'rgba(0, 0, 0, 0.6)']}
           style={styles.picBox}
          />
-        <Text style={styles.title}>{this.props.title}</Text>
+        <View><Text style={styles.title}>{this.props.title}</Text></View>
         <View style={styles.statusBox}>
-          <Text style={styles.time}>{handleTime(this.props.created)}</Text>
+          <Text style={styles.time}>{ "已有24人签到" }</Text>
+          <Text style={styles.time}>{handleTime(this.props.createdAt)}</Text>
         </View>
         <View style={styles.btnBox}>
           {
@@ -164,55 +180,40 @@ class ActivityBox extends Component {
   });
   
   render() {
-    const { navigation, activeEvents, isFetching, dispatch, attend,   } = this.props;
-    let dataSource = this.ds.cloneWithRows(activeEvents.results || []);
+    const { navigation, needAttendEvents, isFetching, dispatch, attend,   } = this.props;
+    let dataSource = this.ds.cloneWithRows(needAttendEvents);
     return (
-    <View style={styles.container}>
-      <ModalMessage failure={attend.err} message={'签到失败，请检查网络连接'} dispatch={dispatch}/>
-      <ListView
-        refreshControl={
-                        <RefreshControl
-                          refreshing={this.state.isRefreshing}
-                          onRefresh={() => this._onRefresh()}
-                        />
-                      }
-        enableEmptySections={true}
-        renderFooter={() => this._renderFooter()}
-        onEndReached={this._onRefresh}
-        contentContainerStyle={styles.listView}
-        dataSource={dataSource}
-        onEndReachedThreshold={10}
-        showsVerticalScrollIndicator={false}
-        renderRow={(rowData) => {
-          return <ActivityItem {...this.props} {...rowData} key={rowData.id} navigation={navigation} />
-        }}
-      />
-  </View>
-  )
+      <View style={styles.container}>
+        <ModalMessage failure={attend.err} message={'签到失败，请检查网络连接'} dispatch={dispatch}/>
+        <ListView
+          refreshControl={
+                          <RefreshControl
+                            refreshing={this.state.isRefreshing}
+                            onRefresh={() => this._onRefresh()}
+                          />
+                        }
+          enableEmptySections={true}
+          renderFooter={() => this._renderFooter()}
+          onEndReached={this._onRefresh}
+          dataSource={dataSource}
+          onEndReachedThreshold={10}
+          showsVerticalScrollIndicator={false}
+          renderRow={(rowData) => {
+            return <ActivityItem {...this.props} {...rowData} key={rowData.id} navigation={navigation} />
+          }}
+        />
+    </View>
+    )
   }
 }
 
-ActivityBox.navigationOptions = ({ navigation }) => ({
-  headerTitle: (
-    <View style={styles.headerTitle}>
-      <Header 
-        headerText="活动签到"
-        logoLeft={require('../TabOne/img/back.png')}
-        navigation={navigation}
-      />
-    </View>
-  ),
-})
-
 const styles = StyleSheet.create({
-  headerTitle: {
-    top: -10,
-  },
   container: {
     alignItems: 'center',
   },
   listView: {
     alignItems: 'center',
+    flex: 1,
   },
   containerItem: {
     paddingBottom: 20,
@@ -226,25 +227,23 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: '#000000',
     marginTop: 17,
-    marginBottom: 6,
     width: 313,
   },
   time: {
     fontFamily: 'PingFangSC-Light',
     fontSize: 14,
     color: 'rgba(152,152,152,0.80)',
-    marginLeft: 2,
   },
   already: {
     fontFamily: 'PingFangSC-Thin',
     fontSize: 14,
     color: '#000000',
-    marginRight: 5,
   },
   statusBox: {
     flexDirection: 'row',
-    marginBottom: 17,
-    justifyContent: 'flex-end',
+    justifyContent: 'space-between',
+    marginTop: 15,
+    marginBottom: 15,
   },
   pic: {
     width: 313,
@@ -290,13 +289,13 @@ const styles = StyleSheet.create({
     position: 'absolute',
   },
   loadingMore: {
-    marginTop: 10,
+    marginBottom: 10,
   },
   loadingMoreText: {
     color: '#777',
     textAlign: 'center',
   }
-})
+});
 
 const mapStateToProps = (state) => ({
   activeEvents: state.home.events.activeEvents,
