@@ -6,11 +6,6 @@ import { View } from 'react-native';
 import { connect } from 'react-redux';
 // import presentation component
 import { TabOneScreenTwo } from '../components/TabOne/views/';
-// import actions constants
-import { 
-  GET_SINGLE_ATTEND_EVENT,
-  GET_SINGLE_NEWS,
-} from '../constants/';
 // import Header from common
 import { Header } from '../components/common/';
 
@@ -36,7 +31,7 @@ class TabOneScreenTwoContainer extends PureComponent {
     this.setState({
       isRefreshing: true,
     });
-    // dispatch GET_SINGLE_ATTEND_EVENT || GET_SINGLE_NEWS , get single news or event
+    // dispatch GET_SINGLE_EVENT || GET_SINGLE_NEWS , get single news or event
     dispatch({ type, payload: { id } });
   }
 

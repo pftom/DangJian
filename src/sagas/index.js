@@ -6,8 +6,8 @@ import {
   watchGetProfile,
 } from './user';
 import {
-  watchGetNeedAttendEvents,
-  watchGetSingleNeedAttendEvents,
+  watchGetEvents,
+  watchGetSingleEvent,
 } from './events';
 
 // create & export root saga for run them parallel
@@ -17,7 +17,7 @@ export default function* rootSaga() {
     watchGetProfile(),
 
     // run the event watcher saga 
-    watchGetNeedAttendEvents(),
-    watchGetSingleNeedAttendEvents(),
+    watchGetEvents(),
+    watchGetSingleEvent(),
   ]);
 }

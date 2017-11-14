@@ -3,27 +3,28 @@ import { combineReducers } from 'redux';
 // import action constants in one place
 import {
   // all need attend events
-  GET_ATTEND_EVENTS,
-  GET_ATTEND_EVENTS_SUCCESS,
-  GET_ATTEND_EVENTS_ERROR,
+  GET_EVENTS,
+  GET_EVENTS_SUCCESS,
+  GET_EVENTS_ERROR,
 
-  GET_SINGLE_ATTEND_EVENT,
-  GET_SINGLE_ATTEND_EVENT_SUCCESS,
-  GET_SINGLE_ATTEND_EVENT_ERROR,
+  GET_SINGLE_EVENT,
+  GET_SINGLE_EVENT_SUCCESS,
+  GET_SINGLE_EVENT_ERROR,
 } from '../constants/';
 
 // construct initial need attend events state
-const initialNeedAttendEventsState = {
+const initialEventsState = {
   isGettingEvents: false,
   getEventSuccess: false,
   getEventsError: false,
+  events: [],
   needAttendEvents: [],
   errorMsg: null,
 };
 
-const needAttendEvents = (state = initialNeedAttendEventsState, action) => {
+const events = (state = initialEventsState, action) => {
   switch (action.type) {
-    case GET_ATTEND_EVENTS:
+    case GET_EVENTS:
       return {
         ...state,
         isGettingEvents: true,
@@ -31,18 +32,30 @@ const needAttendEvents = (state = initialNeedAttendEventsState, action) => {
         getEventsError: false,
       };
 
-    case GET_ATTEND_EVENTS_SUCCESS:
+    case GET_EVENTS_SUCCESS:
       // if get events success, merge the res into the state tree
-      const { needAttendEvents } = action.payload;
+      const { events, active } = action.payload;
+
+      let judgeActive = {};
+      // judge this events is all or need attend events
+      if (active) {
+        judgeActive = {
+          needAttendEvents: events,
+        };
+      } else {
+        judgeActive = {
+          events,
+        };
+      }
 
       return {
         ...state,
-        needAttendEvents,
+        ...judgeActive,
         isGettingEvents: false,
         getEventsSuccess: true,
       };
 
-    case GET_ATTEND_EVENTS_ERROR:
+    case GET_EVENTS_ERROR:
       // if get events error, merge error message into the state tree
       const { errorMsg } = action;
       return {
@@ -59,8 +72,8 @@ const needAttendEvents = (state = initialNeedAttendEventsState, action) => {
 };
 
 
-// construct initial need attend events state
-const initialSingleNeedAttendEventsState = {
+// construct initial events state
+const initialSingleEventState = {
   isGettingEvent: false,
   getEventSuccess: false,
   getEventError: false,
@@ -68,9 +81,9 @@ const initialSingleNeedAttendEventsState = {
   errorMsg: null,
 };
 
-const singleEvent = (state = initialSingleNeedAttendEventsState, action) => {
+const singleEvent = (state = initialSingleEventState, action) => {
   switch (action.type) {
-    case GET_SINGLE_ATTEND_EVENT:
+    case GET_SINGLE_EVENT:
       return {
         ...state,
         isGettingEvent: true,
@@ -78,7 +91,7 @@ const singleEvent = (state = initialSingleNeedAttendEventsState, action) => {
         getEventError: false,
       };
 
-    case GET_SINGLE_ATTEND_EVENT_SUCCESS:
+    case GET_SINGLE_EVENT_SUCCESS:
       // if get events success, merge the res into the state tree
       const { singleEvent } = action.payload;
 
@@ -89,7 +102,7 @@ const singleEvent = (state = initialSingleNeedAttendEventsState, action) => {
         getEventSuccess: true,
       };
 
-    case GET_SINGLE_ATTEND_EVENT_ERROR:
+    case GET_SINGLE_EVENT_ERROR:
       // if get events error, merge error message into the state tree
       const { errorMsg } = action;
       return {
@@ -106,6 +119,6 @@ const singleEvent = (state = initialSingleNeedAttendEventsState, action) => {
 };
 
 export default combineReducers({
-  needAttendEvents,
+  events,
   singleEvent,
 });

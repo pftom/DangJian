@@ -15,7 +15,7 @@ import { base } from '../../util/';
 
 // import action constants
 import {
-  GET_SINGLE_ATTEND_EVENT,
+  GET_SINGLE_EVENT,
   GET_SINGLE_NEWS,
 } from '../../constants/';
 
@@ -77,7 +77,7 @@ class ActivityItem extends Component {
         this.props.navigation.navigate(
           "TabOneScreenTwo", 
           { /* explicit type for better understand */
-            data: { type: GET_SINGLE_ATTEND_EVENT, id: this.props._id }, 
+            data: { type: GET_SINGLE_EVENT, id: this.props._id }, 
             title: '校园活动' 
           })
         }>
@@ -180,8 +180,8 @@ class ActivityBox extends Component {
   });
   
   render() {
-    const { navigation, needAttendEvents, isFetching, dispatch, attend,   } = this.props;
-    let dataSource = this.ds.cloneWithRows(needAttendEvents);
+    const { navigation, events, isFetching, dispatch, attend,   } = this.props;
+    let dataSource = this.ds.cloneWithRows(events);
     return (
       <View style={styles.container}>
         <ModalMessage failure={attend.err} message={'签到失败，请检查网络连接'} dispatch={dispatch}/>

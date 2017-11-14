@@ -2,14 +2,14 @@ import React from 'react';
 import { Image, StyleSheet } from 'react-native';
 import { TabNavigator, TabBarBottom } from 'react-navigation';
 
-import TabOneNavigation from './TabOne/views/TabOneScreenOne';
+import { TabOneScreenOneContainer } from '../containers/';
 import TabTwoNavigation from './TabTwo/views/TabTwoScreenOne';
 import TabThreeNavigation from '../containers/AccountContainer';
 
 
 const routeConfigs = {
   TabOneNavigation: { 
-      screen: TabOneNavigation,
+      screen: TabOneScreenOneContainer,
       navigationOptions: {
         tabBarLabel: '党国风采',
         tabBarIcon: ({ tintColor}) => (
