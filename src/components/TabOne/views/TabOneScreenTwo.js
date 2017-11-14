@@ -27,6 +27,7 @@ class TabOneScreenTwo extends PureComponent {
   render() {
     // get the data from the parent component
     const { data } = this.props;
+    console.log('data', data);
     return (
       <View style={styles.containerBox}>
           <ScrollView

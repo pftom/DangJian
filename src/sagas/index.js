@@ -5,10 +5,16 @@ import { all } from 'redux-saga/effects';
 import {
   watchGetProfile,
 } from './user';
+
 import {
   watchGetEvents,
   watchGetSingleEvent,
 } from './events';
+
+import {
+  watchGetNews,
+  watchGetSingleNews,
+} from './news';
 
 // create & export root saga for run them parallel
 export default function* rootSaga() {
@@ -19,5 +25,9 @@ export default function* rootSaga() {
     // run the event watcher saga 
     watchGetEvents(),
     watchGetSingleEvent(),
+
+    // run the news watcher saga
+    watchGetNews(),
+    watchGetSingleNews(),
   ]);
 }

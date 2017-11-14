@@ -2,11 +2,14 @@ import React from 'react';
 import { Image, StyleSheet, View, Text, Dimensions } from 'react-native';
 import { handleTime } from '../../../util/index';
 
+// import base url for present images
+import { base } from '../../../util/';
+
 const width = Dimensions.get('window').width;
 
 const NewsItem = (props) => {
   let title = props.title;
-  let time = handleTime(props.created);
+  let time = handleTime(props.createdAt);
 
   if (title.length >= 30) {
     title = title.slice(0, 30);
@@ -15,7 +18,7 @@ const NewsItem = (props) => {
   
   return (
     <View style={styles.container}>
-      <Image source={{ uri: props.photo }} style={styles.pic} />
+      <Image source={{ uri: base + props.image }} style={styles.pic} />
       <View style={styles.textBox}>
         <Text style={styles.title}>{title}</Text>
         <Text style={styles.time}>{time}</Text>

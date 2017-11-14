@@ -29,6 +29,9 @@ import request from '../../../util/request';
 import {
   REQUEST_NEWS,
   REQUEST_EVENTS,
+
+  GET_SINGLE_EVENT,
+  GET_SINGLE_NEWS,
 } from '../../../constants';
 
 // construct action array for map useage
@@ -55,16 +58,6 @@ var cachedResults = {
 const { width, height } = Dimensions.get('window');
 
 class TabOneScreenOne extends Component {
-  static navigationOptions = ({ navigation }) => ({
-    headerTitle: (
-      <View style={styles.headerTitle}>
-        <Header 
-          headerText="党国风采"
-          navigation={navigation}
-        />
-      </View>
-    ),
-  })
   
   constructor(props) {
     super(props);
@@ -94,24 +87,24 @@ class TabOneScreenOne extends Component {
   }
 
   _onRefresh(id) {
-    this.setState({
-      isRefreshing: true,
-    })
-    this.waitRefreshing();
-    if (ACTIONS[id] === REQUEST_NEWS) {
-      let { news } = this.props.news;
-      if (!news.next) {
-        return;
-      }
+    // this.setState({
+    //   isRefreshing: true,
+    // })
+    // this.waitRefreshing();
+    // if (ACTIONS[id] === REQUEST_NEWS) {
+    //   let { news } = this.props.news;
+    //   if (!news.next) {
+    //     return;
+    //   }
       
-      // this.props.dispatch(fetchNews(news.next[news.next.length - 1]));
-    } else if (ACTIONS[id] === REQUEST_EVENTS) {
-      let { events } = this.props.events;
-      if (!events.next) {
-        return
-      }
-      // this.props.dispatch(fetchEvents(events.next[events.next.length - 1]));
-    }
+    //   // this.props.dispatch(fetchNews(news.next[news.next.length - 1]));
+    // } else if (ACTIONS[id] === REQUEST_EVENTS) {
+    //   let { events } = this.props.events;
+    //   if (!events.next) {
+    //     return
+    //   }
+    //   // this.props.dispatch(fetchEvents(events.next[events.next.length - 1]));
+    // }
   }
 
   waitRefreshing() {
@@ -138,8 +131,10 @@ class TabOneScreenOne extends Component {
   })
 
   _renderRow(rowData, navigation, item) {
+    const { currentPage } = this.state;
+    console.log('currentPage', currentPage);
     return (
-      <TouchableOpacity onPress={() => navigation.navigate('TabOneScreenTwo', { data: { type: this.state.currentPage, id: rowData.id } , title: item.title })}>
+      <TouchableOpacity onPress={() => navigation.navigate('TabOneScreenTwo', { data: { type: currentPage === 0 ? GET_SINGLE_EVENT : GET_SINGLE_NEWS, id: rowData._id } , title: item.title })}>
         <NewsItem {...rowData} key={rowData.id} />
       </TouchableOpacity>
     )
@@ -154,14 +149,15 @@ class TabOneScreenOne extends Component {
   }
 
   _renderFooter(currentPage) {
+    const { events, news } = this.props;
     if (currentPage == 0) {
-      if (!this.props.events.events.next) {
+      if (events.length < 10) {
         return this._renderNoMore();
       } else {
         return <ActivityIndicator style={styles.loadingMore} />
       }
     } else {
-      if (!this.props.news.news.next) {
+      if (news.length < 10) {
         return this._renderNoMore();
       } else {
         return <ActivityIndicator style={styles.loadingMore}/>
@@ -176,8 +172,8 @@ class TabOneScreenOne extends Component {
       headline = headline.concat(events.headlineEvents);
     }
     let dataSource = [
-      this.ds.cloneWithRows(events.events.results || []),
-      this.ds.cloneWithRows(news.news.results || [])
+      this.ds.cloneWithRows(events),
+      this.ds.cloneWithRows(news)
     ];
 
     let currentPage = this.state.currentPage;
@@ -320,9 +316,4 @@ const styles = StyleSheet.create({
   }
 })
 
-const mapStateToProps = (state) => ({
-  events: state.home.events,
-  news: state.home.news,
-});
-
-export default connect(mapStateToProps)(TabOneScreenOne);
+export default TabOneScreenOne;

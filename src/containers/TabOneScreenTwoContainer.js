@@ -9,6 +9,12 @@ import { TabOneScreenTwo } from '../components/TabOne/views/';
 // import Header from common
 import { Header } from '../components/common/';
 
+// import action constants
+import {
+  GET_SINGLE_EVENT,
+  GET_SINGLE_NEWS,
+} from '../constants/';
+
 
 class TabOneScreenTwoContainer extends PureComponent {
   constructor(props) {

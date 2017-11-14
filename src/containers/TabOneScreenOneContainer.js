@@ -21,7 +21,7 @@ class TabOneScreenOneContainer extends PureComponent {
     const { dispatch, navigation } = this.props;
 
     // dispatch GET_NEWS && GET_ATTEND_EVENTS , get news and event
-    dispatch({ type: GET_NEWS });
+    dispatch({ type: GET_NEWS, payload: { active: false } });
     dispatch({ type: GET_EVENTS, payload: { active: false } });
   }
 
