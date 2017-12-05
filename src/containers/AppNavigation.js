@@ -18,6 +18,11 @@ import ActivityBoxContainer from './ActivityBoxContainer';
 // here TabOneScreenTwo
 import TabOneScreenTwoContainer from './TabOneScreenTwoContainer';
 
+// import TabTwopage
+import {
+  AnswerPage,
+} from '../components/TabTwo/views/';
+
 export const AppNavigation = StackNavigator(
   {
     TabBarNavigation: { screen: TabBarNavigation },
@@ -32,6 +37,7 @@ export const AppNavigation = StackNavigator(
     Setting: { screen: Setting },
     Feedback: { screen: Feedback },
     ModifyPassword: { screen: ModifyPassword },
+    AnswerPage: { screen: AnswerPage },
   },
   {
     navigationOptions: {

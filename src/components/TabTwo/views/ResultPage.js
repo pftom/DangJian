@@ -2,46 +2,25 @@ import { } from 'antd-mobile/es/button/index.native';
 import React, { Component } from 'react';
 import { Text, View, StyleSheet, ScrollView, RefreshControl ,ListView, Picker, Image, TouchableWithoutFeedback, Dimensions } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import { PickerView, Button } from 'antd-mobile';
+// the compatability for all device about px
 import px2dp from '../../../util/';
-
+// the header for all component
 import Header from '../../common/Header';
 
 const { width, height } = Dimensions.get('window');
 
-// picker data
-const seasons = [
-  [
-    {
-      label: '我欲封神1',
-      value: '我欲封神1',
-    },
-    {
-      label: '我欲封神2',
-      value: '我欲封神2',
-    },
-    {
-      label: '我欲封神3',
-      value: '我欲封神3',
-    },
-  ],
-];
-
-class TabTwoScreenOne extends Component {
-  state = {
-    value: null,
-  };
-
-  onChange = (value) => {
-    console.log(value);
-    this.setState({
-      value,
-    });
-  }
-
-  onScrollChange = (value) => {
-    console.log('value', value);
-  }
+export default class extends Component {
+  static navigationOptions = ({ navigation }) => ({
+    headerTitle: (
+      <View style={styles.headerTitle}>
+        <Header 
+          headerText="意见反馈"
+          logoLeft={require('../../TabOne/img/back.png')}
+          navigation={navigation}
+        />
+      </View>
+    ),
+  })
 
   handlePress = () => {
     const { navigation } = this.props;
@@ -61,19 +40,6 @@ class TabTwoScreenOne extends Component {
           </Text>
         </View>
 
-        <View style={styles.scrollBox}>
-          <View style={styles.scrollInnerBox}>
-            <PickerView
-              onChange={this.onChange}
-              onScrollChange={this.onScrollChange}
-              value={this.state.value}
-              data={seasons}
-              cascade={false}
-              itemStyle={styles.itemStyle}
-            />
-          </View>
-        </View>
-
         <View style={styles.btnBox}>
           <TouchableWithoutFeedback onPress={this.handlePress}>
             <LinearGradient
@@ -88,18 +54,6 @@ class TabTwoScreenOne extends Component {
     )
   }
 }
-
-
-TabTwoScreenOne.navigationOptions = ({ navigation }) => ({
-  headerTitle: (
-      <View style={styles.headerTitle}>
-        <Header 
-          headerText="在线学习"
-          navigation={navigation}
-        />
-      </View>
-    ),
-})
 
 const styles = StyleSheet.create({
   headerTitle: {
@@ -158,6 +112,4 @@ const styles = StyleSheet.create({
     fontSize: px2dp(24),
     color: '#FFF',
   }
-})
-
-export default TabTwoScreenOne;
+});

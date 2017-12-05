@@ -82,7 +82,7 @@ Feedback.navigationOptions = ({ navigation }) => ({
       />
     </View>
   ),
-})
+});
 
 const styles = StyleSheet.create({
   headerTitle: {
