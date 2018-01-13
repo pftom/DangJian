@@ -5,59 +5,71 @@ import LinearGradient from 'react-native-linear-gradient';
 import { PickerView, Button } from 'antd-mobile';
 import px2dp from '../../../util/';
 
+// import Custom Page
+import ResultPage from './ResultPage';
+
 import Header from '../../common/Header';
 
 const { width, height } = Dimensions.get('window');
+
+// import action constants
+import {
+  CLEAR_EVERY_TERM_ANSWER_COUNT,
+} from '../../../constants/';
 
 // picker data
 const seasons = [
   [
     {
-      label: '我欲封神1',
-      value: '我欲封神1',
+      label: '单选题',
+      value: '单选题',
     },
     {
-      label: '我欲封神2',
-      value: '我欲封神2',
-    },
-    {
-      label: '我欲封神3',
-      value: '我欲封神3',
+      label: '多选题',
+      value: '多选题',
     },
   ],
 ];
 
 class TabTwoScreenOne extends Component {
   state = {
-    value: null,
+    kind: null,
   };
 
-  onChange = (value) => {
-    console.log(value);
+  onChange = (kind) => {
+    console.log(kind);
     this.setState({
-      value,
+      kind,
     });
   }
 
-  onScrollChange = (value) => {
-    console.log('value', value);
+  onScrollChange = (kind) => {
+    console.log('kind', kind);
   }
 
   handlePress = () => {
-    const { navigation } = this.props;
-    navigation.navigate('AnswerPage');
+    const { navigation, dispatch } = this.props;
+    const { kind } = this.state;
+    navigation.navigate('AnswerPage', { kind: kind, title: '答题页面' });
+    // clear this term answer success count
+    dispatch({ type: CLEAR_EVERY_TERM_ANSWER_COUNT });
   }
 
   render() {
+    const {
+      everyDayAnswerCount,
+      everyDayTotalCount,
+    } = this.props;
+
     return (
       <View style={styles.container}>
         <View style={styles.hintBox}>
           <Text style={styles.commonText}>
             今日已学
-            <Text style={styles.nowTimeText}> 20</Text>
+            <Text style={styles.nowTimeText}> {everyDayAnswerCount}</Text>
             <Text style={styles.symbolText}>/</Text>
-            <Text style={styles.totalTimeText}>30 </Text>
-            min
+            <Text style={styles.totalTimeText}>{everyDayTotalCount} </Text>
+            题
           </Text>
         </View>
 
@@ -66,7 +78,7 @@ class TabTwoScreenOne extends Component {
             <PickerView
               onChange={this.onChange}
               onScrollChange={this.onScrollChange}
-              value={this.state.value}
+              value={this.state.kind}
               data={seasons}
               cascade={false}
               itemStyle={styles.itemStyle}
@@ -88,18 +100,6 @@ class TabTwoScreenOne extends Component {
     )
   }
 }
-
-
-TabTwoScreenOne.navigationOptions = ({ navigation }) => ({
-  headerTitle: (
-      <View style={styles.headerTitle}>
-        <Header 
-          headerText="在线学习"
-          navigation={navigation}
-        />
-      </View>
-    ),
-})
 
 const styles = StyleSheet.create({
   headerTitle: {
@@ -148,8 +148,8 @@ const styles = StyleSheet.create({
   },
   linearGradient: {
     width: px2dp(280),
-    height: px2dp(50),
-    borderRadius: 21,
+    height: px2dp(45),
+    borderRadius: 20,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -158,6 +158,7 @@ const styles = StyleSheet.create({
     fontSize: px2dp(24),
     color: '#FFF',
   }
-})
+});
+
 
 export default TabTwoScreenOne;

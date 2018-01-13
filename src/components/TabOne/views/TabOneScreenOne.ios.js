@@ -16,7 +16,6 @@ import ScrollViewTabView from './ScrollViewTabView';
 import { TabViewAnimated, TabBar, SceneMap } from 'react-native-tab-view';
 import { connect } from 'react-redux';
 
-import Carousel from './Carousel';
 import MidTitle from './MidTitle';
 import NewsItem from './NewsItem';
 import Header from '../../common/Header';
@@ -52,7 +51,61 @@ const TAB = [
 var cachedResults = {
   items: [],
   total: 0,
-}
+};
+
+const DATA = [
+  {
+    image: require('../img/test.jpeg'),
+    title: '第五届“唱支山歌给党听”合唱比赛开幕',
+    createdAt: '2017年3月1日',
+  },
+  {
+    image: require('../img/test.jpeg'),
+    title: '第五届“唱支山歌给党听”合唱比赛开幕',
+    createdAt: '2017年3月1日',
+  },
+  {
+    image: require('../img/test.jpeg'),
+    title: '第五届“唱支山歌给党听”合唱比赛开幕',
+    createdAt: '2017年3月1日',
+  },
+  {
+    image: require('../img/test.jpeg'),
+    title: '第五届“唱支山歌给党听”合唱比赛开幕',
+    createdAt: '2017年3月1日',
+  },
+  {
+    image: require('../img/test.jpeg'),
+    title: '第五届“唱支山歌给党听”合唱比赛开幕',
+    createdAt: '2017年3月1日',
+  },
+  {
+    image: require('../img/test.jpeg'),
+    title: '第五届“唱支山歌给党听”合唱比赛开幕',
+    createdAt: '2017年3月1日',
+  },
+  {
+    image: require('../img/test.jpeg'),
+    title: '第五届“唱支山歌给党听”合唱比赛开幕',
+    createdAt: '2017年3月1日',
+  },
+  {
+    image: require('../img/test.jpeg'),
+    title: '第五届“唱支山歌给党听”合唱比赛开幕',
+    createdAt: '2017年3月1日',
+  },
+  {
+    image: require('../img/test.jpeg'),
+    title: '第五届“唱支山歌给党听”合唱比赛开幕',
+    createdAt: '2017年3月1日',
+  },
+  {
+    image: require('../img/test.jpeg'),
+    title: '第五届“唱支山歌给党听”合唱比赛开幕',
+    createdAt: '2017年3月1日',
+  },
+
+];
 
 
 const { width, height } = Dimensions.get('window');
@@ -167,13 +220,37 @@ class TabOneScreenOne extends Component {
 
   render() {
     const { navigation, events, news, dispatch } = this.props;
-    let headline = [];
-    if (events.headlineEvents) {
-      headline = headline.concat(events.headlineEvents);
-    }
+
+    console.log('navigation', navigation);
+
+    let headline = [
+      {
+        photo: require('../img/test.jpeg'),
+        title: '校园一站到底活动圆满结束',
+      },
+      {
+        photo: require('../img/test.jpeg'),
+        title: '校园一站到底活动圆满结束',
+      },
+      {
+        photo: require('../img/test.jpeg'),
+        title: '校园一站到底活动圆满结束',
+      },
+      {
+        photo: require('../img/test.jpeg'),
+        title: '校园一站到底活动圆满结束',
+      },
+      {
+        photo: require('../img/test.jpeg'),
+        title: '校园一站到底活动圆满结束',
+      },
+    ];
+    // if (events.headlineEvents) {
+    //   headline = headline.concat(events.headlineEvents);
+    // }
     let dataSource = [
-      this.ds.cloneWithRows(events),
-      this.ds.cloneWithRows(news)
+      this.ds.cloneWithRows(DATA),
+      this.ds.cloneWithRows(DATA)
     ];
 
     let currentPage = this.state.currentPage;
@@ -218,7 +295,7 @@ class TabOneScreenOne extends Component {
                   <Animated.View
                   tabLabel={item.title}
                   key={item.id}
-                style={[ styles.listBox1, style2 ]}
+                  style={[ styles.listBox1, style2 ]}
               >
                 <View style={ styles.listBox2}>
                   <ListView
@@ -271,9 +348,6 @@ const styles = StyleSheet.create({
   scrollView: {
     marginTop: 125,
     height: 300,
-  },
-  headerTitle: {
-    top: -10,
   },
   topView: {
     top: -92,

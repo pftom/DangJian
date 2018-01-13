@@ -1,15 +1,33 @@
 import React from 'react';
 import { Image, StyleSheet } from 'react-native';
-import { TabNavigator, TabBarBottom } from 'react-navigation';
+import { TabNavigator, TabBarBottom, StackNavigator } from 'react-navigation';
 
-import { TabOneScreenOneContainer } from '../containers/';
-import TabTwoNavigation from './TabTwo/views/TabTwoScreenOne';
+import { 
+    TabOneScreenOneContainer,
+    TabTwoScreenOneContainer, 
+    AnswerPageContainer,
+} from '../containers/';
 import TabThreeNavigation from '../containers/AccountContainer';
 
+import {
+    ResultPage,
+} from './TabTwo/views/';
+
+const TabTwoNavigation = StackNavigator({
+      TabTwoScreenOneContainer: { screen: TabTwoScreenOneContainer },
+      AnswerPage: { screen: AnswerPageContainer },
+      ResultPage: { screen: ResultPage },
+    },
+);
+
+const TabOneNavigation = StackNavigator({
+    TabOneScreenOneContainer: { screen: TabOneScreenOneContainer },
+  },
+);
 
 const routeConfigs = {
   TabOneNavigation: { 
-      screen: TabOneScreenOneContainer,
+      screen: TabOneNavigation,
       navigationOptions: {
         tabBarLabel: '党国风采',
         tabBarIcon: ({ tintColor}) => (

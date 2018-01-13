@@ -17,15 +17,17 @@ import ModifyPassword from '../components/common/ModifyPassword';
 import ActivityBoxContainer from './ActivityBoxContainer';
 // here TabOneScreenTwo
 import TabOneScreenTwoContainer from './TabOneScreenTwoContainer';
+import AnswerPageContainer from './AnswerPageContainer';
 
-// import TabTwopage
 import {
-  AnswerPage,
+  ResultPage,
 } from '../components/TabTwo/views/';
 
 export const AppNavigation = StackNavigator(
   {
-    TabBarNavigation: { screen: TabBarNavigation },
+    TabBarNavigation: { 
+      screen: TabBarNavigation,
+    },
     Login: { screen: LoginScreen },
     TabOneScreenTwo: { screen: TabOneScreenTwoContainer },
     MessageBox: { screen: MessageBox },
@@ -37,9 +39,9 @@ export const AppNavigation = StackNavigator(
     Setting: { screen: Setting },
     Feedback: { screen: Feedback },
     ModifyPassword: { screen: ModifyPassword },
-    AnswerPage: { screen: AnswerPage },
   },
   {
+    headerMode: 'none',
     navigationOptions: {
       headerLeft: null,
       headerStyle: Platform.OS === 'ios' ? { height: 90 } : { height: 88 },

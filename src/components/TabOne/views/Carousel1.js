@@ -44,13 +44,13 @@ class Carousel1 extends Component {
           borderColor: '#FFF',
           marginBottom: 3,}} />}
         dotStyle={{ backgroundColor: '#FFF'}}
-        paginationStyle={{ top: -310 }}
+        paginationStyle={{ top: -320 }}
         style={styles.container}>
         {
           headline.map((item, key) => (
             <TouchableWithoutFeedback key={key} onPress={() => this.props.navigation.navigate('TabOneScreenTwo', { title: '党建活动', data: { type: 0, id: 1 }})}>  
               <View style={styles.slide}>
-                <Animated.Image source={{ uri: item.photo }} resizeMode={'stretch'} style={[ styles.img, { opacity: this.props.imgOpacity}]}>
+                <Animated.Image source={item.photo} resizeMode={'stretch'} style={[ styles.img, { opacity: this.props.imgOpacity}]}>
                 </Animated.Image>
                 <LinearGradient
                   colors={['rgba(0, 0, 0, 0)', 'rgba(0, 0, 0, 1)']} 

@@ -43,8 +43,17 @@ class TabOneScreenTwoContainer extends PureComponent {
 
   render() {
     // definitely give out all need pass data in one place
-    const { singleEvent, singleNews, navigation } = this.props;
+    // singleEvent, singleNews,
+    const {  navigation } = this.props;
     const type = navigation.state.params.type;
+    const singleNews = {
+        image: require('../components/TabOne/img/test.jpeg'),
+        title: '习近平提出京津冀协同发展战略',
+        createdAt: '2017年5月20日',
+        content: `   为深入推动“大众创业、万众创新”，配合国家“十三五”规划提出的“支持港澳中小微企业和青年人在内地发展创业”和“支持内地与港澳开展创新及科技合作”，由香港中国商会牵头，经纬集团发起并联合多家香港和海内外华侨华人相关商协会成立“紫荆谷发展中心”，得到了香港各界和国家有关部门的大力支持以及包括上海交通大学在内的国家11所顶尖高等院校的全方位合作。由经纬集团捐资，在“紫荆谷发展中心”的统筹下与国家11所著名高等院校合作，依托高校各自的学科优势，在11所高校设立“紫荆谷创新创业发展辅导中心”，为港澳台青年、海外华人华侨青年，包括内地的部分“创二代”提供一个学习、交流、合作的平台；邀请专家学者和企业家包括政府官员，对他们进行针对性的免费辅导。`
+    };
+
+    const singleEvent = singleNews;
     
     return (
       <TabOneScreenTwo

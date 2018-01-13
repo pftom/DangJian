@@ -42,7 +42,7 @@ class TabOneScreenOneContainer extends PureComponent {
 // define the header for this component
 TabOneScreenOneContainer.navigationOptions = ({ navigation }) => ({
   headerTitle: (
-    <View style={{ top: -10 }}>
+    <View>
         <Header 
           headerText="党国风采"
           navigation={navigation}

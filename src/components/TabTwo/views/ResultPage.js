@@ -12,43 +12,99 @@ const { width, height } = Dimensions.get('window');
 export default class extends Component {
   static navigationOptions = ({ navigation }) => ({
     headerTitle: (
-      <View style={styles.headerTitle}>
+      <View>
         <Header 
-          headerText="意见反馈"
-          logoLeft={require('../../TabOne/img/back.png')}
+          headerText={navigation.state.params.title}
           navigation={navigation}
         />
       </View>
     ),
-  })
+    gesturesEnabled: false,
+    headerLeft: null,
+    tabBarVisible: false,
+  });
 
   handlePress = () => {
     const { navigation } = this.props;
-    navigation.navigate('AnswerPage');
+    navigation.navigate('TabTwoScreenOneContainer');
   }
 
   render() {
-    return (
-      <View style={styles.container}>
-        <View style={styles.hintBox}>
-          <Text style={styles.commonText}>
-            今日已学
-            <Text style={styles.nowTimeText}> 20</Text>
-            <Text style={styles.symbolText}>/</Text>
-            <Text style={styles.totalTimeText}>30 </Text>
-            min
-          </Text>
-        </View>
+    const completedColor = ['#9B9B9B', '#9B9B9B'];
+    const unCompletedColor = ['#FF0467', '#FC7437'];
 
-        <View style={styles.btnBox}>
+    const { navigation } = this.props;
+    let { headerTitle } = this.props;
+    let hintBox = null;
+    let btn = null;
+
+    if (navigation) {
+      const { 
+        isQuestionResult,
+        everyFecthTotalCount,
+        everyTermAnswerCount,      
+      } = navigation.state.params;
+
+      headerTitle = navigation.state.params.headerTitle;
+
+      if (isQuestionResult) {
+        hintBox = (
+          <View style={styles.hintBox}>
+            <Text style={styles.commonText}>
+              本次成绩
+              <Text style={styles.nowTimeText}> {everyTermAnswerCount}</Text>
+              <Text style={styles.symbolText}>/</Text>
+              <Text style={styles.totalTimeText}>{everyFecthTotalCount} </Text>
+              题
+            </Text>
+          </View>
+        );
+
+        btn = (
           <TouchableWithoutFeedback onPress={this.handlePress}>
             <LinearGradient
               start={{x: 0.0, y: 0.0}} end={{x: 1.0, y: 1.0}}
-              colors={['#FF0467', '#FC7437']}
+              colors={unCompletedColor}
               style={styles.linearGradient}>
-              <Text style={styles.btnText}>开始答题</Text>
+              <Text style={styles.btnText}>回首页</Text>
             </LinearGradient>
           </TouchableWithoutFeedback>
+        );
+      }
+    } else {
+      hintBox = (
+        <View style={styles.hintBox}>
+          <Text style={styles.commonText}>
+            今日已学
+            <Text style={styles.nowTimeText}> 30</Text>
+            <Text style={styles.symbolText}>/</Text>
+            <Text style={styles.totalTimeText}>30 </Text>
+            题
+          </Text>
+        </View>
+      );
+
+      btn = (
+        <LinearGradient
+          start={{x: 0.0, y: 0.0}} end={{x: 1.0, y: 1.0}}
+          colors={completedColor}
+          style={styles.linearGradient}>
+          <Text style={styles.btnText}>任务完成</Text>
+        </LinearGradient>
+      );
+    }
+
+    return (
+      <View style={styles.container}>
+        <View style={styles.resultBox}>
+          <Image source={require('../img/success@3x.png')} style={styles.resultImg}></Image>
+          <Text style={styles.resultText}>{headerTitle}</Text>
+        </View>
+
+        {hintBox}
+
+        <View style={styles.btnBox}>
+          {btn}
         </View>
       </View>
     )
@@ -63,11 +119,11 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#FFF',
   },
-
   hintBox: {
     width,
     alignItems: 'center',
     marginTop: 52,
+    marginBottom: 63,
   },
   commonText: {
     fontSize: 20,
@@ -95,15 +151,14 @@ const styles = StyleSheet.create({
   scrollInnerBox: {
     width: px2dp(200)
   },
-
   btnBox: {
     width,
     alignItems: 'center',
   },
   linearGradient: {
     width: px2dp(280),
-    height: px2dp(50),
-    borderRadius: 21,
+    height: px2dp(45),
+    borderRadius: 20,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -111,5 +166,16 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     fontSize: px2dp(24),
     color: '#FFF',
-  }
+  },
+
+  resultBox: {
+    alignItems: 'center',
+    marginTop: 44,
+  },
+  resultText: {
+    fontFamily: 'PingFangSC-Medium',
+    fontSize: 32,
+    color: '#000000',
+    marginTop: 31,
+  },
 });

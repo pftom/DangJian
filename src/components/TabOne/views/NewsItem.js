@@ -7,6 +7,8 @@ import { base } from '../../../util/';
 
 const width = Dimensions.get('window').width;
 
+// { uri: base + props.image }
+
 const NewsItem = (props) => {
   let title = props.title;
   let time = handleTime(props.createdAt);
@@ -18,7 +20,7 @@ const NewsItem = (props) => {
   
   return (
     <View style={styles.container}>
-      <Image source={{ uri: base + props.image }} style={styles.pic} />
+      <Image source={props.image} style={styles.pic} />
       <View style={styles.textBox}>
         <Text style={styles.title}>{title}</Text>
         <Text style={styles.time}>{time}</Text>

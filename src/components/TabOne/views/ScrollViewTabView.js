@@ -326,11 +326,11 @@ const ScrollableTabView = React.createClass({
     return (
       <ScrollView
         refreshControl={
-                        <RefreshControl
-                          refreshing={this.state.isRefreshing}
-                          onRefresh={() => this._onRefresh(this.state.currentPage)}
-                        />
-                      }
+          <RefreshControl
+            refreshing={this.state.isRefreshing}
+            onRefresh={() => this._onRefresh(this.state.currentPage)}
+          />
+        }
        style={{ flex: 1}}>
         <View style={{ height: px2dp(184), width: width,}}><Carousel1 headline={this.props.headline}  imgOpacity={this.props.imgOpacity} navigation={this.props.navigation} /></View>
           <View style={[styles.container, this.props.style, ]} onLayout={this._handleLayout}>

@@ -5,7 +5,7 @@
 'use strict';
 
 // the base uri for request
-const base = 'http://127.0.0.1:7001';
+const base = 'http://powerformer.com:12138/';
 
 // all home api in one place
 // arrow func for yield single api

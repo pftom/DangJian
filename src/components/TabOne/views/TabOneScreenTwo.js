@@ -28,22 +28,25 @@ class TabOneScreenTwo extends PureComponent {
     // get the data from the parent component
     const { data } = this.props;
     console.log('data', data);
+    
     return (
       <View style={styles.containerBox}>
           <ScrollView
             showsVerticalScrollIndicator={false}
-        >
+          >
           {
             data && (
               <View style={styles.container}>
                 <View style={styles.header}>
-                  <Image source={{ uri: base + data.image }} style={styles.pic} />
+                  <Image source={data.image} style={styles.pic} />
                   <Text style={[ styles.title, data.title && styles.head]}>{data.title}</Text>
                   <Text style={styles.time}>{handleTime(data.createdAt)}</Text>
                 </View>
                 <View style={styles.content}>
-                  <Markdown>
-                  #hhhh
+                  <Markdown
+                    styles={htmlStyles}
+                  >
+                  {data.content}
                   </Markdown>
                 </View>
               </View>
@@ -54,6 +57,8 @@ class TabOneScreenTwo extends PureComponent {
     )
   }
 }
+
+// { uri: base + data.image }
 
 const styles = StyleSheet.create({
   container: {
@@ -70,7 +75,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   head: {
-    fontSize: 30,
+    fontSize: 20,
   },
   picBox: {
     marginLeft: px2dp(60)
@@ -115,8 +120,12 @@ const htmlStyles = StyleSheet.create({
   },
   p: {
     fontFamily: 'PingFangSC-Light',
-    fontSize: 18,
+    fontSize: 15,
     color: '#000000',
+  },
+  text: {
+    fontSize: 16,
+    fontFamily: 'PingFangSC-Light',
   }
 });
 
