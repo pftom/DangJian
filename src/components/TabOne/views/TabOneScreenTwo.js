@@ -33,7 +33,7 @@ class TabOneScreenTwo extends PureComponent {
       <View style={styles.containerBox}>
           <ScrollView
             showsVerticalScrollIndicator={false}
-          >
+           >
           {
             data && (
               <View style={styles.container}>

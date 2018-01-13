@@ -8,6 +8,7 @@ import PersonDataItem from './DataItem';
 
 // import base url for present image
 import { base } from '../../../util/';
+import px2dp from '../../../util/index';
 
 // import antd-mobile
 import { List } from 'antd-mobile';
@@ -117,7 +118,7 @@ class PersonData extends Component {
 
 PersonData.navigationOptions = ({ navigation }) => ({
   headerTitle: (
-    <View style={styles.headerTitle}>
+    <View>
       <Header 
         logoLeft={require('../../TabOne/img/back.png')}
         headerText="个人档案"
@@ -125,12 +126,10 @@ PersonData.navigationOptions = ({ navigation }) => ({
       />
     </View>
   ),
+  headerLeft: null,
 })
 
 const styles = StyleSheet.create({
-  headerTitle: {
-    top: -10,
-  },
   container: {
     flex: 1,
     backgroundColor: '#f5f6f7',
@@ -149,7 +148,7 @@ const styles = StyleSheet.create({
   },
 
   firstList: {
-    marginTop: 20,
+    marginTop: px2dp(30),
   },
   secondList: {
     marginTop: 30,

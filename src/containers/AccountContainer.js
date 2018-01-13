@@ -35,7 +35,7 @@ class AccountContainer extends PureComponent {
 
 AccountContainer.navigationOptions = ({ navigation }) => ({
   headerTitle: (
-    <View style={{ top: -10 }}>
+    <View>
       <Header 
         headerText="我的账号"
         navigation={navigation}

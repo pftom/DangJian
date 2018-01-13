@@ -1,116 +1,4 @@
-import React, { PureComponent } from 'react';
-import { 
-  Text, 
-  View, 
-  RefreshControl, 
-  Dimensions, 
-  ActivityIndicator, 
-  StyleSheet, 
-  Animated, 
-  ListView, 
-  ScrollView, 
-  TouchableOpacity, 
-  Platform,
-} from 'react-native';
-import ScrollViewTabView from './ScrollViewTabView';
-import { TabViewAnimated, TabBar, SceneMap } from 'react-native-tab-view';
-import { connect } from 'react-redux';
-
-import MidTitle from './MidTitle';
-import NewsItem from './NewsItem';
-import Header from '../../common/Header';
-import ScrollHeader from './ScrollHeader';
-import DefaultTabBar from './DefaultTabBar';
-import px2dp from '../../../util';
-import request from '../../../util/request';
-
-
-import {
-  REQUEST_NEWS,
-  REQUEST_EVENTS,
-
-  GET_SINGLE_EVENT,
-  GET_SINGLE_NEWS,
-} from '../../../constants';
-
-// construct action array for map useage
-const ACTIONS = [REQUEST_EVENTS, REQUEST_NEWS];
-
-const TAB = [
-  {
-    id: 0,
-    title: '党建活动',
-  }, 
-  {
-    id: 1,
-    title: '时事新闻',
-  }
-];
-
-// construct cache array
-var cachedResults = {
-  items: [],
-  total: 0,
-};
-
-const DATA = [
-  {
-    image: require('../img/test.jpeg'),
-    title: '第五届“唱支山歌给党听”合唱比赛开幕',
-    createdAt: '2017年3月1日',
-  },
-  {
-    image: require('../img/test.jpeg'),
-    title: '第五届“唱支山歌给党听”合唱比赛开幕',
-    createdAt: '2017年3月1日',
-  },
-  {
-    image: require('../img/test.jpeg'),
-    title: '第五届“唱支山歌给党听”合唱比赛开幕',
-    createdAt: '2017年3月1日',
-  },
-  {
-    image: require('../img/test.jpeg'),
-    title: '第五届“唱支山歌给党听”合唱比赛开幕',
-    createdAt: '2017年3月1日',
-  },
-  {
-    image: require('../img/test.jpeg'),
-    title: '第五届“唱支山歌给党听”合唱比赛开幕',
-    createdAt: '2017年3月1日',
-  },
-  {
-    image: require('../img/test.jpeg'),
-    title: '第五届“唱支山歌给党听”合唱比赛开幕',
-    createdAt: '2017年3月1日',
-  },
-  {
-    image: require('../img/test.jpeg'),
-    title: '第五届“唱支山歌给党听”合唱比赛开幕',
-    createdAt: '2017年3月1日',
-  },
-  {
-    image: require('../img/test.jpeg'),
-    title: '第五届“唱支山歌给党听”合唱比赛开幕',
-    createdAt: '2017年3月1日',
-  },
-  {
-    image: require('../img/test.jpeg'),
-    title: '第五届“唱支山歌给党听”合唱比赛开幕',
-    createdAt: '2017年3月1日',
-  },
-  {
-    image: require('../img/test.jpeg'),
-    title: '第五届“唱支山歌给党听”合唱比赛开幕',
-    createdAt: '2017年3月1日',
-  },
-
-];
-
-
-const { width, height } = Dimensions.get('window');
-
-class TabOneScreenOne extends PureComponent {
+class TabOneScreenOne extends Component {
   
   constructor(props) {
     super(props);
@@ -248,6 +136,9 @@ class TabOneScreenOne extends PureComponent {
     let isFetching = currentPage == 0 ? events.isFetching : news.isFetching;
     return (
       <View style={styles.container}>
+        <View
+          style={[ styles.topView]}
+        >
           <View style={styles.listBox}>
             <ScrollViewTabView
               ref={(listView) => this.listView = listView}
@@ -291,6 +182,7 @@ class TabOneScreenOne extends PureComponent {
               }
           </ScrollViewTabView>
         </View>
+        </View>
       </View>
     )
   }
@@ -312,8 +204,15 @@ const styles = StyleSheet.create({
     marginTop: 125,
     height: 300,
   },
+  topView: {
+    top: -92,
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 0,
+  },
   listBox: {
-    marginTop: 23,
+    marginTop: 92,
     height: px2dp(height + 99),
     width,
     backgroundColor: '#fff'
@@ -344,6 +243,4 @@ const styles = StyleSheet.create({
     color: '#777',
     textAlign: 'center',
   }
-});
-
-export default TabOneScreenOne;
+})

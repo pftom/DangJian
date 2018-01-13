@@ -1,2 +1,9 @@
-export { default as Header } from './Header';
-export { default as ActivityBox } from './ActivityBox';
+import Header from './Header';
+import ActivityBox from './ActivityBox';
+import MessageBox from './MessageBox';
+
+export {
+  Header,
+  ActivityBox,
+  MessageBox,
+}

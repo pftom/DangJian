@@ -200,13 +200,11 @@ export default class extends Component {
 }
 
 const styles = StyleSheet.create({
-  headerTitle: {
-    top: -10,
-  },
   container: {
     flex: 1,
     backgroundColor: '#FFF',
     alignItems: 'center',
+    paddingTop: px2dp(10),
   },
   innerContainer: {
     width: px2dp(305),

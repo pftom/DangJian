@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 import Header from '../../common/Header';
 import DataItem from './DataItem';
 
+import px2dp from '../../../util/';
+
 const DATA = [
   {
     id: 9,
@@ -68,7 +70,7 @@ class Setting extends Component {
 
 Setting.navigationOptions = ({ navigation }) => ({
   headerTitle: (
-    <View style={styles.headerTitle}>
+    <View>
       <Header
         logoLeft={require('../../TabOne/img/back.png')} 
         headerText="设    置"
@@ -76,15 +78,14 @@ Setting.navigationOptions = ({ navigation }) => ({
       />
     </View>
   ),
+  headerLeft: null,
 })
 
 const styles = StyleSheet.create({
-  headerTitle: {
-    top: -10,
-  },
   container: {
     flex: 1,
     backgroundColor: '#f5f6f7',
+    paddingTop: px2dp(10),
   },
   itemContainer: {
     shadowOffset: { x: 0, y: 5 },

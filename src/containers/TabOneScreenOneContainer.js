@@ -13,6 +13,7 @@ import {
 } from '../constants/';
 // import Header from common
 import { Header } from '../components/common/';
+import px2dp from '../util/index';
 
 
 class TabOneScreenOneContainer extends PureComponent {
@@ -42,14 +43,14 @@ class TabOneScreenOneContainer extends PureComponent {
 // define the header for this component
 TabOneScreenOneContainer.navigationOptions = ({ navigation }) => ({
   headerTitle: (
-    <View>
+    <View style={{ height: px2dp(90) }}>
         <Header 
           headerText="党国风采"
           navigation={navigation}
         />
     </View>
   ),
-})
+});
 
 export default connect(
   // mapStateToProps

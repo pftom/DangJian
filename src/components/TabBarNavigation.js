@@ -7,11 +7,20 @@ import {
     TabTwoScreenOneContainer, 
     AnswerPageContainer,
 } from '../containers/';
-import TabThreeNavigation from '../containers/AccountContainer';
+import TabThreeScreenOneContainer from '../containers/AccountContainer';
 
 import {
     ResultPage,
 } from './TabTwo/views/';
+
+import {
+  PersonData,
+  Setting,
+} from './TabThree/views/';
+
+import {
+  MessageBox,
+} from '../components/common/';
 
 const TabTwoNavigation = StackNavigator({
       TabTwoScreenOneContainer: { screen: TabTwoScreenOneContainer },
@@ -24,6 +33,13 @@ const TabOneNavigation = StackNavigator({
     TabOneScreenOneContainer: { screen: TabOneScreenOneContainer },
   },
 );
+
+const TabThreeNavigation = StackNavigator({
+  TabThreeScreenOneContainer: { screen: TabThreeScreenOneContainer },
+  PersonData: { screen: PersonData },
+  MessageBox: { screen: MessageBox },
+  Setting: { screen: Setting },
+});
 
 const routeConfigs = {
   TabOneNavigation: { 

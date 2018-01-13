@@ -93,6 +93,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'flex-end',
     backgroundColor: '#FFF',
+    paddingTop: px2dp(10),
   },
   upSide: {
     flexDirection: 'row',

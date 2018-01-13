@@ -5,12 +5,9 @@ import { connect } from 'react-redux';
 
 import TabBarNavigation from '../components/TabBarNavigation';
 import LoginScreen from './Login';
-import MessageBox from '../components/common/MessageBox';
 import Learning from '../components/TabTwo/views/Learning';
 import DetailThree from '../components/TabTwo/views/DetailThree';
 import DetailFour from '../components/TabTwo/views/DetailFour';
-import PersonData from '../components/TabThree/views/PersonData';
-import Setting from '../components/TabThree/views/Setting';
 import Feedback from '../components/common/Feedback';
 import ModifyPassword from '../components/common/ModifyPassword';
 // import ActivityBoxContainer
@@ -30,13 +27,10 @@ export const AppNavigation = StackNavigator(
     },
     Login: { screen: LoginScreen },
     TabOneScreenTwo: { screen: TabOneScreenTwoContainer },
-    MessageBox: { screen: MessageBox },
     Learning: { screen: Learning },
     DetailThree: { screen: DetailThree },
     DetailFour: { screen: DetailFour },
     ActivityBox: { screen: ActivityBoxContainer },
-    PersonData: { screen: PersonData },
-    Setting: { screen: Setting },
     Feedback: { screen: Feedback },
     ModifyPassword: { screen: ModifyPassword },
   },

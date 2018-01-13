@@ -112,12 +112,10 @@ export default class extends Component {
 }
 
 const styles = StyleSheet.create({
-  headerTitle: {
-    top: -10,
-  },
   container: {
     flex: 1,
     backgroundColor: '#FFF',
+    paddingTop: px2dp(10),
   },
   hintBox: {
     width,

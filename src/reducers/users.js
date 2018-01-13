@@ -12,9 +12,27 @@ import {
   GET_PROFILE_ERROR,
 } from '../constants/';
 
+const mapKeyToTitle = {
+  'avatar': '头像',
+  'name': '姓名',
+  'sex': '性别',
+  'identity': '身份',
+  'college': '学院',
+  'major': '专业',
+  'studentId': '学号',
+};
+
 // profile reducer initial state
 const initialProfileState = {
-  userProfile: null,
+  userProfile: {
+    avatar: require('../components/img/cstLogo.png'),
+    name: '黄大侠',
+    sex: 'M',
+    identity: '团员',
+    college: '计算机学院',
+    major: '软件工程1402',
+    studentId: '140150115'
+  },
   isGetProfile: false,
   getProfileSuccess: false,
   getProfileError: false,

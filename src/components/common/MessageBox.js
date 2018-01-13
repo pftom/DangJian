@@ -3,6 +3,7 @@ import { Text, View, StyleSheet, ScrollView, } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
 import Header from './Header';
+import px2dp from '../../util/index';
 
 const MESSAGE = [
   {
@@ -55,7 +56,7 @@ const MessageBox = ({ navigation }) => {
 
 MessageBox.navigationOptions = ({ navigation }) => ({
   headerTitle: (
-    <View style={styles.headerTitle}>
+    <View>
       <Header 
         headerText="消息盒子"
         logoLeft={require('../TabOne/img/back.png')}
@@ -63,12 +64,14 @@ MessageBox.navigationOptions = ({ navigation }) => ({
       />
     </View>
   ),
+  headerLeft: null,
+  tabBarVisible: false,
 })
 
 const styles = StyleSheet.create({
   outerBox: {
     flexDirection: 'column',
-    marginTop: 28,
+    marginTop: px2dp(38),
     marginBottom: 20,
   },
   scrollView: {
@@ -89,9 +92,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: 32,
     backgroundColor: 'transparent'
-  },
-  headerTitle: {
-    top: -10,
   },
   linearGradient: {
     height: 44,
