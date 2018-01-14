@@ -11,7 +11,6 @@ const width = Dimensions.get('window').width;
 
 const NewsItem = (props) => {
   let title = props.title;
-  let time = handleTime(props.createdAt);
 
   if (title.length >= 30) {
     title = title.slice(0, 30);
@@ -20,10 +19,10 @@ const NewsItem = (props) => {
   
   return (
     <View style={styles.container}>
-      <Image source={props.image} style={styles.pic} />
+      <Image source={{ uri: props.photo }} style={styles.pic} />
       <View style={styles.textBox}>
         <Text style={styles.title}>{title}</Text>
-        <Text style={styles.time}>{time}</Text>
+        <Text style={styles.time}>{props.created}</Text>
       </View>
     </View>
   )

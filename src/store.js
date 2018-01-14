@@ -34,8 +34,8 @@ const store = createStore(
 // saga runner
 sagaMiddleware.run(rootSaga);
 
-export const persistor = persistStore(store, { storage: AsyncStorage, whitelist: ['token'] }, () => {
-  console.log('completed');
-})
+// export const persistor = persistStore(store, { storage: AsyncStorage, whitelist: ['token'] }, () => {
+//   console.log('completed');
+// })
 
 export default store;

@@ -24,10 +24,6 @@ const seasons = [
       label: '单选题',
       value: '单选题',
     },
-    {
-      label: '多选题',
-      value: '多选题',
-    },
   ],
 ];
 

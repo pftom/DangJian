@@ -10,6 +10,7 @@ import { TabOneScreenOne } from '../components/TabOne/views/';
 import { 
   GET_NEWS,
   GET_EVENTS,
+  GET_ACTIVE_EVENTS,
 } from '../constants/';
 // import Header from common
 import { Header } from '../components/common/';
@@ -24,16 +25,18 @@ class TabOneScreenOneContainer extends PureComponent {
     // dispatch GET_NEWS && GET_ATTEND_EVENTS , get news and event
     dispatch({ type: GET_NEWS, payload: { active: false } });
     dispatch({ type: GET_EVENTS, payload: { active: false } });
+    dispatch({ type: GET_ACTIVE_EVENTS, payload: { active: true } });
   }
 
   render() {
     // definitely give out all need pass data in one place
-    const { news, events, navigation } = this.props;
+    const { news, events, needAttendEvents, navigation } = this.props;
     
     return (
       <TabOneScreenOne
         events={events}
         news={news}
+        needAttendEvents={needAttendEvents}
         navigation={navigation}
       />
     );
@@ -56,12 +59,15 @@ export default connect(
   // mapStateToProps
   state => {
     // get the singleEvent from the state tree
-    const { events } = state.events.events;
+    const { events, isGettingEvents, needAttendEvents } = state.events.events;
     // get the singleNews from the state tree
-    const { news } = state.news.news;
+    const { news, isGettingNews } = state.news.news;
     return {
       events,
       news,
+      isGettingEvents,
+      isGettingNews,
+      needAttendEvents,
     };
   },
 )(TabOneScreenOneContainer);

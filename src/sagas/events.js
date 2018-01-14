@@ -11,13 +11,16 @@ import {
   GET_SINGLE_EVENT,
   GET_SINGLE_EVENT_SUCCESS,
   GET_SINGLE_EVENT_ERROR,
+
+  GET_ACTIVE_EVENTS_SUCCESS,
+  GET_ACTIVE_EVENTS,
+  GET_ACTIVE_EVENTS_ERROR,
 } from '../constants/';
 // import api & request function
 import {
   // api 
   base,
   homeApi,
-
   // http request function
   request,
 } from '../util/';
@@ -27,15 +30,15 @@ function* getEvents(action) {
   try {
     const { active } = action.payload;
     // a object for judge whether 
-    let judgeActive = {};
+    let events = [];
     if (active) {
-      judgeActive = {
-        active: true,
-      };
+      events = yield call( request.get, base + homeApi().getEvents, { active: true } );
+    } else {
+      events = yield call( request.get, base + homeApi().getEvents);
     }
     // dispatch getEvents http request
     // { active: true } represent the request events is the attend events
-    const events = yield call( request.get, base + homeApi().getEvents, { ...judgeActive } );
+    
     // if get need attend  successfully, dispatch action and return needAttendEvents to redux-store
     yield put({ type: GET_EVENTS_SUCCESS, payload: { events, active }});
   } catch(e) {
@@ -49,6 +52,15 @@ function* watchGetEvents() {
   while (true) {
     // LISTEN GET_ATTEND
     const action = yield take(GET_EVENTS);
+    yield call(getEvents, action);
+  }
+}
+
+// get need attend watcher saga
+function* watchGetActiveEvents() {
+  while (true) {
+    // LISTEN GET_ATTEND
+    const action = yield take(GET_ACTIVE_EVENTS);
     yield call(getEvents, action);
   }
 }
@@ -81,4 +93,5 @@ function* watchGetSingleEvent() {
 export {
   watchGetEvents,
   watchGetSingleEvent,
+  watchGetActiveEvents,
 }

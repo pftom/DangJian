@@ -1,9 +1,10 @@
 import { REHYDRATE } from 'redux-persist/constants';
 
 import { 
-  RECEIVE_LOGIN_FAILURE, 
-  RECEIVE_LOGIN_SUCCESSFUL, 
-  REQUEST_LOGIN, 
+  LOGIN,
+  LOGIN_SUCCESS,
+  LOGIN_ERROR,
+
   LOGOUT,
   SUBMIT_CONFIRM,
   SET_TOKEN,
@@ -11,28 +12,43 @@ import {
 
 
 export const initialAuthState = {
-  authenticated:  false,
-  isFetching: false,
-  failure: false,
-  token: null,
+  isLogin: false,
+  loginSuccess: false,
+  loginError: false,
+  token: '',
+  username: '',
 }
 
 function auth(state = initialAuthState, action) {
   switch (action.type) {
     case REHYDRATE: 
       return { ...state, authenticated: true };
-    case REQUEST_LOGIN:
-      return { ...state, isFetching: true, authenticated: false, failure: false, };
-    case RECEIVE_LOGIN_SUCCESSFUL:
-      return { ...state, authenticated: true, isFetching: false, failure: false, };
-    case RECEIVE_LOGIN_FAILURE:
-      return { ...state, authenticated: false, isFetching: false, failure: true, };
-    case LOGOUT:
-      return { ...state, authenticated: false };
-    case SUBMIT_CONFIRM:
-      return { ...state, failure: false };
-    case SET_TOKEN:
-      return { ...state, token: action.data }
+    case LOGIN: {
+      return { 
+        ...state, 
+        isLogin: true,
+        loginSuccess: false,
+        loginError: false,
+      };
+    }
+    case LOGIN_SUCCESS: {
+      const { loginBody } = action.payload;
+      const { token, username } = loginBody;
+      return {
+        ...state,
+        isLogin: false,
+        loginSuccess: true,
+        token,
+        username,
+      }
+    }
+    case LOGIN_ERROR: {
+      return {
+        ...state,
+        isLogin: false,
+        loginError: true,
+      };
+    }
     default:
       return state;
   }

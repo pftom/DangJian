@@ -111,6 +111,9 @@ const DATA = [
 const { width, height } = Dimensions.get('window');
 
 class TabOneScreenOne extends PureComponent {
+  ds = new ListView.DataSource({
+    rowHasChanged: (r1, r2) => r1 !== r2
+  });
   
   constructor(props) {
     super(props);
@@ -166,12 +169,8 @@ class TabOneScreenOne extends PureComponent {
   getCurrentPage(currentPage) {
     this.setState({
       currentPage,
-    })
+    });
   }
-
-  ds = new ListView.DataSource({
-        rowHasChanged: (r1, r2) => r1 !== r2
-  })
 
   _renderRow(rowData, navigation, item) {
     const { currentPage } = this.state;
@@ -193,14 +192,16 @@ class TabOneScreenOne extends PureComponent {
 
   _renderFooter(currentPage) {
     const { events, news } = this.props;
+    const eventsLength = events ? events.results.length : 0;
+    const newsLength = news ? news.results.length : 0;
     if (currentPage == 0) {
-      if (events.length < 10) {
+      if (eventsLength < 10) {
         return this._renderNoMore();
       } else {
         return <ActivityIndicator style={styles.loadingMore} />
       }
     } else {
-      if (news.length < 10) {
+      if (newsLength < 10) {
         return this._renderNoMore();
       } else {
         return <ActivityIndicator style={styles.loadingMore}/>
@@ -209,43 +210,31 @@ class TabOneScreenOne extends PureComponent {
   }
 
   render() {
-    const { navigation, events, news, dispatch } = this.props;
+    const { 
+      navigation, 
+      events, 
+      news, 
+      needAttendEvents,
+      dispatch,
+      isGettingNews,
+      isGettingEvents, 
+    } = this.props;
 
     console.log('navigation', navigation);
 
-    let headline = [
-      {
-        photo: require('../img/test.jpeg'),
-        title: '校园一站到底活动圆满结束',
-      },
-      {
-        photo: require('../img/test.jpeg'),
-        title: '校园一站到底活动圆满结束',
-      },
-      {
-        photo: require('../img/test.jpeg'),
-        title: '校园一站到底活动圆满结束',
-      },
-      {
-        photo: require('../img/test.jpeg'),
-        title: '校园一站到底活动圆满结束',
-      },
-      {
-        photo: require('../img/test.jpeg'),
-        title: '校园一站到底活动圆满结束',
-      },
-    ];
+    let headline = needAttendEvents ? needAttendEvents.results : [];
     // if (events.headlineEvents) {
     //   headline = headline.concat(events.headlineEvents);
     // }
+    console.log('events', events);
     let dataSource = [
-      this.ds.cloneWithRows(DATA),
-      this.ds.cloneWithRows(DATA)
+      this.ds.cloneWithRows(events ? events.results : []),
+      this.ds.cloneWithRows(news ? news.results : [])
     ];
 
     let currentPage = this.state.currentPage;
 
-    let isFetching = currentPage == 0 ? events.isFetching : news.isFetching;
+    let isFetching = currentPage == 0 ? isGettingEvents : isGettingNews;
     return (
       <View style={styles.container}>
           <View style={styles.listBox}>
@@ -274,7 +263,7 @@ class TabOneScreenOne extends PureComponent {
                         <RefreshControl
                           tintColor="#fff"
                           onRefresh={() => this._onRefresh(this.state.currentPage)}
-                          refreshing={this.state.isRefreshing}
+                          refreshing={false}
                         />
                       }
                       showsVerticalScrollIndicator={false}

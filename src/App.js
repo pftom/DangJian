@@ -63,13 +63,17 @@ class App extends Component {
     }
 
     render() {
-        console.log('logged', this.state.isLogged);
-        const { authenticated } = this.props;
-        // if (this.state.isLogged && authenticated) {
+        // const { token } = this.props;
+        // if (token) {
           return <AppNavigation />
         // }
         return <Login />;
     }
 }
 
-export default connect(state => ({ authenticated: state.auth.authenticated }))(App);
+export default connect(state => {
+  const { token } = state.auth;
+  return {
+    token,
+  };
+})(App);

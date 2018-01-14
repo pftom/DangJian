@@ -15,16 +15,21 @@ const header = (METHOD, token) => ({
 
 let request = {};
 
-request.get =  ( url, params, token ) => {
+request.get =  ( url, item, token ) => {
   let options = null;
-  if (params) {
-    url += '?' + queryString.stringify(params);
+  console.log('params', item, token);
+  if (item) {
+    url += '?' + queryString.stringify(item);
   }
 
   if (token) {
     options = _.extend(header('GET', token));
+  } else {
+    options = _.extend(header('GET'));
   }
 
+  console.log('url', url);
+  console.log('options', options);
 
   return fetch(url, options)
       .then(response => {
@@ -41,6 +46,8 @@ request.post = ( url, body ) => {
   });
 
 
+  console.log('url', url);
+  console.log('options', options);
   return fetch(url, options)
         .then(response => {
           if (response.status !== 200 || !response.ok) {

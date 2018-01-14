@@ -10,6 +10,8 @@ import {
   GET_SINGLE_EVENT,
   GET_SINGLE_EVENT_SUCCESS,
   GET_SINGLE_EVENT_ERROR,
+
+  GET_ACTIVE_EVENTS,
 } from '../constants/';
 
 // construct initial need attend events state
@@ -17,8 +19,8 @@ const initialEventsState = {
   isGettingEvents: false,
   getEventSuccess: false,
   getEventsError: false,
-  events: [],
-  needAttendEvents: [],
+  events: null,
+  needAttendEvents: null,
   errorMsg: null,
 };
 

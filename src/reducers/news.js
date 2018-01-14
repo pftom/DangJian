@@ -17,7 +17,7 @@ const initialNewsState = {
   isGettingNews: false,
   getNewSuccess: false,
   getNewsError: false,
-  news: [],
+  news: null,
   errorMsg: null,
 };
 
