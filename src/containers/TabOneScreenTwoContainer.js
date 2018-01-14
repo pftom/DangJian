@@ -67,7 +67,7 @@ class TabOneScreenTwoContainer extends PureComponent {
 // define the header for this component
 TabOneScreenTwoContainer.navigationOptions = ({ navigation }) => ({
   headerTitle: (
-    <View style={{ top: -10 }}>
+    <View>
       <Header 
         headerText={navigation.state.params.title}
         logoLeft={require('../components/TabOne/img/back.png')}
@@ -75,6 +75,8 @@ TabOneScreenTwoContainer.navigationOptions = ({ navigation }) => ({
       />
     </View>
   ),
+  headerLeft: null,
+  tabBarVisible: false,
 })
 
 export default connect(

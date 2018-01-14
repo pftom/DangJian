@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, Image, TouchableOpacity, TextInput, ScrollView , Dimensions, StyleSheet, PixelRatio, Platform } from 'react-native';
 
 import Header from './Header';
+import px2dp from '../../util/';
 
 const width = Dimensions.get('window').width;
 
@@ -74,7 +75,7 @@ class Feedback extends Component {
 
 Feedback.navigationOptions = ({ navigation }) => ({
   headerTitle: (
-    <View style={styles.headerTitle}>
+    <View>
       <Header 
         headerText="意见反馈"
         logoLeft={require('../TabOne/img/back.png')}
@@ -82,15 +83,14 @@ Feedback.navigationOptions = ({ navigation }) => ({
       />
     </View>
   ),
+  headerLeft: null,
 });
 
 const styles = StyleSheet.create({
-  headerTitle: {
-    top: -10,
-  },
   container: {
     flex: 1,
     backgroundColor: '#F5F6F7',
+    paddingTop: px2dp(20),
   },
   itemContainer: {
     shadowOffset: { x: 0, y: 5 },

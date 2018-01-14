@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import Header from './Header';
 import ModalMessage from '../common/ModalMessage';
+import px2dp from '../../util/';
 
 const width = Dimensions.get('window').width;
 
@@ -90,7 +91,7 @@ class ModifyPassword extends Component {
 
 ModifyPassword.navigationOptions = ({ navigation }) => ({
   headerTitle: (
-    <View style={styles.headerTitle}>
+    <View>
       <Header 
         headerText="修改密码"
         logoLeft={require('../TabOne/img/back.png')}
@@ -98,15 +99,14 @@ ModifyPassword.navigationOptions = ({ navigation }) => ({
       />
     </View>
   ),
+  headerLeft: null,
 })
 
 const styles = StyleSheet.create({
-  headerTitle: {
-    top: -10,
-  },
   container: {
     flex: 1,
     backgroundColor: '#F5F6F7',
+    paddingTop: px2dp(20),
   },
   itemContainer: {
     shadowOffset: { x: 0, y: 5 },

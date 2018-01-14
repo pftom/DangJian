@@ -12,6 +12,7 @@ import ModalMessage from './ModalMessage';
 const { width, height } = Dimensions.get('window');
 // import base for presentation image
 import { base } from '../../util/';
+import px2dp from '../../util/';
 
 // import action constants
 import {
@@ -24,6 +25,61 @@ const MODAL_TEXT = {
   modalBtn: '确认签到',
   progressText: '努力签到中....',
 };
+
+const DATA = [
+  {
+    image: require('../TabOne/img/test.jpeg'),
+    title: '第五届“唱支山歌给党听”合唱比赛开幕',
+    createdAt: '2017年3月1日',
+  },
+  {
+    image: require('../TabOne/img/test.jpeg'),
+    title: '第五届“唱支山歌给党听”合唱比赛开幕',
+    createdAt: '2017年3月1日',
+  },
+  {
+    image: require('../TabOne/img/test.jpeg'),
+    title: '第五届“唱支山歌给党听”合唱比赛开幕',
+    createdAt: '2017年3月1日',
+  },
+  {
+    image: require('../TabOne/img/test.jpeg'),
+    title: '第五届“唱支山歌给党听”合唱比赛开幕',
+    createdAt: '2017年3月1日',
+  },
+  {
+    image: require('../TabOne/img/test.jpeg'),
+    title: '第五届“唱支山歌给党听”合唱比赛开幕',
+    createdAt: '2017年3月1日',
+  },
+  {
+    image: require('../TabOne/img/test.jpeg'),
+    title: '第五届“唱支山歌给党听”合唱比赛开幕',
+    createdAt: '2017年3月1日',
+  },
+  {
+    image: require('../TabOne/img/test.jpeg'),
+    title: '第五届“唱支山歌给党听”合唱比赛开幕',
+    createdAt: '2017年3月1日',
+  },
+  {
+    image: require('../TabOne/img/test.jpeg'),
+    title: '第五届“唱支山歌给党听”合唱比赛开幕',
+    createdAt: '2017年3月1日',
+  },
+  {
+    image: require('../TabOne/img/test.jpeg'),
+    title: '第五届“唱支山歌给党听”合唱比赛开幕',
+    createdAt: '2017年3月1日',
+  },
+  {
+    image: require('../TabOne/img/test.jpeg'),
+    title: '第五届“唱支山歌给党听”合唱比赛开幕',
+    createdAt: '2017年3月1日',
+  },
+
+];
+
 
 class ActivityItem extends Component {
   constructor(props) {
@@ -48,6 +104,7 @@ class ActivityItem extends Component {
 
   dispatchAttend() {
     const { dispatch, token, id } = this.props;
+    this.changeStatus();
     // dispatch(fetchAttend(id, token));
   }
 
@@ -82,7 +139,7 @@ class ActivityItem extends Component {
           })
         }>
         <View style={styles.containerItem} >
-        <Image source={{ uri: base + this.props.image }} style={styles.pic} />
+        <Image source={this.props.image} style={styles.pic} />
         <LinearGradient
           colors={['rgba(0, 0, 0, 0)', 'rgba(0, 0, 0, 0.6)']}
           style={styles.picBox}
@@ -100,7 +157,7 @@ class ActivityItem extends Component {
                 {renderStatus}
               </TouchableOpacity>
             )
-            : TouchableWith
+            : renderStatus
           }
         </View>
         </View>
@@ -181,17 +238,17 @@ class ActivityBox extends Component {
   
   render() {
     const { navigation, events, isFetching, dispatch, attend,   } = this.props;
-    let dataSource = this.ds.cloneWithRows(events);
+    let dataSource = this.ds.cloneWithRows(DATA);
     return (
       <View style={styles.container}>
         <ModalMessage failure={attend.err} message={'签到失败，请检查网络连接'} dispatch={dispatch}/>
         <ListView
           refreshControl={
-                          <RefreshControl
-                            refreshing={this.state.isRefreshing}
-                            onRefresh={() => this._onRefresh()}
-                          />
-                        }
+            <RefreshControl
+              refreshing={this.state.isRefreshing}
+              onRefresh={() => this._onRefresh()}
+            />
+          }
           enableEmptySections={true}
           renderFooter={() => this._renderFooter()}
           onEndReached={this._onRefresh}
@@ -210,6 +267,7 @@ class ActivityBox extends Component {
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
+    paddingTop: px2dp(20),
   },
   listView: {
     alignItems: 'center',

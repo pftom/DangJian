@@ -36,7 +36,7 @@ class ActivityBoxContainer extends PureComponent {
 // define the header for this component
 ActivityBoxContainer.navigationOptions = ({ navigation }) => ({
   headerTitle: (
-    <View style={{ top: -10 }}>
+    <View>
       <Header 
         headerText="活动签到"
         logoLeft={require('../components/TabOne/img/back.png')}
@@ -44,6 +44,7 @@ ActivityBoxContainer.navigationOptions = ({ navigation }) => ({
       />
     </View>
   ),
+  headerLeft: null,
 });
 
 export default connect(

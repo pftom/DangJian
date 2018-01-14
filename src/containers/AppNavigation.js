@@ -8,12 +8,6 @@ import LoginScreen from './Login';
 import Learning from '../components/TabTwo/views/Learning';
 import DetailThree from '../components/TabTwo/views/DetailThree';
 import DetailFour from '../components/TabTwo/views/DetailFour';
-import Feedback from '../components/common/Feedback';
-import ModifyPassword from '../components/common/ModifyPassword';
-// import ActivityBoxContainer
-import ActivityBoxContainer from './ActivityBoxContainer';
-// here TabOneScreenTwo
-import TabOneScreenTwoContainer from './TabOneScreenTwoContainer';
 import AnswerPageContainer from './AnswerPageContainer';
 
 import {
@@ -26,13 +20,9 @@ export const AppNavigation = StackNavigator(
       screen: TabBarNavigation,
     },
     Login: { screen: LoginScreen },
-    TabOneScreenTwo: { screen: TabOneScreenTwoContainer },
     Learning: { screen: Learning },
     DetailThree: { screen: DetailThree },
     DetailFour: { screen: DetailFour },
-    ActivityBox: { screen: ActivityBoxContainer },
-    Feedback: { screen: Feedback },
-    ModifyPassword: { screen: ModifyPassword },
   },
   {
     headerMode: 'none',

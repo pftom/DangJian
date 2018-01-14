@@ -6,6 +6,8 @@ import {
     TabOneScreenOneContainer,
     TabTwoScreenOneContainer, 
     AnswerPageContainer,
+    ActivityBoxContainer,
+    TabOneScreenTwoContainer,
 } from '../containers/';
 import TabThreeScreenOneContainer from '../containers/AccountContainer';
 
@@ -20,6 +22,8 @@ import {
 
 import {
   MessageBox,
+  Feedback,
+  ModifyPassword,
 } from '../components/common/';
 
 const TabTwoNavigation = StackNavigator({
@@ -31,6 +35,7 @@ const TabTwoNavigation = StackNavigator({
 
 const TabOneNavigation = StackNavigator({
     TabOneScreenOneContainer: { screen: TabOneScreenOneContainer },
+    TabOneScreenTwo: { screen: TabOneScreenTwoContainer },
   },
 );
 
@@ -39,6 +44,9 @@ const TabThreeNavigation = StackNavigator({
   PersonData: { screen: PersonData },
   MessageBox: { screen: MessageBox },
   Setting: { screen: Setting },
+  ActivityBox: { screen: ActivityBoxContainer },
+  Feedback: { screen: Feedback },
+  ModifyPassword: { screen: ModifyPassword },
 });
 
 const routeConfigs = {
