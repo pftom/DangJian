@@ -13,6 +13,8 @@ const NAVIGATION = {
   ['10']: 'Feedback',
 };
 
+import { LOGOUT } from '../../../constants/';
+
 
 class PersonDataItem extends Component {
   constructor(props) {
@@ -57,7 +59,7 @@ class PersonDataItem extends Component {
         {
           id === 13
           ? (
-            <TouchableOpacity onPress={() => {/*dispatch(logout() )*/}}>
+            <TouchableOpacity onPress={() => { dispatch({ type: LOGOUT })}}>
               <View style={id === 13 && styles.left}>
                 <Text style={[styles.title, id === 13 && styles.title13]}>{this.props.title}</Text>
               </View>

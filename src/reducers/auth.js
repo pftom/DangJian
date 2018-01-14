@@ -49,6 +49,13 @@ function auth(state = initialAuthState, action) {
         loginError: true,
       };
     }
+    case LOGOUT: {
+      return {
+        ...state,
+        token: null,
+        username: null,
+      };
+    }
     default:
       return state;
   }

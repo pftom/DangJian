@@ -63,10 +63,10 @@ class App extends Component {
     }
 
     render() {
-        // const { token } = this.props;
-        // if (token) {
+        const { token } = this.props;
+        if (token) {
           return <AppNavigation />
-        // }
+        }
         return <Login />;
     }
 }
