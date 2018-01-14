@@ -44,13 +44,11 @@ const constructData = (data) => {
 
 // map all need render data from keys to content
 const mapKeyToTitle = {
-  'avatar': '头像',
-  'name': '姓名',
+  'full_name': '姓名',
   'sex': '性别',
   'identity': '身份',
   'college': '学院',
   'major': '专业',
-  'studentId': '学号',
 };
 // map sex
 const mapSex = {

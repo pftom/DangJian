@@ -15,18 +15,18 @@ import { Header } from '../components/common/';
 class ActivityBoxContainer extends PureComponent {
   componentDidMount() {
     // get the dispatch from the connect, get userId from the redux store
-    const { dispatch, userId } = this.props;
+    const { dispatch } = this.props;
     // dispatch REQUEST_ACTIVE_EVENT, get all need sign-up activity
-    dispatch({ type: GET_EVENTS, payload: { userId, active: true } });
+    dispatch({ type: GET_EVENTS, payload: { active: true } });
   }
 
   render() {
     // definitely give out all need pass data in one place
-    const { events, navigation } = this.props;
+    const { needAttendEvents, navigation } = this.props;
     
     return (
       <ActivityBox
-        events={events}
+        needAttendEvents={needAttendEvents}
         navigation={navigation}
       />
     );
@@ -45,6 +45,7 @@ ActivityBoxContainer.navigationOptions = ({ navigation }) => ({
     </View>
   ),
   headerLeft: null,
+  tabBarVisible: false,
 });
 
 export default connect(
@@ -53,10 +54,9 @@ export default connect(
     // construct fake userId for replace later
     const userId = "5a07b22591a23a14e642eb39";
     // get the needAttendEvents from the state tree
-    const { events } = state.events.events;
+    const { needAttendEvents } = state.events.events;
     return {
-      userId,
-      events,
+      needAttendEvents
     };
   },
 )(ActivityBoxContainer);

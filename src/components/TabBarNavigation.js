@@ -47,6 +47,7 @@ const TabThreeNavigation = StackNavigator({
   ActivityBox: { screen: ActivityBoxContainer },
   Feedback: { screen: Feedback },
   ModifyPassword: { screen: ModifyPassword },
+  TabOneScreenTwo: { screen: TabOneScreenTwoContainer },
 });
 
 const routeConfigs = {

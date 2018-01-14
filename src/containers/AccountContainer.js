@@ -20,7 +20,7 @@ class AccountContainer extends PureComponent {
   componentDidMount() {
     const { dispatch } = this.props;
 
-    dispatch({ type: GET_PROFILE, payload: { id: "5a07b22591a23a14e642eb39" } });
+    dispatch({ type: GET_PROFILE, payload: { token: "ce2fa48c680caf20224d463fd41bd53d603c1a91" } });
   }
 
   render() {

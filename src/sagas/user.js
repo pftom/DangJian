@@ -26,10 +26,10 @@ import {
 function* getProfile(action) {
   try {
     // get 
-    const { id } = action.payload;
+    const { token } = action.payload;
     // dispatch getProfile http request
     // { id } represent `post` request body
-    const profile = yield call(request.post, base + userApi.getProfile, { id });
+    const profile = yield call(request.get, base + userApi.getProfile, null, token);
     // if get profile successfully, dispatch action and return profile to redux-store
     yield put({ type: GET_PROFILE_SUCCESS, payload: { profile }});
   } catch(e) {

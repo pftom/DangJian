@@ -31,6 +31,15 @@ class SelectPhoto extends Component {
     this.selectPhotoTapped = this.selectPhotoTapped.bind(this);
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { avatar } = nextProps;
+    if (avatar) {
+      this.setState({
+        avatarSource: avatar,
+      });
+    }
+  }
+
   selectPhotoTapped() {
     ImagePicker.showImagePicker(options, (response) => {
       console.log('Response = ', response);

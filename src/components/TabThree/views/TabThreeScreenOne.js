@@ -41,14 +41,15 @@ const SCREEN = [ "MessageBox", "ActivityBox", "PersonData", "Setting" ];
 class TabThreeScreenOne extends Component {
   render() {
     let { profile, navigation } = this.props;
+    console.log('profile', profile);
     return (
       <View style={styles.container}>
         {
             <View style={styles.upSide}>
-              <SelectPhoto num={1} avatar={profile && ( base + profile.avatar )} />
+              <SelectPhoto num={1} avatar={profile && ( profile.avatar )} />
               <View style={styles.rightSide}>
                 <View style={styles.identityBox}>
-                  <Text style={styles.name}>{profile ? profile.name : 'Node.js' }</Text>
+                  <Text style={styles.name}>{profile ? profile.full_name : 'Node.js' }</Text>
                   <Text style={styles.identity}>{profile ? profile.identity : '❤️'}</Text>
                 </View>
                 <TouchableOpacity onPress={() => navigation.navigate('PersonData', { profile })}>

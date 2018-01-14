@@ -24,15 +24,7 @@ const mapKeyToTitle = {
 
 // profile reducer initial state
 const initialProfileState = {
-  userProfile: {
-    avatar: require('../components/img/cstLogo.png'),
-    name: '黄大侠',
-    sex: 'M',
-    identity: '团员',
-    college: '计算机学院',
-    major: '软件工程1402',
-    studentId: '140150115'
-  },
+  userProfile: null,
   isGetProfile: false,
   getProfileSuccess: false,
   getProfileError: false,

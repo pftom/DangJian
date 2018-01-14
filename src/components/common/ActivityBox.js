@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, Image, Modal, Dimensions, RefreshControl, ActivityIndicator,  View, TouchableOpacity, ListView, StyleSheet } from 'react-native';
+import { Text, Image, Dimensions, RefreshControl, ActivityIndicator,  View, TouchableOpacity, ListView, StyleSheet } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { connect } from 'react-redux';
 
@@ -8,6 +8,9 @@ import Header from './Header';
 import ModalActivity from './ModalActivity';
 import { handleTime } from '../../util/index';
 import ModalMessage from './ModalMessage';
+import { Modal, Toast } from 'antd-mobile';
+
+const alert = Modal.alert;
 
 const { width, height } = Dimensions.get('window');
 // import base for presentation image
@@ -19,66 +22,6 @@ import {
   GET_SINGLE_EVENT,
   GET_SINGLE_NEWS,
 } from '../../constants/';
-
-const MODAL_TEXT = {
-  modalTitle: '加载完成了喽😀！开始签到吧！',
-  modalBtn: '确认签到',
-  progressText: '努力签到中....',
-};
-
-const DATA = [
-  {
-    image: require('../TabOne/img/test.jpeg'),
-    title: '第五届“唱支山歌给党听”合唱比赛开幕',
-    createdAt: '2017年3月1日',
-  },
-  {
-    image: require('../TabOne/img/test.jpeg'),
-    title: '第五届“唱支山歌给党听”合唱比赛开幕',
-    createdAt: '2017年3月1日',
-  },
-  {
-    image: require('../TabOne/img/test.jpeg'),
-    title: '第五届“唱支山歌给党听”合唱比赛开幕',
-    createdAt: '2017年3月1日',
-  },
-  {
-    image: require('../TabOne/img/test.jpeg'),
-    title: '第五届“唱支山歌给党听”合唱比赛开幕',
-    createdAt: '2017年3月1日',
-  },
-  {
-    image: require('../TabOne/img/test.jpeg'),
-    title: '第五届“唱支山歌给党听”合唱比赛开幕',
-    createdAt: '2017年3月1日',
-  },
-  {
-    image: require('../TabOne/img/test.jpeg'),
-    title: '第五届“唱支山歌给党听”合唱比赛开幕',
-    createdAt: '2017年3月1日',
-  },
-  {
-    image: require('../TabOne/img/test.jpeg'),
-    title: '第五届“唱支山歌给党听”合唱比赛开幕',
-    createdAt: '2017年3月1日',
-  },
-  {
-    image: require('../TabOne/img/test.jpeg'),
-    title: '第五届“唱支山歌给党听”合唱比赛开幕',
-    createdAt: '2017年3月1日',
-  },
-  {
-    image: require('../TabOne/img/test.jpeg'),
-    title: '第五届“唱支山歌给党听”合唱比赛开幕',
-    createdAt: '2017年3月1日',
-  },
-  {
-    image: require('../TabOne/img/test.jpeg'),
-    title: '第五届“唱支山歌给党听”合唱比赛开幕',
-    createdAt: '2017年3月1日',
-  },
-
-];
 
 
 class ActivityItem extends Component {
@@ -102,6 +45,10 @@ class ActivityItem extends Component {
     }, 1700);
   }
 
+  showAlert = () => {
+
+  }
+
   dispatchAttend() {
     const { dispatch, token, id } = this.props;
     this.changeStatus();
@@ -113,7 +60,6 @@ class ActivityItem extends Component {
   }
 
   render() {
-    const { attend } = this.props;
     const renderStatus = (
       <LinearGradient
         start={{x: 0.0, y: 0.0}} end={{x: 1.0, y: 1.0}}
@@ -139,7 +85,7 @@ class ActivityItem extends Component {
           })
         }>
         <View style={styles.containerItem} >
-        <Image source={this.props.image} style={styles.pic} />
+        <Image source={{ uri: this.props.photo }} style={styles.pic} />
         <LinearGradient
           colors={['rgba(0, 0, 0, 0)', 'rgba(0, 0, 0, 0.6)']}
           style={styles.picBox}
@@ -147,7 +93,7 @@ class ActivityItem extends Component {
         <View><Text style={styles.title}>{this.props.title}</Text></View>
         <View style={styles.statusBox}>
           <Text style={styles.time}>{ "已有24人签到" }</Text>
-          <Text style={styles.time}>{handleTime(this.props.createdAt)}</Text>
+          <Text style={styles.time}>{this.props.created}</Text>
         </View>
         <View style={styles.btnBox}>
           {
@@ -237,11 +183,10 @@ class ActivityBox extends Component {
   });
   
   render() {
-    const { navigation, events, isFetching, dispatch, attend,   } = this.props;
-    let dataSource = this.ds.cloneWithRows(DATA);
+    const { navigation, needAttendEvents, isFetching, dispatch  } = this.props;
+    let dataSource = this.ds.cloneWithRows(needAttendEvents ? needAttendEvents.results : []);
     return (
       <View style={styles.container}>
-        <ModalMessage failure={attend.err} message={'签到失败，请检查网络连接'} dispatch={dispatch}/>
         <ListView
           refreshControl={
             <RefreshControl
