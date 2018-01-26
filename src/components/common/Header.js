@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, Alert, Text, StyleSheet, Platform, View, Dimensions, TouchableOpacity } from 'react-native';
+import { Image, Alert, Text, StyleSheet, Platform, View, Dimensions, TouchableOpacity, TouchableHighlight } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import px2dp from '../../util/index';
 
@@ -19,12 +19,12 @@ const Header = (props) => {
         style={styles.linearGradient}>
         {!!props.logoLeft && <TouchableOpacity 
                               onPress={() => props.navigation.goBack()} 
-                              style={styles.leftLogoBox}>
-                              <Image source={!!props.logoLeft && props.logoLeft} style={styles.logoLeft}>
-                                <Text style={styles.logoLeftText}></Text>
-                              </Image>
-                            </TouchableOpacity>}
-        <Text style={[styles.headerText, style]}>{props.headerText}</Text>
+                             >
+                              <View style={styles.logoLeftBox}>
+                                <Image source={!!props.logoLeft && props.logoLeft} style={styles.logoLeft} />
+                              </View>
+                             </TouchableOpacity>}
+        <Text style={[styles.headerText, props.logoLeft && styles.minusLeft]}>{props.headerText}</Text>
         <TouchableOpacity style={styles.logoBox} onPress={() => Alert.alert('功能即将上线')}>
           {
             !!props.logoRight && <Image source={props.logoRight} />
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
     width: 96,
     ...Platform.select({
       ios: {
-        left: 140,
+        left: px2dp(140),
         top: 39,
       },
       android: {
@@ -77,6 +77,19 @@ const styles = StyleSheet.create({
     }),
     height: 33,
     backgroundColor: 'transparent',
+  },
+  minusLeft: {
+    ...Platform.select({
+      ios: {
+        left: px2dp(90),
+        top: 39,
+      },
+      android: {
+        left: px2dp(width / 2 - 63),
+        fontSize: 24,
+        top: 34
+      }
+    }),
   },
   logoBox: {
     ...Platform.select({
@@ -91,6 +104,10 @@ const styles = StyleSheet.create({
       }
     }),
   },
+  logoLeftBox: {
+    height: px2dp(90),
+    width: px2dp(50),
+  },  
   logoText: {
     fontFamily: 'PingFangSC-Light',
     fontSize: 12,

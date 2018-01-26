@@ -268,7 +268,11 @@ const ScrollableTabView = React.createClass({
   _onRefresh(id) {
     this.setState({
       isRefreshing: true,
-    })
+    });
+
+    // manual mock the refresh process
+    this.waitRefreshing();
+
     if (ACTIONS[id] === REQUEST_NEWS) {
       // this.props.dispatch(fetchNews());
     } else if (ACTIONS[id] === REQUEST_EVENTS) {
@@ -319,12 +323,10 @@ const ScrollableTabView = React.createClass({
       };
     }
 
-    if (this.props.isFetching) {
-      this.waitRefreshing();
-    }
-
     return (
       <ScrollView
+        showsVerticalScrollIndicator={false}
+        automaticallyAdjustContentInsets={false}
         refreshControl={
           <RefreshControl
             refreshing={this.state.isRefreshing}

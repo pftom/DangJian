@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, Image, Dimensions, RefreshControl, ActivityIndicator,  View, TouchableOpacity, ListView, StyleSheet } from 'react-native';
+import { Text, Image, Dimensions, RefreshControl, ActivityIndicator,  View, TouchableOpacity, ListView, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { connect } from 'react-redux';
 
@@ -76,7 +76,7 @@ class ActivityItem extends Component {
       </LinearGradient>
     );
     return (
-      <TouchableOpacity onPress={() => 
+      <TouchableWithoutFeedback onPress={() => 
         this.props.navigation.navigate(
           "TabOneScreenTwo", 
           { /* explicit type for better understand */
@@ -107,7 +107,7 @@ class ActivityItem extends Component {
           }
         </View>
         </View>
-      </TouchableOpacity>
+      </TouchableWithoutFeedback>
     )
   }
 }

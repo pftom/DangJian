@@ -30,7 +30,14 @@ class TabOneScreenOneContainer extends PureComponent {
 
   render() {
     // definitely give out all need pass data in one place
-    const { news, events, needAttendEvents, navigation } = this.props;
+    const { 
+      news, 
+      events, 
+      needAttendEvents, 
+      navigation,
+      isGettingEvents, 
+      isGettingNews,
+    } = this.props;
     
     return (
       <TabOneScreenOne
@@ -38,6 +45,8 @@ class TabOneScreenOneContainer extends PureComponent {
         news={news}
         needAttendEvents={needAttendEvents}
         navigation={navigation}
+        isGettingEvents={isGettingEvents}
+        isGettingNews={isGettingNews}
       />
     );
   }

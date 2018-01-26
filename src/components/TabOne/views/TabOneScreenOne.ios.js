@@ -259,13 +259,6 @@ class TabOneScreenOne extends PureComponent {
                   <ListView
                       dataSource={dataSource[item.id]}
                       enableEmptySections
-                      refreshControl={
-                        <RefreshControl
-                          tintColor="#fff"
-                          onRefresh={() => this._onRefresh(this.state.currentPage)}
-                          refreshing={false}
-                        />
-                      }
                       showsVerticalScrollIndicator={false}
                       automaticallyAdjustContentInsets={false}
                       onEndReachedThreshold={10}
