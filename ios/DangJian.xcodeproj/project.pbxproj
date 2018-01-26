@@ -1191,7 +1191,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.rikang.DangJian;
+				PRODUCT_BUNDLE_IDENTIFIER = com.reactnative.examples.DangJian;
 				PRODUCT_NAME = DangJian;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1217,7 +1217,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.rikang.DangJian;
+				PRODUCT_BUNDLE_IDENTIFIER = com.reactnative.examples.DangJian;
 				PRODUCT_NAME = DangJian;
 				VERSIONING_SYSTEM = "apple-generic";
 			};

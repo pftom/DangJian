@@ -57,7 +57,7 @@ TabOneScreenOneContainer.navigationOptions = ({ navigation }) => ({
   headerTitle: (
     <View style={{ height: px2dp(90) }}>
         <Header 
-          headerText="党国风采"
+          headerText="党员之家"
           navigation={navigation}
         />
     </View>

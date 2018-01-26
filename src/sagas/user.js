@@ -1,6 +1,7 @@
+import { AsyncStorage } from 'react-native';
 // the effects func from redux-saga
 import { delay } from 'redux-saga';
-import { call, put, take } from 'redux-saga/effects';
+import { call, put, take, all } from 'redux-saga/effects';
 // import action constants
 import {
   // get profile constants
@@ -52,7 +53,15 @@ function* login(action) {
   try { 
     const body = action.payload;
     const loginBody = yield call(request.post, base + userApi.login, body);
-    // if get profile successfully, dispatch action and return profile to redux-store
+
+    // if success, store token
+    const { token, username } = loginBody;
+    yield all([
+      AsyncStorage.setItem('token', token),
+      AsyncStorage.setItem('username', username)
+    ]);
+
+    // dispatch success request
     yield put({ type: LOGIN_SUCCESS, payload: { loginBody }});
   } catch(e) {
     // if get profile error, dispatch error action & error message for better `debug`

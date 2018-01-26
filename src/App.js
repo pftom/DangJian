@@ -6,71 +6,29 @@ import AppNavigation from './containers/AppNavigation';
 import Login from './containers/Login';
 import { SET_TOKEN } from './constants';
 
+import { NavigationActions } from 'react-navigation';
+
 class App extends Component {
 
-    constructor(props) {
-      super(props);
+  async componentDidMount() {
+    const that = this;
+    const token = await AsyncStorage.getItem('token');
 
-      this.state = {
-        isLogged: false,
-      };
+    console.log('navigator', this.navigator);
+    if (!token) {
+      this.navigator && this.navigator.dispatch(
+        NavigationActions.navigate({ routeName: 'Login' })
+      );
     }
+  }
 
-    componentWillReceiveProps(nextProps) {
-      if (nextProps !== this.props) {
-        if (!nextProps.authenticated) {
-          this.setState({
-            isLogged: false,
-          })
-        } else {
-          this.setState({
-            isLogged: true,
-          })
-        }
-      }
-    }
+  getRef = (nav) => {
+    this.navigator = nav;
+  }
 
-    _handleLoginState() {
-      // let that = this;
-      // AsyncStorage.getItem('token')
-      //             .then(value => {
-      //               if (value && value.length) {
-      //                 const { dispatch } = this.props;
-      //                 dispatch({ type: SET_TOKEN, data: value });
-      //                 dispatch(getStorageData());
-      //                 dispatch(fetchEvents());
-      //                 dispatch(fetchNews());
-      //                 dispatch(fetchEventHeadline());
-      //                 that.setState({
-      //                   isLogged: true,
-      //                 })
-      //               } else {
-      //                 that.setState({
-      //                   isLogged: false,
-      //                 })
-      //               }
-                    
-      //             })
-      //             .catch(err => {
-      //               that.setState({
-      //                 isLogged: false,
-      //               })
-      //             })
-    }
-
-    componentWillMount() {
-      this._handleLoginState()
-    }
-
-    render() {
-          return <AppNavigation />
-        // return <Login />;
-    }
+  render() {
+    return <AppNavigation getRef={this.getRef} />
+  }
 }
 
-export default connect(state => {
-  const { token } = state.auth;
-  return {
-    token,
-  };
-})(App);
+export default App;

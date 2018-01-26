@@ -50,7 +50,7 @@ class TabOneScreenTwoContainer extends PureComponent {
       singleEvent,
       singleNews, 
     } = this.props;
-    const type = navigation.state.params.type;
+    const { type } = navigation.state.params;
     
     return (
       <TabOneScreenTwo

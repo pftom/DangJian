@@ -174,6 +174,7 @@ class TabOneScreenOne extends PureComponent {
 
   _renderRow(rowData, navigation, item) {
     const { currentPage } = this.state;
+    console.log('currentPage', currentPage);
     return (
       <TouchableOpacity onPress={() => navigation.navigate('TabOneScreenTwo', { data: { type: currentPage === 0 ? GET_SINGLE_EVENT : GET_SINGLE_NEWS, id: rowData.id } , title: item.title })}>
         <NewsItem {...rowData} key={rowData.id} />
@@ -219,13 +220,11 @@ class TabOneScreenOne extends PureComponent {
       isGettingEvents, 
     } = this.props;
 
-    console.log('navigation', navigation);
 
     let headline = needAttendEvents ? needAttendEvents.results : [];
     // if (events.headlineEvents) {
     //   headline = headline.concat(events.headlineEvents);
     // }
-    console.log('events', events);
     let dataSource = [
       this.ds.cloneWithRows(events ? events.results : []),
       this.ds.cloneWithRows(news ? news.results : [])

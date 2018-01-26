@@ -35,9 +35,14 @@ export const AppNavigation = StackNavigator(
 );
 
 
-const AppWithNavigationState = ({ dispatch, nav }) => (
-  <AppNavigation navigation={addNavigationHelpers({ dispatch, state: nav })} />
-)
+const AppWithNavigationState = ({ dispatch, nav, getRef }) => {
+  return (
+    <AppNavigation 
+      navigation={addNavigationHelpers({ dispatch, state: nav })} 
+      ref={nav => getRef(nav)}
+    />
+  )
+}
 
 const mapStateToProps = state => ({
   nav: state.nav,
