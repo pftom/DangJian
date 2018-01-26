@@ -18,6 +18,7 @@
     "react-native-circular-progress": "0.0.8",
     "react-native-elevated-view": "0.0.4",
     "react-native-html-render": "1.0.5",
+    "react-native-htmlview": "^0.12.1",
     "react-native-image-picker": "0.26.3",
     "react-native-linear-gradient": "2.0.0",
     "react-native-loader": "1.1.0",

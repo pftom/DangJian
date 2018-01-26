@@ -9,9 +9,7 @@ import {
   RefreshControl,
 } from 'react-native';
 import { connect } from 'react-redux';
-import HTMLView from 'react-native-html-render';
-// import markdown render
-import Markdown from 'react-native-simple-markdown';
+import HTMLView from 'react-native-htmlview';
 
 import Header from '../../common/Header';
 import px2dp from '../../../util/index';
@@ -38,16 +36,16 @@ class TabOneScreenTwo extends PureComponent {
             data && (
               <View style={styles.container}>
                 <View style={styles.header}>
-                  <Image source={data.image} style={styles.pic} />
+                  <Image source={{ uri: data.photo }} style={styles.pic} />
                   <Text style={[ styles.title, data.title && styles.head]}>{data.title}</Text>
-                  <Text style={styles.time}>{handleTime(data.createdAt)}</Text>
+                  <Text style={styles.time}>{data.created}</Text>
                 </View>
                 <View style={styles.content}>
-                  <Markdown
-                    styles={htmlStyles}
+                  <HTMLView
+                    stylesheet={htmlStyles}
+                    value={data.body}
                   >
-                  {data.content}
-                  </Markdown>
+                  </HTMLView>
                 </View>
               </View>
             )

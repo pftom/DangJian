@@ -8,7 +8,7 @@ import Header from './Header';
 import ModalActivity from './ModalActivity';
 import { handleTime } from '../../util/index';
 import ModalMessage from './ModalMessage';
-import { Modal, Toast } from 'antd-mobile';
+import { Modal, Toast, ActivityIndicator as AntActivityIndicator } from 'antd-mobile';
 
 const alert = Modal.alert;
 
@@ -30,6 +30,7 @@ class ActivityItem extends Component {
 
     this.state = {
       status: false,
+      showModal: false,
     }
 
     this.changeStatus = this.changeStatus.bind(this);
@@ -37,11 +38,21 @@ class ActivityItem extends Component {
   }
 
   changeStatus() {
+    this.setState({
+      showModal: true,
+    });
+
     const that = this;
     this.timer1 = setTimeout(() => {
       that.setState({
         status: true,
-      })
+        showModal: false,
+        showSuccess: true,
+      });
+
+      Toast.success(
+         <Text>签到成功</Text>, 
+      2);
     }, 1700);
   }
 
@@ -60,10 +71,17 @@ class ActivityItem extends Component {
   }
 
   render() {
+    const completedColor = ['#9B9B9B', '#9B9B9B'];
+    const unCompletedColor = ['#FF0467', '#FC7437'];
+
+    const { rowData } = this.props;
+
+    console.log('props', this.props);
+
     const renderStatus = (
       <LinearGradient
         start={{x: 0.0, y: 0.0}} end={{x: 1.0, y: 1.0}}
-        colors={['#FF0467', '#FC7437']}
+        colors={this.state.status ? completedColor : unCompletedColor}
         style={styles.gradient}
       >
         <Text style={styles.gradientText}>
@@ -80,32 +98,43 @@ class ActivityItem extends Component {
         this.props.navigation.navigate(
           "TabOneScreenTwo", 
           { /* explicit type for better understand */
-            data: { type: GET_SINGLE_EVENT, id: this.props._id }, 
+            data: { type: GET_SINGLE_EVENT, id: rowData.id }, 
             title: '校园活动' 
           })
         }>
         <View style={styles.containerItem} >
-        <Image source={{ uri: this.props.photo }} style={styles.pic} />
-        <LinearGradient
-          colors={['rgba(0, 0, 0, 0)', 'rgba(0, 0, 0, 0.6)']}
-          style={styles.picBox}
-         />
-        <View><Text style={styles.title}>{this.props.title}</Text></View>
-        <View style={styles.statusBox}>
-          <Text style={styles.time}>{ "已有24人签到" }</Text>
-          <Text style={styles.time}>{this.props.created}</Text>
-        </View>
-        <View style={styles.btnBox}>
-          {
-            !this.state.status 
-            ? (
-              <TouchableOpacity onPress={this.dispatchAttend}>
-                {renderStatus}
-              </TouchableOpacity>
-            )
-            : renderStatus
-          }
-        </View>
+          <Modal
+            visible={this.state.showModal}
+            transparent
+            maskClosable={false}
+            footer={null}
+          >
+            <View>
+              <AntActivityIndicator size="large" />
+              <Text style={styles.signText}>签到中...</Text>
+            </View>
+          </Modal>
+          <Image source={{ uri: rowData.photo }} style={styles.pic} />
+          <LinearGradient
+            colors={['rgba(0, 0, 0, 0)', 'rgba(0, 0, 0, 0.6)']}
+            style={styles.picBox}
+          />
+          <View><Text style={styles.title}>{rowData.title}</Text></View>
+          <View style={styles.statusBox}>
+            <Text style={styles.time}>{ rowData.attendees.length }</Text>
+            <Text style={styles.time}>{rowData.created}</Text>
+          </View>
+          <View style={styles.btnBox}>
+            {
+              !this.state.status 
+              ? (
+                <TouchableOpacity onPress={this.dispatchAttend}>
+                  {renderStatus}
+                </TouchableOpacity>
+              )
+              : renderStatus
+            }
+          </View>
         </View>
       </TouchableWithoutFeedback>
     )
@@ -201,7 +230,7 @@ class ActivityBox extends Component {
           onEndReachedThreshold={10}
           showsVerticalScrollIndicator={false}
           renderRow={(rowData) => {
-            return <ActivityItem {...this.props} {...rowData} key={rowData.id} navigation={navigation} />
+            return <ActivityItem rowData={rowData} key={rowData.id} navigation={navigation} />
           }}
         />
     </View>
@@ -297,7 +326,11 @@ const styles = StyleSheet.create({
   loadingMoreText: {
     color: '#777',
     textAlign: 'center',
-  }
+  },
+  signText: {
+    textAlign: 'center',
+    marginTop: px2dp(10),
+  },
 });
 
 const mapStateToProps = (state) => ({
