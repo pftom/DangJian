@@ -134,9 +134,11 @@ class TabOneScreenOne extends PureComponent {
   }
 
   _onRefresh(id) {
-    // this.setState({
-    //   isRefreshing: true,
-    // })
+    this.setState({
+      isRefreshing: true,
+    });
+
+    this.waitRefreshing();
     // this.waitRefreshing();
     // if (ACTIONS[id] === REQUEST_NEWS) {
     //   let { news } = this.props.news;
@@ -262,6 +264,12 @@ class TabOneScreenOne extends PureComponent {
                         showsVerticalScrollIndicator={false}
                         automaticallyAdjustContentInsets={false}
                         onEndReachedThreshold={10}
+                        refreshControl={
+                          <RefreshControl
+                            refreshing={this.state.isRefreshing}
+                            onRefresh={() => this._onRefresh(this.state.currentPage)}
+                          />
+                        }
                         onEndReached={() => this._onRefresh(this.state.currentPage)}
                         renderFooter={() => this._renderFooter(this.state.currentPage)}
                         renderRow={(rowData) => this._renderRow(rowData, navigation, item)}

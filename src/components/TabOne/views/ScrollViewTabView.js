@@ -323,22 +323,13 @@ const ScrollableTabView = React.createClass({
     }
 
     return (
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        automaticallyAdjustContentInsets={false}
-        refreshControl={
-          <RefreshControl
-            refreshing={this.state.isRefreshing}
-            onRefresh={() => this._onRefresh(this.state.currentPage)}
-          />
-        }
-       style={{ flex: 1}}>    
+      <View style={styles.container}>    
           <View style={[styles.container, this.props.style, ]} onLayout={this._handleLayout}>
           {this.props.tabBarPosition === 'top' && this.renderTabBar(tabBarProps)}
           {this.renderScrollableContent()}
           {(this.props.tabBarPosition === 'bottom' || overlayTabs) && this.renderTabBar(tabBarProps)}
         </View>
-      </ScrollView>
+      </View>
     )
   },
 });
