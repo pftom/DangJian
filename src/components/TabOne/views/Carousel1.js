@@ -13,6 +13,11 @@ import Swiper from 'react-native-swiper';
 import px2dp from '../../../util/index';
 import LinearGradient from 'react-native-linear-gradient';
 
+import {
+  GET_SINGLE_EVENT,
+} from '../../../constants';
+
+
 const { width, height } = Dimensions.get('window');
 
 const cutTitle = (text) => {
@@ -27,6 +32,7 @@ class Carousel1 extends Component {
 
   render() {
     const { headline } = this.props;
+    console.log('headline', headline);
     return (
       <Swiper 
         loop={true}
@@ -48,7 +54,7 @@ class Carousel1 extends Component {
         style={styles.container}>
         {
           headline.map((item, key) => (
-            <TouchableWithoutFeedback key={key} onPress={() => this.props.navigation.navigate('TabOneScreenTwo', { title: '党建活动', data: { type: 0, id: 1 }})}>  
+            <TouchableWithoutFeedback key={key} onPress={() => this.props.navigation.navigate('TabOneScreenTwo', { title: '党建活动', data: { type: GET_SINGLE_EVENT, id: item.id }})}>  
               <View style={styles.slide}>
                 <Animated.Image source={{ uri: item.photo }} resizeMode={'stretch'} style={[ styles.img, { opacity: this.props.imgOpacity}]}>
                 </Animated.Image>

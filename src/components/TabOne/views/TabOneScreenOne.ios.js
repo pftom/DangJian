@@ -16,6 +16,7 @@ import ScrollViewTabView from './ScrollViewTabView';
 import { TabViewAnimated, TabBar, SceneMap } from 'react-native-tab-view';
 import { connect } from 'react-redux';
 
+import Carousel1 from './Carousel1';
 import MidTitle from './MidTitle';
 import NewsItem from './NewsItem';
 import Header from '../../common/Header';
@@ -236,6 +237,7 @@ class TabOneScreenOne extends PureComponent {
     return (
       <View style={styles.container}>
           <View style={styles.listBox}>
+          <View style={{ height: px2dp(184), width: width,}}><Carousel1 headline={headline} navigation={navigation} /></View>
             <ScrollViewTabView
               ref={(listView) => this.listView = listView}
               isFetching={isFetching}
@@ -249,22 +251,22 @@ class TabOneScreenOne extends PureComponent {
               {
                 TAB.map(item => (
                   <View
-                  tabLabel={item.title}
-                  key={item.id}
-                  style={[ styles.listBox1 ]}
-              >
-                <View style={ styles.listBox2}>
-                  <ListView
-                      dataSource={dataSource[item.id]}
-                      enableEmptySections
-                      showsVerticalScrollIndicator={false}
-                      automaticallyAdjustContentInsets={false}
-                      onEndReachedThreshold={10}
-                      onEndReached={() => this._onRefresh(this.state.currentPage)}
-                      renderFooter={() => this._renderFooter(this.state.currentPage)}
-                      renderRow={(rowData) => this._renderRow(rowData, navigation, item)}
-                      scrollEventThrottle={16}
-                    />
+                    tabLabel={item.title}
+                    key={item.id}
+                    style={[ styles.listBox1 ]}
+                  >
+                    <View style={ styles.listBox2}>
+                      <ListView
+                        dataSource={dataSource[item.id]}
+                        enableEmptySections
+                        showsVerticalScrollIndicator={false}
+                        automaticallyAdjustContentInsets={false}
+                        onEndReachedThreshold={10}
+                        onEndReached={() => this._onRefresh(this.state.currentPage)}
+                        renderFooter={() => this._renderFooter(this.state.currentPage)}
+                        renderRow={(rowData) => this._renderRow(rowData, navigation, item)}
+                        scrollEventThrottle={16}
+                      />
                     </View>
                   </View>
                 ))
