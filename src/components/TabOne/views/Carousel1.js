@@ -9,7 +9,7 @@ import {
   TouchableWithoutFeedback
 } from 'react-native';
 
-import Swiper from 'react-native-swiper';
+import Swiper from './Swiper';
 import px2dp from '../../../util/index';
 import LinearGradient from 'react-native-linear-gradient';
 
@@ -32,7 +32,6 @@ class Carousel1 extends Component {
 
   render() {
     const { headline } = this.props;
-    console.log('headline', headline);
     return (
       <Swiper 
         loop={true}
