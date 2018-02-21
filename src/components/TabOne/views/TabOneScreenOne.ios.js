@@ -27,15 +27,12 @@ import request from '../../../util/request';
 
 
 import {
-  REQUEST_NEWS,
-  REQUEST_EVENTS,
-
+  GET_EVENTS,
+  GET_NEWS,
   GET_SINGLE_EVENT,
   GET_SINGLE_NEWS,
+  GET_ACTIVE_EVENTS,
 } from '../../../constants';
-
-// construct action array for map useage
-const ACTIONS = [REQUEST_EVENTS, REQUEST_NEWS];
 
 const TAB = [
   {
@@ -134,26 +131,22 @@ class TabOneScreenOne extends PureComponent {
   }
 
   _onRefresh(id) {
+    const { currentPage } = this.state;
+    const { dispatch } = this.props;
     this.setState({
       isRefreshing: true,
     });
 
     this.waitRefreshing();
-    // this.waitRefreshing();
-    // if (ACTIONS[id] === REQUEST_NEWS) {
-    //   let { news } = this.props.news;
-    //   if (!news.next) {
-    //     return;
-    //   }
-      
-    //   // this.props.dispatch(fetchNews(news.next[news.next.length - 1]));
-    // } else if (ACTIONS[id] === REQUEST_EVENTS) {
-    //   let { events } = this.props.events;
-    //   if (!events.next) {
-    //     return
-    //   }
-    //   // this.props.dispatch(fetchEvents(events.next[events.next.length - 1]));
-    // }
+
+    if (currentPage === 0) {
+      // dispatch GET_NEWS && GET_ATTEND_EVENTS , get news and event
+      dispatch({ type: GET_EVENTS, payload: { active: false } });
+      dispatch({ type: GET_ACTIVE_EVENTS, payload: { active: true } });
+    } else {
+      dispatch({ type: GET_NEWS, payload: { active: false } });
+      dispatch({ type: GET_ACTIVE_EVENTS, payload: { active: true } });
+    }
   }
 
   waitRefreshing() {

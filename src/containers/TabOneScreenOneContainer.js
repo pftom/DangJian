@@ -37,12 +37,14 @@ class TabOneScreenOneContainer extends PureComponent {
       navigation,
       isGettingEvents, 
       isGettingNews,
+      dispatch,
     } = this.props;
     
     return (
       <TabOneScreenOne
         events={events}
         news={news}
+        dispatch={dispatch}
         needAttendEvents={needAttendEvents}
         navigation={navigation}
         isGettingEvents={isGettingEvents}
