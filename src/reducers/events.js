@@ -21,7 +21,9 @@ const initialEventsState = {
   getEventsError: false,
   events: null,
   needAttendEvents: null,
+  allEvents: null,
   errorMsg: null,
+  next: false,
 };
 
 const events = (state = initialEventsState, action) => {
@@ -36,7 +38,7 @@ const events = (state = initialEventsState, action) => {
 
     case GET_EVENTS_SUCCESS:
       // if get events success, merge the res into the state tree
-      const { events, active } = action.payload;
+      const { events, active, mode } = action.payload;
 
       let judgeActive = {};
       // judge this events is all or need attend events
@@ -50,9 +52,21 @@ const events = (state = initialEventsState, action) => {
         };
       }
 
+
+      // let newAllEvents = 
+      let addNext = {};
+      if (mode === 'footer') {
+        newAllEvents.push(events.results);
+        addNext = { next: true };
+      } else {
+        addNext = { next: false };
+      }
+
       return {
         ...state,
         ...judgeActive,
+        ...addNext,
+        allEvents: newAllEvents,
         isGettingEvents: false,
         getEventsSuccess: true,
       };

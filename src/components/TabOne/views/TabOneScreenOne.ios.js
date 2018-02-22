@@ -127,24 +127,45 @@ class TabOneScreenOne extends PureComponent {
     this._onRefresh = this._onRefresh.bind(this)
   }
 
-  componentDidMount() {
-  }
-
-  _onRefresh(id) {
+  _onRefresh(mark) {
+    console.log('mark', mark);
     const { currentPage } = this.state;
-    const { dispatch } = this.props;
+    const { dispatch, events, news } = this.props;
+
+    const eventsLength = events ? events.results.length : 0;
+    const newsLength = news ? news.results.length : 0;
+
+    // the first enter, do not fresh.
+    if (currentPage === 0 && eventsLength === 0) {
+      return;
+    }
+
+    if (currentPage === 1 && newsLength === 0) {
+      return;
+    }
+
     this.setState({
       isRefreshing: true,
     });
 
+
     this.waitRefreshing();
 
     if (currentPage === 0) {
+      if (events && Object.keys(events).includes('next')) {
+        dispatch({ type: GET_EVENTS, payload: { active: false, mode: mark, next: events.next } });
+      } else {
+        dispatch({ type: GET_EVENTS, payload: { active: false, mode: mark } });
+      }
       // dispatch GET_NEWS && GET_ATTEND_EVENTS , get news and event
-      dispatch({ type: GET_EVENTS, payload: { active: false } });
+     
       dispatch({ type: GET_ACTIVE_EVENTS, payload: { active: true } });
     } else {
-      dispatch({ type: GET_NEWS, payload: { active: false } });
+      if (news && Object.keys(news).includes('next')) { 
+        dispatch({ type: GET_NEWS, payload: { active: false, mode: mark, next: news.next } });
+      } else {
+        dispatch({ type: GET_NEWS, payload: { active: false, mode: mark } });
+      }
       dispatch({ type: GET_ACTIVE_EVENTS, payload: { active: true } });
     }
   }
@@ -181,7 +202,7 @@ class TabOneScreenOne extends PureComponent {
   _renderNoMore() {
     return (
       <View style={styles.loadingMore}>
-        <Text style={styles.loadingMoreText}>没有更多了</Text>
+        <Text style={styles.loadingMoreText}>我是有底线的 : )</Text>
       </View>
     )
   }
@@ -260,10 +281,10 @@ class TabOneScreenOne extends PureComponent {
                         refreshControl={
                           <RefreshControl
                             refreshing={this.state.isRefreshing}
-                            onRefresh={() => this._onRefresh(this.state.currentPage)}
+                            onRefresh={() => this._onRefresh('header')}
                           />
                         }
-                        onEndReached={() => this._onRefresh(this.state.currentPage)}
+                        onEndReached={() => this._onRefresh('footer')}
                         renderFooter={() => this._renderFooter(this.state.currentPage)}
                         renderRow={(rowData) => this._renderRow(rowData, navigation, item)}
                         scrollEventThrottle={16}
@@ -306,7 +327,7 @@ const styles = StyleSheet.create({
     width,
   },
   listBox2: {
-    height: px2dp(height - 90 - 49),
+    height: px2dp(height - 90 - 69),
     width,
     marginBottom: 90
   },

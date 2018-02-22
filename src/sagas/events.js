@@ -28,19 +28,25 @@ import {
 // create get need attend worker saga
 function* getEvents(action) {
   try {
-    const { active } = action.payload;
+    const { active, mode, next } = action.payload;
     // a object for judge whether 
     let events = [];
     if (active) {
       events = yield call( request.get, base + homeApi().getEvents, { active: true } );
     } else {
-      events = yield call( request.get, base + homeApi().getEvents);
+      if (mode === 'footer' && !!next ) {
+        events = yield call( request.get, next);
+      } else if (mode === 'header') {
+        events = yield call( request.get, base + homeApi().getEvents);
+      } else {
+        return;
+      }
     }
     // dispatch getEvents http request
     // { active: true } represent the request events is the attend events
     
     // if get need attend  successfully, dispatch action and return needAttendEvents to redux-store
-    yield put({ type: GET_EVENTS_SUCCESS, payload: { events, active }});
+    yield put({ type: GET_EVENTS_SUCCESS, payload: { events, active, mode }});
   } catch(e) {
     // if get need attend error, dispatch error action & error message for better `debug`
     yield put({ type: GET_EVENTS_ERROR, errorMsg: e });
