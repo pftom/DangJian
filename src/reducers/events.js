@@ -21,7 +21,6 @@ const initialEventsState = {
   getEventsError: false,
   events: null,
   needAttendEvents: null,
-  allEvents: null,
   errorMsg: null,
   next: false,
 };
@@ -47,26 +46,30 @@ const events = (state = initialEventsState, action) => {
           needAttendEvents: events,
         };
       } else {
-        judgeActive = {
-          events,
-        };
+        if (mode === 'footer') {
+          const { events: oldEvents } = state;
+          if (oldEvents) {
+            judgeActive = {
+              events: { 
+                ...events,
+                results: oldEvents.results.concat(events.results)
+              },
+            }
+          }
+        }
+
+        if (Object.keys(judgeActive).length === 0) {
+          judgeActive = {
+            events,
+          };
+        }
       }
 
-
-      // let newAllEvents = 
-      let addNext = {};
-      if (mode === 'footer') {
-        newAllEvents.push(events.results);
-        addNext = { next: true };
-      } else {
-        addNext = { next: false };
-      }
+      console.log('judgeActive', judgeActive)
 
       return {
         ...state,
         ...judgeActive,
-        ...addNext,
-        allEvents: newAllEvents,
         isGettingEvents: false,
         getEventsSuccess: true,
       };

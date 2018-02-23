@@ -144,12 +144,14 @@ class TabOneScreenOne extends PureComponent {
       return;
     }
 
-    this.setState({
-      isRefreshing: true,
-    });
-
-
-    this.waitRefreshing();
+    if (mark !== 'footer') {
+      this.setState({
+        isRefreshing: true,
+      });
+  
+  
+      this.waitRefreshing();
+    }
 
     if (currentPage === 0) {
       if (events && Object.keys(events).includes('next')) {
@@ -159,14 +161,19 @@ class TabOneScreenOne extends PureComponent {
       }
       // dispatch GET_NEWS && GET_ATTEND_EVENTS , get news and event
      
-      dispatch({ type: GET_ACTIVE_EVENTS, payload: { active: true } });
+      if (mark !== 'footer') {
+        dispatch({ type: GET_ACTIVE_EVENTS, payload: { active: true } });
+      }
     } else {
       if (news && Object.keys(news).includes('next')) { 
         dispatch({ type: GET_NEWS, payload: { active: false, mode: mark, next: news.next } });
       } else {
         dispatch({ type: GET_NEWS, payload: { active: false, mode: mark } });
       }
-      dispatch({ type: GET_ACTIVE_EVENTS, payload: { active: true } });
+      
+      if (mark !== 'footer') {
+        dispatch({ type: GET_ACTIVE_EVENTS, payload: { active: true } });
+      }
     }
   }
 
@@ -209,16 +216,17 @@ class TabOneScreenOne extends PureComponent {
 
   _renderFooter(currentPage) {
     const { events, news } = this.props;
-    const eventsLength = events ? events.results.length : 0;
-    const newsLength = news ? news.results.length : 0;
+
+    const eventNext = events ? events.next : null;
+    const newNext = news ? news.next : null;
     if (currentPage == 0) {
-      if (eventsLength < 10) {
+      if (!eventNext) {
         return this._renderNoMore();
       } else {
         return <ActivityIndicator style={styles.loadingMore} />
       }
     } else {
-      if (newsLength < 10) {
+      if (!newNext) {
         return this._renderNoMore();
       } else {
         return <ActivityIndicator style={styles.loadingMore}/>
@@ -342,7 +350,7 @@ const styles = StyleSheet.create({
   },
   loadingMore: {
     marginTop: 10,
-    marginBottom: 200
+    marginBottom: 250
   },
   loadingMoreText: {
     color: '#777',
