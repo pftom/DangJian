@@ -33,11 +33,27 @@ const news = (state = initialNewsState, action) => {
 
     case GET_NEWS_SUCCESS:
       // if get news success, merge the res into the state tree
-      const { news } = action.payload;
+      const { news, active, mode } = action.payload;
+      
+      let newNews = {};
+
+      if (mode === 'footer') {
+        const { news: oldNews } = state;
+        if (oldNews) {
+          newNews = { 
+            ...news,
+            results: oldNews.results.concat(news.results)
+          };
+        }
+      }
+
+      if (Object.keys(newNews).length === 0) {
+        newNews = news;
+      }
 
       return {
         ...state,
-        news,
+        news: newNews,
         isGettingNews: false,
         getNewSuccess: true,
       };

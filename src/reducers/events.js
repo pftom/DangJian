@@ -65,8 +65,6 @@ const events = (state = initialEventsState, action) => {
         }
       }
 
-      console.log('judgeActive', judgeActive)
-
       return {
         ...state,
         ...judgeActive,
