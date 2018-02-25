@@ -16,6 +16,7 @@ class App extends Component {
 
     console.log('navigator', this.navigator);
     if (!token) {
+      console.log('login');
       this.navigator && this.navigator.dispatch(
         NavigationActions.navigate({ routeName: 'Login' })
       );

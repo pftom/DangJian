@@ -9,7 +9,6 @@ const header = (METHOD, token) => ({
   headers: {
     'Accept': 'application/json',
     'Content-Type': 'application/json',
-    'Authorization': 'Token ' + token,
   }
 });
 
@@ -50,7 +49,7 @@ request.post = ( url, body ) => {
   console.log('options', options);
   return fetch(url, options)
         .then(response => {
-          if (response.status !== 200 || !response.ok) {
+          if (response.status >= 400 || !response.ok) {
             throw response.json();
           }
           return response.json();

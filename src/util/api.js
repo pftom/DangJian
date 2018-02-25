@@ -24,9 +24,14 @@ const userApi = {
   updateProfile: '/users/profile/',
 };
 
+const utilApi = {
+  feedback: '/feedback/',
+};
+
 // export all api in one place
 export {
   base,
   homeApi,
   userApi,
+  utilApi,
 }

@@ -18,6 +18,10 @@ import {
   watchGetSingleNews,
 } from './news';
 
+import {
+  watchSendFeedback,
+} from './utils';
+
 // create & export root saga for run them parallel
 export default function* rootSaga() {
   yield all([
@@ -33,5 +37,8 @@ export default function* rootSaga() {
     // run the news watcher saga
     watchGetNews(),
     watchGetSingleNews(),
+
+    // run the feedback watcher saga
+    watchSendFeedback(),
   ]);
 }

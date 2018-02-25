@@ -1,137 +1,121 @@
 import React, { Component } from 'react';
-import { View, Text, Image, TouchableOpacity, TextInput, ScrollView , Dimensions, StyleSheet, PixelRatio, Platform } from 'react-native';
+import { View, Text, Image, TouchableOpacity, TextInput, ScrollView , Dimensions, StyleSheet, PixelRatio, Platform,
+  Keyboard, 
+  TouchableWithoutFeedback,
+} from 'react-native';
+
+import { List, InputItem, TextareaItem, Button, WhiteSpace, WingBlank, Modal, Toast } from 'antd-mobile';
+
+const Item = List.Item;
+const Brief = Item.Brief;
+const alert = Modal.alert;
 
 import Header from './Header';
 import px2dp from '../../util/';
+import { FEEDBACK } from '../../constants/';
+
+// import toast function
+import { 
+  failToast, 
+  successToast,
+  loadingToast,
+} from './Toast';
 
 const width = Dimensions.get('window').width;
 
-class TextBox extends Component {
-  render() {
-    const { spacerProps } = this.props;
-    return (
-      <View style={styles.container}>
-          <View style={styles.itemContainer}>
-            <View style={[styles.itemInnerContainer, styles.multi]}>
-            <TextInput style={styles.content} 
-                            onChangeText={(text) => this.props.handleTextChange(text, 'downSide')} 
-                            value={this.props.downSide}  
-                            placeholder="存在不便？或有更好的改进意见？我们会认真聆听。"
-                            placeholderTextColor="#C7C7CC"
-                            returnKeyType="done"
-                            maxLength={200}
-                            multiline={true}
-                            clearButtonMode="while-editing"
-                            autoCorrect={false}
-                        />
-              <Text style={styles.rightBottom}>200</Text>
-            </View>
-          </View>
-
-          <View style={styles.itemContainer}>
-            <View style={styles.itemInnerContainer}>
-            <TextInput style={styles.content} 
-                            onChangeText={(text) => this.props.handleTextChange(text, 'upSide')} 
-                            value={this.props.upSide}  
-                            placeholder="Email 或 Q Q / Wechat 号"
-                            returnKeyType="done"
-                            maxLength={10}
-                            clearButtonMode="while-editing"
-                            autoCorrect={false}
-                        />
-            </View>
-          </View>
-          <View style={styles.itemContainer}>
-            <View style={styles.itemInnerContainer}>
-              <TouchableOpacity>
-                <Text style={styles.feedBtn}>提交反馈</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-      </View>
-    )
-  }
-}
-
-class Feedback extends Component {
+export default class Feedback extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      upSide: '',
-      downSide: '',
+      feedbackContent: '',
+    };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const {
+      isFeedbacking,
+      feedbackSuccess,
+      feedbackError,
+    } = nextProps;
+
+    const that = this;
+
+    if (isFeedbacking) {
+      loadingToast('提交反馈中...', 3);
     }
 
-    this.handleTextChange = this.handleTextChange.bind(this);
+    if (feedbackSuccess) {
+      Toast.hide();
+      successToast('提交反馈成功!', 2);
+      
+      that.setState({ feedbackContent: '' });
+    }
+
+    if (feedbackError) {
+      Toast.hide();
+      failToast('提交反馈失败，请检查网络连接！', 2);
+    }
   }
 
-  handleTextChange(text, title) {
-    this.setState({ [title]: text });
+  handleSubmit = (body) => {
+    const { dispatch } = this.props;
+    dispatch({ type: FEEDBACK, payload: { body }});
   }
-  render(){
-    return <TextBox handleTextChange={this.handleTextChange} {...this.state}/>;
+
+  handleConfirm = () => {
+    const { feedbackContent } = this.state;
+    if (feedbackContent.length === 0) {
+      failToast('反馈的内容不能为空哦~', 2);
+    } else {
+      this.handleSubmit(feedbackContent);
+    }
+
+    Keyboard.dismiss();
+  }
+
+  render() {
+    return (
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+        <View style={styles.container}>
+          <List renderHeader={() => '反馈内容'} style={{  width: width }}>
+            <TextareaItem 
+              title="哈哈哈"
+              count={120}
+              rows={7}
+              style={{ marginLeft: -10, paddingLeft: 10, paddingRight: 10, marginTop: 10 }}
+              placeholder="您发现了问题？或者您有更好的改进意见？都希望您能写下宝贵的反馈，帮助我们持续改进~"
+              placeholderTextColor="#CCC"
+              multiline={true}
+              value={this.state.feedbackContent}
+              autoCorrect={false}
+              onChange={(value) => this.setState({ feedbackContent: value })}
+            >
+            </TextareaItem>
+          </List>
+          <WhiteSpace />
+          <WhiteSpace />
+          <Button 
+            style={styles.feedBtn}
+            onClick={this.handleConfirm}
+          > 
+            <Text style={{ color: '#FF3B30' }}>提交反馈</Text>
+          </Button>
+        </View>
+      </TouchableWithoutFeedback>
+    )
   }
 }
-
-Feedback.navigationOptions = ({ navigation }) => ({
-  headerTitle: (
-    <View>
-      <Header 
-        headerText="意见反馈"
-        logoLeft={require('../TabOne/img/back.png')}
-        navigation={navigation}
-      />
-    </View>
-  ),
-  headerLeft: null,
-});
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#F5F6F7',
-    paddingTop: px2dp(20),
-  },
-  itemContainer: {
-    shadowOffset: { x: 0, y: 5 },
-    shadowColor: '#C7C7C7',
-    shadowRadius: 40,
-    shadowOpacity: 0.32,
-    backgroundColor: '#FFF',
-    overflow: 'hidden',
-    marginTop: 20,
-  },
-  itemInnerContainer: {
-    flexDirection: 'row',
-    width: width,
-    height: 44,
-    alignItems: 'center',
-    marginLeft: 10,
-    paddingRight: 10,
-  },
-  content: {
-    fontFamily: 'PingFangSC-Light',
-    fontSize: 15,
-    color: '#C7C7CC',
-    letterSpacing: -0.41,
-    paddingRight: 10,
-    height: 40,
-    width: width - 10,
-    backgroundColor: 'transparent',
-    marginTop: 2,
-    paddingTop: 5,
-  },
-  multi: {
-    height: 120,
+    paddingTop: px2dp(30),
   },
   feedBtn: {
-    fontFamily: 'PingFangSC-Light',
-    fontSize: 17,
-    color: '#FC7437',
-    width: width,
-    textAlign: 'center'
+    borderWidth: 0,
+    borderRadius: 0,
   }
   
 })
-
-export default Feedback;

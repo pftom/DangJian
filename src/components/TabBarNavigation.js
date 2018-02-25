@@ -8,6 +8,7 @@ import {
     AnswerPageContainer,
     ActivityBoxContainer,
     TabOneScreenTwoContainer,
+    FeedbackContainer,
 } from '../containers/';
 import TabThreeScreenOneContainer from '../containers/AccountContainer';
 
@@ -45,7 +46,7 @@ const TabThreeNavigation = StackNavigator({
   MessageBox: { screen: MessageBox },
   Setting: { screen: Setting },
   ActivityBox: { screen: ActivityBoxContainer },
-  Feedback: { screen: Feedback },
+  Feedback: { screen: FeedbackContainer },
   ModifyPassword: { screen: ModifyPassword },
   TabOneScreenTwo: { screen: TabOneScreenTwoContainer },
 });

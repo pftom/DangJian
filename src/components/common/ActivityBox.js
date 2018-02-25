@@ -1,5 +1,16 @@
 import React, { Component } from 'react';
-import { Text, Image, Dimensions, RefreshControl, ActivityIndicator,  View, TouchableOpacity, ListView, StyleSheet, TouchableWithoutFeedback } from 'react-native';
+import { 
+  Text, 
+  Image, 
+  Dimensions, 
+  RefreshControl, 
+  ActivityIndicator,  
+  View, 
+  TouchableOpacity, 
+  ListView, 
+  StyleSheet, 
+  TouchableWithoutFeedback, 
+} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { connect } from 'react-redux';
 
