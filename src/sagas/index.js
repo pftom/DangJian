@@ -5,6 +5,7 @@ import { all } from 'redux-saga/effects';
 import {
   watchGetProfile,
   watchLogin,
+  watchChangePassword,
 } from './user';
 
 import {
@@ -28,6 +29,7 @@ export default function* rootSaga() {
     // run the profile watch saga
     watchGetProfile(),
     watchLogin(),
+    watchChangePassword(),
 
     // run the event watcher saga 
     watchGetEvents(),

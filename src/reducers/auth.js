@@ -15,8 +15,8 @@ export const initialAuthState = {
   isLogin: false,
   loginSuccess: false,
   loginError: false,
-  token: '',
-  username: '',
+  token: 'ce2fa48c680caf20224d463fd41bd53d603c1a91s',
+  username: '140150115',
 }
 
 function auth(state = initialAuthState, action) {

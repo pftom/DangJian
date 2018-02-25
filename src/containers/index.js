@@ -3,7 +3,8 @@ import TabTwoScreenOneContainer from './TabTwoScreenOneContainer';
 import AnswerPageContainer from './AnswerPageContainer';
 import ActivityBoxContainer from './ActivityBoxContainer';
 import TabOneScreenTwoContainer from './TabOneScreenTwoContainer';
-import FeedbackContainer from './FeedbackContainer';;
+import FeedbackContainer from './FeedbackContainer';
+import ModifyPasswordContainer from './ModifyPasswordContainer';
 
 export {
   TabTwoScreenOneContainer,
@@ -12,4 +13,5 @@ export {
   ActivityBoxContainer,
   TabOneScreenTwoContainer,
   FeedbackContainer,
+  ModifyPasswordContainer,
 }

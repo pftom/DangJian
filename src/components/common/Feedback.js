@@ -89,6 +89,8 @@ export default class Feedback extends Component {
               multiline={true}
               value={this.state.feedbackContent}
               autoCorrect={false}
+              returnKeyType="done"
+              clearButtonMode="while-editing"
               onChange={(value) => this.setState({ feedbackContent: value })}
             >
             </TextareaItem>

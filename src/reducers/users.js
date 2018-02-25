@@ -2,9 +2,9 @@ import { combineReducers } from 'redux';
 
 // import all action constants in one place
 import {
-  REQUEST_CHANGE_PASSWD,
-  REQUEST_CHANGE_PASSWD_SUCCESSFUL,
-  REQUEST_CHANGE_PASSWD_FAILURE,
+  CHANGE_PASSWORD,
+  CHANGE_PASSWORD_SUCCESS,
+  CHANGE_PASSWORD_ERROR,
 
   // profile constants
   GET_PROFILE,
@@ -70,20 +70,37 @@ function profile(state = initialProfileState, action) {
 }
 
 const initialUserState = {
-  isFetching: false,
-  success: false,
-  err: false,
+  isChangingPassword: false,
+  changePasswordSuccess: false,
+  changePasswordError: false,
 }
 
 function usersAuth (state = initialUserState, action) {
   switch (action.type) {
-    case REQUEST_CHANGE_PASSWD:
-      return { ...state, isFetching: true };
-    case REQUEST_CHANGE_PASSWD_SUCCESSFUL:
-      return { ...state, isFetching: false, success: true, err: fasle };
-    case REQUEST_CHANGE_PASSWD_FAILURE:
-      return { ...state, isFetching: false, success: false, err: true };
-    default: return state;
+    case CHANGE_PASSWORD: {
+      return { 
+        ...state, 
+        isChangingPassword: true,
+        changePasswordSuccess: false,
+        changePasswordError: false,
+      };
+    }
+    case CHANGE_PASSWORD_SUCCESS: {
+      return { 
+        ...state, 
+        isChangingPassword: false, 
+        changePasswordSuccess: true,
+      };
+    }
+    case CHANGE_PASSWORD_ERROR: {
+      return { 
+        ...state, 
+        isChangingPassword: false, 
+        changePasswordError: true 
+      };
+    }
+    default: 
+      return state;
   }
 }
 

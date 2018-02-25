@@ -9,6 +9,7 @@ const header = (METHOD, token) => ({
   headers: {
     'Accept': 'application/json',
     'Content-Type': 'application/json',
+    'Authorization': `Token ${token}`
   }
 });
 
@@ -56,14 +57,17 @@ request.post = ( url, body ) => {
         })
 }
 
-request.put = ( url, token, body ) => {
+request.put = ( url, body, token ) => {
   let options = _.extend(header('PUT', token), {
     body: JSON.stringify(body),
   });
 
+  console.log('url', url);
+  console.log('options', options);
+
   return fetch(url, options) 
         .then(response => {
-          if (response.status !== 200 || !response.ok) {
+          if (response.status <= 400 || !response.ok) {
             throw response.json();
           }
           return response.json();

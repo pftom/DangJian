@@ -1,10 +1,25 @@
 import React, { Component } from 'react';
-import { View, Text, Image, TouchableOpacity, TextInput, ScrollView , Dimensions, StyleSheet, PixelRatio, Platform } from 'react-native';
-import { connect } from 'react-redux';
+import { View, Text, Image, TouchableOpacity, TextInput, ScrollView , Dimensions, StyleSheet, PixelRatio, Platform,
+  Keyboard, 
+  TouchableWithoutFeedback,
+} from 'react-native';
+
+import { List, InputItem, TextareaItem, Button, WhiteSpace, WingBlank, Modal, Toast } from 'antd-mobile';
+
+const Item = List.Item;
+const Brief = Item.Brief;
+const alert = Modal.alert;
 
 import Header from './Header';
-import ModalMessage from '../common/ModalMessage';
 import px2dp from '../../util/';
+import { CHANGE_PASSWORD } from '../../constants/';
+
+// import toast function
+import { 
+  failToast, 
+  successToast,
+  loadingToast,
+} from './Toast';
 
 const width = Dimensions.get('window').width;
 
@@ -26,26 +41,7 @@ const PLACEHOLDER = [
   }
 ]
 
-class TextBox extends Component {
-  render() {
-    const { id, placeholder, title } = this.props;
-    return (
-    <View style={[styles.itemInnerContainer, id !== 3 && styles.borderStyle]}>
-      <TextInput style={styles.content} 
-                      onChangeText={(text) => this.props.handleTextChange(text, title)} 
-                      value={this.props.downSide}  
-                      placeholder={placeholder}
-                      placeholderTextColor="#C7C7CC"
-                      returnKeyType="done"
-                      clearButtonMode="while-editing"
-                      autoCorrect={false}
-                  />
-      </View>
-    )
-  }
-}
-
-class ModifyPassword extends Component {
+export default class ModifyContent extends Component {
   constructor(props) {
     super(props);
 
@@ -53,102 +49,98 @@ class ModifyPassword extends Component {
       oldPasswd: '',
       newPasswd: '',
       newPasswd2: '',
-      status: false,
+    };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const {
+      isFeedbacking,
+      feedbackSuccess,
+      feedbackError,
+    } = nextProps;
+
+    const that = this;
+
+    if (isFeedbacking) {
+      loadingToast('提交反馈中...', 3);
     }
 
-    this.handleTextChange = this.handleTextChange.bind(this);
+    if (feedbackSuccess) {
+      Toast.hide();
+      successToast('提交反馈成功!', 2);
+      
+      that.setState({ feedbackContent: '' });
+    }
+
+    if (feedbackError) {
+      Toast.hide();
+      failToast('提交反馈失败，请检查网络连接！', 2);
+    }
+  }
+
+  handleSubmit = (body, token) => {
+    const { dispatch } = this.props;
+    dispatch({ type: CHANGE_PASSWORD, payload: { body, token }});
+  }
+
+  handleConfirm = () => {
+    const { oldPasswd, newPasswd, newPasswd2 } = this.state;
+    if (!oldPasswd || !newPasswd || !newPasswd2) {
+      failToast('输入的密码不能为空哟~', 2);
+    } else if (newPasswd !== newPasswd2) {
+      failToast('两次输入的新密码要相同哟~', 2)
+    } else {
+      const { username, token } = this.props;
+      this.handleSubmit({
+        username,
+        password: newPasswd,
+      }, token);
+    }
+
+    Keyboard.dismiss();
   }
 
   handleTextChange(text, title) {
     this.setState({ [title]: text });
   }
 
-  submit() {
-      this.setState({
-        status: true,
-      })
-  }
-
-  render(){
+  render() {
     return (
-      <View style={styles.container}>
-        <View style={styles.itemContainer}>
-          {
-            PLACEHOLDER.map(item => <TextBox key={item.id} {...item} handleTextChange={this.handleTextChange} />)
-          }
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+        <View style={styles.container}>
+          <List renderHeader={() => '输入密码'} style={{  width: width }}>
+            {
+              PLACEHOLDER.map((item, key) => (
+                <InputItem
+                  placeholder={item.placeholder}
+                  onChange={(value) => this.handleTextChange(value, item.title)}
+                  key={item.id}
+                />
+              ))
+            }
+          </List>
+          <WhiteSpace />
+          <WhiteSpace />
+          <Button 
+            style={styles.feedBtn}
+            onClick={this.handleConfirm}
+          > 
+            <Text style={{ color: '#FF3B30' }}>确认修改</Text>
+          </Button>
         </View>
-        <View style={styles.itemContainer}>
-            <View style={styles.itemInnerContainer}>
-              <TouchableOpacity>
-                <Text style={styles.feedBtn}>确认修改</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-      </View>
+      </TouchableWithoutFeedback>
     )
   }
 }
-
-ModifyPassword.navigationOptions = ({ navigation }) => ({
-  headerTitle: (
-    <View>
-      <Header 
-        headerText="修改密码"
-        logoLeft={require('../TabOne/img/back.png')}
-        navigation={navigation}
-      />
-    </View>
-  ),
-  headerLeft: null,
-})
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#F5F6F7',
-    paddingTop: px2dp(20),
-  },
-  itemContainer: {
-    shadowOffset: { x: 0, y: 5 },
-    shadowColor: '#C7C7C7',
-    shadowRadius: 40,
-    shadowOpacity: 0.32,
-    backgroundColor: '#FFF',
-    overflow: 'hidden',
-    marginTop: 10,
-  },
-  itemInnerContainer: {
-    flexDirection: 'row',
-    width: width,
-    height: 44,
-    alignItems: 'center',
-    marginLeft: 10,
-    paddingRight: 10,
-  },
-  content: {
-    fontFamily: 'PingFangSC-Light',
-    fontSize: 15,
-    color: '#C7C7CC',
-    letterSpacing: -0.41,
-    paddingRight: 10,
-    height: 40,
-    width: width - 10,
-    backgroundColor: 'transparent',
-    marginTop: 2,
-    paddingTop: 5,
+    paddingTop: px2dp(30),
   },
   feedBtn: {
-    fontFamily: 'PingFangSC-Light',
-    fontSize: 17,
-    color: '#FC7437',
-    width: width,
-    textAlign: 'center'
+    borderWidth: 0,
+    borderRadius: 0,
   },
-  borderStyle: {
-    borderBottomWidth: 0.5,
-    borderBottomColor: '#DDD',
-  },
-  
 })
-
-export default connect()(ModifyPassword);

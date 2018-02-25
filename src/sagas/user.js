@@ -12,6 +12,10 @@ import {
   LOGIN,
   LOGIN_SUCCESS,
   LOGIN_ERROR,
+
+  CHANGE_PASSWORD,
+  CHANGE_PASSWORD_SUCCESS,
+  CHANGE_PASSWORD_ERROR,
 } from '../constants/';
 // import api & request function
 import {
@@ -77,8 +81,32 @@ function* watchLogin() {
   }
 }
 
+// create get profile worker saga
+function* changePassword(action) {
+  try {
+    // get 
+    const { body, token } = action.payload;
+    // dispatch changePassword http request
+    yield call(request.put, base + userApi.changePassword, body, token);
+    // if get profile successfully, dispatch action and return profile to redux-store
+    yield put({ type: CHANGE_PASSWORD_SUCCESS });
+  } catch(e) {
+    // if get profile error, dispatch error action & error message for better `debug`
+    yield put({ type: CHANGE_PASSWORD_ERROR, errorMsg: e });
+  }
+}
+
+// get profile watcher saga
+function* watchChangePassword() {
+  while (true) {
+    const action = yield take(CHANGE_PASSWORD);
+    yield call(changePassword, action);
+  }
+}
+
 // export all watcher saga in one place.
 export {
   watchGetProfile,
   watchLogin,
+  watchChangePassword,
 }

@@ -19,7 +19,7 @@ const homeApi = (id) => ({
 // all user api in one place
 const userApi = {
   login: '/users/login/',
-  changePassword: '/users/changePassword/',
+  changePassword: '/users/change-password/',
   getProfile: '/users/profile/',
   updateProfile: '/users/profile/',
 };
