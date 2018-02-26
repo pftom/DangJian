@@ -3,6 +3,8 @@ import { Text, View, StyleSheet, Image, TouchableOpacity, Alert } from 'react-na
 import ImagePicker from 'react-native-image-picker';
 import LinearGradient from 'react-native-linear-gradient';
 
+import { Toast } from 'antd-mobile';
+
 import px2dp from '../../../util/index';
 import Header from '../../common/Header'
 import SettingItem from './SettingItem';
@@ -34,11 +36,50 @@ const ITEMS = [
     leftIcon: require('../img/settings.png'),
     category: '设置',
   },
-]
+];
+
+// import toast function
+import { 
+  failToast, 
+  successToast,
+  loadingToast,
+} from '../../common/Toast';
+
+import { UPDATE_PROFILE } from '../../../constants/';
 
 const SCREEN = [ "MessageBox", "ActivityBox", "PersonData", "Setting" ];
 
 class TabThreeScreenOne extends Component {
+  handleAddPic = (photo, uri) => {
+    const { dispatch, profile, token } = this.props;
+    dispatch({ type: UPDATE_PROFILE, payload: { body: { ...profile, avatar: photo }, token }});
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const {
+      isUpdateProfile,
+      updateProfileSuccess,
+      updateProfileError,
+    } = nextProps;
+
+    const that = this;
+
+    if (isUpdateProfile) {
+      loadingToast('更新头像中...', 3);
+    }
+
+    if (updateProfileSuccess) {
+      Toast.hide();
+      successToast('更新头像成功!', 2);
+      
+    }
+
+    if (updateProfileError) {
+      Toast.hide();
+      failToast('更新头像失败，请检查网络连接！', 2);
+    }
+  }
+
   render() {
     let { profile, navigation } = this.props;
     console.log('profile', profile);
@@ -46,7 +87,11 @@ class TabThreeScreenOne extends Component {
       <View style={styles.container}>
         {
             <View style={styles.upSide}>
-              <SelectPhoto num={1} avatar={profile && ( profile.avatar )} />
+              <SelectPhoto 
+                num={1} 
+                avatar={profile && ( profile.avatar )} 
+                handleAddPic={this.handleAddPic}
+              />
               <View style={styles.rightSide}>
                 <View style={styles.identityBox}>
                   <Text style={styles.name}>{profile ? profile.full_name : 'Node.js' }</Text>

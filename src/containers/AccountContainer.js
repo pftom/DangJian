@@ -25,10 +25,16 @@ class AccountContainer extends PureComponent {
 
   render() {
     // get profile from the props
-    const { profile, navigation } = this.props;
+    const { profile, navigation, dispatch, token } = this.props;
     const { userProfile } = profile;
     return (
-      <TabThreeScreenOne profile={userProfile} navigation={navigation} />
+      <TabThreeScreenOne 
+        {...profile}
+        profile={userProfile} 
+        navigation={navigation} 
+        dispatch={dispatch}
+        token={token}
+      />
     );
   }
 }
@@ -50,8 +56,9 @@ export default connect(
   state => {
     // get the profile reducer state section from the user
     const { profile } = state.users;
+    const { token } = state.auth;
     // inject the data in AccountContainer
     // use destruction for return new object every time(a performance method)
-    return { profile };
+    return { profile, token };
   },
 )(AccountContainer);

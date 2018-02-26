@@ -4,13 +4,12 @@ import queryString from 'query-string';
 import _ from 'lodash';
 
 // The http header for request
-const header = (METHOD, token) => ({
+const header = (METHOD, token, multipart) => ({
   method: METHOD,
   headers: {
-    'Accept': 'application/json',
-    'Content-Type': 'application/json',
+    'Content-Type': multipart ? 'multipart/form-data;' : 'application/json',
     'Authorization': `Token ${token}`
-  }
+  },
 });
 
 let request = {};
@@ -57,9 +56,9 @@ request.post = ( url, body ) => {
         })
 }
 
-request.put = ( url, body, token ) => {
-  let options = _.extend(header('PUT', token), {
-    body: JSON.stringify(body),
+request.put = ( url, body, token, multipart ) => {
+  let options = _.extend(header('PUT', token, multipart), {
+    body: multipart ? body : JSON.stringify(body),
   });
 
   console.log('url', url);

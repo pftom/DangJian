@@ -16,6 +16,10 @@ import {
   CHANGE_PASSWORD,
   CHANGE_PASSWORD_SUCCESS,
   CHANGE_PASSWORD_ERROR,
+
+  UPDATE_PROFILE,
+  UPDATE_PROFILE_SUCCESS,
+  UPDATE_PROFILE_ERROR,
 } from '../constants/';
 // import api & request function
 import {
@@ -104,9 +108,45 @@ function* watchChangePassword() {
   }
 }
 
+// create get profile worker saga
+function* updateProfile(action) {
+  try {
+    // get 
+    const { body, token } = action.payload;
+    
+    // construct form data;
+    let data = new FormData();
+
+    for (let [key, value] of Object.entries(body)) {
+      if (key === 'avatar') {
+        data.append('avatar', { uri: value, type: 'multipart/form-data', name: 'image.jpg' });
+      } else {
+        data.append(key, value);
+      }
+    }
+
+    // dispatch changePassword http request
+    const profile = yield call(request.put, base + userApi.updateProfile, data, token, true);
+    // if get profile successfully, dispatch action and return profile to redux-store
+    yield put({ type: UPDATE_PROFILE_SUCCESS, payload: { profile } });
+  } catch(e) {
+    // if get profile error, dispatch error action & error message for better `debug`
+    yield put({ type: UPDATE_PROFILE_ERROR, errorMsg: e });
+  }
+}
+
+// get profile watcher saga
+function* watchUpdateProfile() {
+  while (true) {
+    const action = yield take(UPDATE_PROFILE);
+    yield call(updateProfile, action);
+  }
+}
+
 // export all watcher saga in one place.
 export {
   watchGetProfile,
   watchLogin,
   watchChangePassword,
+  watchUpdateProfile,
 }

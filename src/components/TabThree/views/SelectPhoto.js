@@ -68,6 +68,10 @@ class SelectPhoto extends Component {
         this.setState({
           avatarSource: response.uri,
         });
+
+        const { handleAddPic } = this.props;
+        handleAddPic && handleAddPic(response.uri, 'data:image/jpeg;base64,' + response.data)
+
       }
     });
   }

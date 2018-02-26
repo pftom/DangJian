@@ -6,6 +6,7 @@ import {
   watchGetProfile,
   watchLogin,
   watchChangePassword,
+  watchUpdateProfile,
 } from './user';
 
 import {
@@ -31,6 +32,7 @@ export default function* rootSaga() {
     watchGetProfile(),
     watchLogin(),
     watchChangePassword(),
+    watchUpdateProfile(),
 
     // run the event watcher saga 
     watchGetEvents(),

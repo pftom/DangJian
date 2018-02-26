@@ -10,6 +10,10 @@ import {
   GET_PROFILE,
   GET_PROFILE_SUCCESS,
   GET_PROFILE_ERROR,
+
+  UPDATE_PROFILE,
+  UPDATE_PROFILE_SUCCESS,
+  UPDATE_PROFILE_ERROR,
 } from '../constants/';
 
 const mapKeyToTitle = {
@@ -28,6 +32,9 @@ const initialProfileState = {
   isGetProfile: false,
   getProfileSuccess: false,
   getProfileError: false,
+  isUpdateProfile: false,
+  updateProfileSuccess: false,
+  updateProfileError: false,
   errorMsg: null,
 };
 
@@ -44,7 +51,7 @@ function profile(state = initialProfileState, action) {
         getProfileError: false,
       };
 
-    case GET_PROFILE_SUCCESS:
+    case GET_PROFILE_SUCCESS: {
       // if get profile success, merge profile into the state tree
       const { profile } = action.payload;
       return {
@@ -53,8 +60,9 @@ function profile(state = initialProfileState, action) {
         isGetProfile: false,
         getProfileSuccess: true,
       };
+    }
 
-    case GET_PROFILE_ERROR:
+    case GET_PROFILE_ERROR: {
       // if get profile error, merge errorMsg for better debug
       const { errorMsg } = action;
       return {
@@ -63,6 +71,40 @@ function profile(state = initialProfileState, action) {
         isGetProfile: false,
         getProfileError: true,
       };
+
+    }
+
+      case UPDATE_PROFILE:
+      // if start get profile, update the status for better UI presentation
+      return { 
+        ...state, 
+        isUpdateProfile: true,
+        updateProfileSuccess: false,
+        updateProfileError: false,
+      };
+
+    case UPDATE_PROFILE_SUCCESS: {
+      // if get profile success, merge profile into the state tree
+      const { profile } = action.payload;
+      return {
+        ...state,
+        userProfile: profile,
+        isUpdateProfile: false,
+        updateProfileSuccess: true,
+      };
+
+    }
+
+    case UPDATE_PROFILE_ERROR: {
+      // if get profile error, merge errorMsg for better debug
+      const { errorMsg } = action;
+      return {
+        ...state,
+        errorMsg,
+        isUpdateProfile: false,
+        updateProfileError: true,
+      };
+    }
 
     default:
       return state;
