@@ -21,13 +21,10 @@ class ActivityBoxContainer extends PureComponent {
   }
 
   render() {
-    // definitely give out all need pass data in one place
-    const { needAttendEvents, navigation } = this.props;
     
     return (
       <ActivityBox
-        needAttendEvents={needAttendEvents}
-        navigation={navigation}
+        {...this.props}
       />
     );
   }
@@ -55,8 +52,12 @@ export default connect(
     const userId = "5a07b22591a23a14e642eb39";
     // get the needAttendEvents from the state tree
     const { needAttendEvents } = state.events.events;
+    const attendEvent = state.events.attendEvent;
+    const { token } = state.auth;
     return {
-      needAttendEvents
+      needAttendEvents,
+      token,
+      attendEvent,
     };
   },
 )(ActivityBoxContainer);

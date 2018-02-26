@@ -12,6 +12,10 @@ import {
   GET_SINGLE_EVENT_ERROR,
 
   GET_ACTIVE_EVENTS,
+
+  ATTEND,
+  ATTEND_SUCCESS,
+  ATTEND_ERROR,
 } from '../constants/';
 
 // construct initial need attend events state
@@ -42,9 +46,17 @@ const events = (state = initialEventsState, action) => {
       let judgeActive = {};
       // judge this events is all or need attend events
       if (active) {
-        judgeActive = {
-          needAttendEvents: events,
-        };
+        if (mode === 'footer') {
+          const { needAttendEvents: oldNeedAttendEvents } = state;
+          if (oldNeedAttendEvents) {
+            judgeActive = {
+              needAttendEvents: {
+                ...events,
+                results: oldNeedAttendEvents.results.concat(events.results),
+              },
+            };
+          }
+        }
       } else {
         if (mode === 'footer') {
           const { events: oldEvents } = state;
@@ -52,16 +64,22 @@ const events = (state = initialEventsState, action) => {
             judgeActive = {
               events: { 
                 ...events,
-                results: oldEvents.results.concat(events.results)
+                results: oldEvents.results.concat(events.results),
               },
             }
           }
         }
 
         if (Object.keys(judgeActive).length === 0) {
-          judgeActive = {
-            events,
-          };
+          if (active) {
+            judgeActive = {
+              needAttendEvents: events,
+            };
+          } else {
+            judgeActive = {
+              events,
+            };
+          }
         }
       }
 
@@ -135,7 +153,48 @@ const singleEvent = (state = initialSingleEventState, action) => {
   }
 };
 
+// construct initial events state
+const initialAttendEventState = {
+  isAttendingEvent: false,
+  attendEventSuccess: false,
+  attendEventError: false,
+};
+
+const attendEvent = (state = initialAttendEventState, action) => {
+  switch (action.type) {
+    case ATTEND:
+      return {
+        ...state,
+        isAttendingEvent: true,
+        attendEventSuccess: false,
+        attendEventError: false,
+      };
+
+    case ATTEND_SUCCESS: {
+
+      return {
+        ...state,
+        isAttendingEvent: false,
+        attendEventSuccess: true,
+      };
+    }
+
+    case ATTEND_ERROR: {
+      return {
+        ...state,
+        isAttendingEvent: false,
+        attendEventError: true,
+      };
+    }
+
+    default:
+      // if dissatisfy other circumstance, return the origin state
+      return state;
+  }
+};
+
 export default combineReducers({
   events,
   singleEvent,
+  attendEvent,
 });

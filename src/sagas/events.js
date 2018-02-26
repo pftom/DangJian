@@ -15,6 +15,10 @@ import {
   GET_ACTIVE_EVENTS_SUCCESS,
   GET_ACTIVE_EVENTS,
   GET_ACTIVE_EVENTS_ERROR,
+
+  ATTEND,
+  ATTEND_SUCCESS,
+  ATTEND_ERROR,
 } from '../constants/';
 // import api & request function
 import {
@@ -32,7 +36,14 @@ function* getEvents(action) {
     // a object for judge whether 
     let events = [];
     if (active) {
-      events = yield call( request.get, base + homeApi().getEvents, { active: true } );
+      if (mode === 'footer' && !!next) {
+        events = yield call( request.get, next, { active: true });
+      } else if (mode === 'header') {
+        events = yield call( request.get, base + homeApi().getEvents, { active: true } );
+      } else {
+        return;
+      }
+      
     } else {
       if (mode === 'footer' && !!next ) {
         events = yield call( request.get, next);
@@ -95,9 +106,34 @@ function* watchGetSingleEvent() {
   }
 }
 
+// create get single need attend worker saga
+function* attendEvent(action) {
+  try {
+    const { id, token } = action.payload;
+    // dispatch getSingleEvent http request
+    // { active: true } represent the request events is the attend events
+    yield call( request.get, base + homeApi(id).attendEvent, null, token );
+    // if get single need attend  successfully, dispatch action and return needAttendEvents to redux-store
+    yield put({ type: ATTEND_SUCCESS });
+  } catch(e) {
+    // if get single need attend error, dispatch error action & error message for better `debug`
+    yield put({ type: ATTEND_ERROR, errorMsg: e });
+  }
+}
+
+// get need attend watcher saga
+function* watchAttendEvent() {
+  while (true) {
+    // LISTEN GET_ATTEND
+    const action = yield take(ATTEND);
+    yield call(attendEvent, action);
+  }
+}
+
 // export all watcher saga in one place.
 export {
   watchGetEvents,
   watchGetSingleEvent,
   watchGetActiveEvents,
+  watchAttendEvent,
 }

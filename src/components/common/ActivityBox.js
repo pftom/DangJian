@@ -19,7 +19,11 @@ import Header from './Header';
 import ModalActivity from './ModalActivity';
 import { handleTime } from '../../util/index';
 import ModalMessage from './ModalMessage';
-import { Modal, Toast, ActivityIndicator as AntActivityIndicator } from 'antd-mobile';
+import { 
+  Modal, 
+  Toast, 
+  ActivityIndicator as AntActivityIndicator,
+} from 'antd-mobile';
 
 const alert = Modal.alert;
 
@@ -32,7 +36,16 @@ import px2dp from '../../util/';
 import {
   GET_SINGLE_EVENT,
   GET_SINGLE_NEWS,
+  GET_ACTIVE_EVENTS,
+  ATTEND,
 } from '../../constants/';
+
+// import toast function
+import { 
+  failToast, 
+  successToast,
+  loadingToast,
+} from './Toast';
 
 
 class ActivityItem extends Component {
@@ -43,38 +56,51 @@ class ActivityItem extends Component {
       status: false,
       showModal: false,
     }
-
-    this.changeStatus = this.changeStatus.bind(this);
     this.dispatchAttend = this.dispatchAttend.bind(this);
-  }
-
-  changeStatus() {
-    this.setState({
-      showModal: true,
-    });
-
-    const that = this;
-    this.timer1 = setTimeout(() => {
-      that.setState({
-        status: true,
-        showModal: false,
-        showSuccess: true,
-      });
-
-      Toast.success(
-         <Text>签到成功</Text>, 
-      2);
-    }, 1700);
   }
 
   showAlert = () => {
 
   }
 
+  componentWillReceiveProps(nextProps) {
+    const {
+      isAttendingEvent,
+      attendEventSuccess,
+      attendEventError,
+    } = nextProps;
+
+    const that = this;
+    console.log('nextProps', nextProps);
+
+    if (isAttendingEvent) {
+      loadingToast('签到中...', 3);
+    }
+
+    if (attendEventSuccess) {
+      that.setState({ 
+        showModal: false,
+        status: true,
+      });
+      successToast('签到成功!', 2);
+    }
+
+    if (attendEventError) {
+      that.setState({ 
+        showModal: false,
+        status: false,
+      });
+      failToast('签到失败，请检查网络连接!', 2);
+    }
+  }
+
   dispatchAttend() {
-    const { dispatch, token, id } = this.props;
-    this.changeStatus();
-    // dispatch(fetchAttend(id, token));
+    const { dispatch, token, rowData } = this.props;
+    // this.changeStatus();
+    this.setState({
+      showModal: true,
+    });
+    dispatch({ type: ATTEND, payload: { token, id: rowData.id } })
   }
 
   componentWillUnmount() {
@@ -86,8 +112,6 @@ class ActivityItem extends Component {
     const unCompletedColor = ['#FF0467', '#FC7437'];
 
     const { rowData } = this.props;
-
-    console.log('props', this.props);
 
     const renderStatus = (
       <LinearGradient
@@ -161,19 +185,6 @@ class ActivityBox extends Component {
     }
   }
 
-  componentDidMount() {
-    this._onRefresh('INIT');
-  }
-
-  waitRefreshing() {
-    const that = this;
-    this.timers = setTimeout(() => {
-      that.setState({
-        isRefreshing: false,
-      });
-    }, 1000);
-  }
-
   componentWillUnmount() {
     clearTimeout(this.timers);
   }
@@ -195,27 +206,41 @@ class ActivityBox extends Component {
       }
   }
 
-  _onRefresh = (type) => {
-    let that = this;
-    if (type === 'INIT') {
-        that.setState({
-          isRefreshing: true,
-        });
-        this.waitRefreshing();
-      // this.props.dispatch(fetchEventsActive());
-    } else {
-      that.setState({
+  _onRefresh(mark) {
+    console.log('mark', mark);
+    const { needAttendEvents } = this.props;
+
+    const eventsLength = needAttendEvents ? needAttendEvents.results.length : 0;
+
+    // the first enter, do not fresh.
+    if (eventsLength === 0) {
+      return;
+    }
+
+    if (mark !== 'footer') {
+      this.setState({
         isRefreshing: true,
       });
+  
+  
       this.waitRefreshing();
-      let { activeEvents } = this.props;
-      if (!activeEvents.next) {
-        return;
-      }
-      
-      // this.props.dispatch(fetchEventsActive(activeEvents.next[activeEvents.next.length - 1]));
+    }
+
+    if (needAttendEvents && Object.keys(needAttendEvents).includes('next')) { 
+      dispatch({ type: GET_ACTIVE_EVENTS, payload: { active: true, mode: mark, next: needAttendEvents.next } });
+    } else {
+      dispatch({ type: GET_ACTIVE_EVENTS, payload: { active: true, mode: mark } });
     }
     
+  }
+
+  waitRefreshing() {
+    const that = this;
+    this.timers = setTimeout(() => {
+      that.setState({
+        isRefreshing: false,
+      });
+    }, 1500);
   }
 
   ds = new ListView.DataSource({
@@ -223,7 +248,7 @@ class ActivityBox extends Component {
   });
   
   render() {
-    const { navigation, needAttendEvents, isFetching, dispatch  } = this.props;
+    const { navigation, attendEvent, needAttendEvents, isFetching, dispatch, token  } = this.props;
     let dataSource = this.ds.cloneWithRows(needAttendEvents ? needAttendEvents.results : []);
     return (
       <View style={styles.container}>
@@ -231,17 +256,26 @@ class ActivityBox extends Component {
           refreshControl={
             <RefreshControl
               refreshing={this.state.isRefreshing}
-              onRefresh={() => this._onRefresh()}
+              onRefresh={() => this._onRefresh('header')}
             />
           }
           enableEmptySections={true}
           renderFooter={() => this._renderFooter()}
-          onEndReached={this._onRefresh}
+          onEndReached={() => this._onRefresh('footer')}
           dataSource={dataSource}
           onEndReachedThreshold={10}
           showsVerticalScrollIndicator={false}
           renderRow={(rowData) => {
-            return <ActivityItem rowData={rowData} key={rowData.id} navigation={navigation} />
+            return (
+              <ActivityItem 
+                rowData={rowData} 
+                key={rowData.id} 
+                navigation={navigation}
+                dispatch={dispatch} 
+                token={token}
+                {...attendEvent}
+              />
+            )
           }}
         />
     </View>

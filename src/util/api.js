@@ -14,6 +14,7 @@ const homeApi = (id) => ({
   getEvents: '/home/events/',
   getSingleNews: `/home/news/${id}/`,
   getSingleEvent: `/home/events/${id}/`,
+  attendEvent: `/home/events/${id}/attend/`
 });
 
 // all user api in one place

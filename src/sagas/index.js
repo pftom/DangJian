@@ -12,6 +12,7 @@ import {
   watchGetEvents,
   watchGetSingleEvent,
   watchGetActiveEvents,
+  watchAttendEvent,
 } from './events';
 
 import {
@@ -35,6 +36,7 @@ export default function* rootSaga() {
     watchGetEvents(),
     watchGetSingleEvent(),
     watchGetActiveEvents(),
+    watchAttendEvent(),
 
     // run the news watcher saga
     watchGetNews(),
