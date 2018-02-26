@@ -15,7 +15,7 @@ export const initialAuthState = {
   isLogin: false,
   loginSuccess: false,
   loginError: false,
-  token: 'ce2fa48c680caf20224d463fd41bd53d603c1a91s',
+  token: 'ce2fa48c680caf20224d463fd41bd53d603c1a91',
   username: '140150115',
 }
 

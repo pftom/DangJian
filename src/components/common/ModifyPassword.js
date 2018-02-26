@@ -54,27 +54,31 @@ export default class ModifyContent extends Component {
 
   componentWillReceiveProps(nextProps) {
     const {
-      isFeedbacking,
-      feedbackSuccess,
-      feedbackError,
+      isChangingPassword,
+      changePasswordSuccess,
+      changePasswordError,
     } = nextProps;
 
     const that = this;
 
-    if (isFeedbacking) {
-      loadingToast('提交反馈中...', 3);
+    if (isChangingPassword) {
+      loadingToast('修改密码中...', 3);
     }
 
-    if (feedbackSuccess) {
+    if (changePasswordSuccess) {
       Toast.hide();
-      successToast('提交反馈成功!', 2);
+      successToast('修改密码成功!', 2);
       
-      that.setState({ feedbackContent: '' });
+      that.setState({ 
+        oldPasswd: '',
+        newPasswd: '',
+        newPasswd2: '',
+      });
     }
 
-    if (feedbackError) {
+    if (changePasswordError) {
       Toast.hide();
-      failToast('提交反馈失败，请检查网络连接！', 2);
+      failToast('修改密码失败，请检查旧密码是否正确或网络连接!', 2);
     }
   }
 
@@ -115,6 +119,10 @@ export default class ModifyContent extends Component {
                   placeholder={item.placeholder}
                   onChange={(value) => this.handleTextChange(value, item.title)}
                   key={item.id}
+                  autoCorrect={false}
+                  returnKeyType="done"
+                  clearButtonMode="while-editing"
+                  value={this.state[item.title]}
                 />
               ))
             }

@@ -67,7 +67,7 @@ request.put = ( url, body, token ) => {
 
   return fetch(url, options) 
         .then(response => {
-          if (response.status <= 400 || !response.ok) {
+          if (response.status >= 400 || !response.ok) {
             throw response.json();
           }
           return response.json();
