@@ -208,7 +208,7 @@ class ActivityBox extends Component {
 
   _onRefresh(mark) {
     console.log('mark', mark);
-    const { needAttendEvents } = this.props;
+    const { needAttendEvents, dispatch } = this.props;
 
     const eventsLength = needAttendEvents ? needAttendEvents.results.length : 0;
 

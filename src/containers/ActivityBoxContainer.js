@@ -17,7 +17,7 @@ class ActivityBoxContainer extends PureComponent {
     // get the dispatch from the connect, get userId from the redux store
     const { dispatch } = this.props;
     // dispatch REQUEST_ACTIVE_EVENT, get all need sign-up activity
-    dispatch({ type: GET_EVENTS, payload: { active: true } });
+    dispatch({ type: GET_EVENTS, payload: { active: true, mode: 'header' } });
   }
 
   render() {

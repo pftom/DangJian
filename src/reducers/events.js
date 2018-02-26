@@ -39,14 +39,18 @@ const events = (state = initialEventsState, action) => {
         getEventsError: false,
       };
 
-    case GET_EVENTS_SUCCESS:
+    case GET_EVENTS_SUCCESS: {
       // if get events success, merge the res into the state tree
       const { events, active, mode } = action.payload;
+
+      console.log('mode', mode, active, events);
 
       let judgeActive = {};
       // judge this events is all or need attend events
       if (active) {
+        console.log('h');
         if (mode === 'footer') {
+          console.log('footer');
           const { needAttendEvents: oldNeedAttendEvents } = state;
           if (oldNeedAttendEvents) {
             judgeActive = {
@@ -68,27 +72,28 @@ const events = (state = initialEventsState, action) => {
               },
             }
           }
-        }
-
-        if (Object.keys(judgeActive).length === 0) {
-          if (active) {
-            judgeActive = {
-              needAttendEvents: events,
-            };
-          } else {
-            judgeActive = {
-              events,
-            };
-          }
-        }
+       }
       }
 
+      if (Object.keys(judgeActive).length === 0) {
+        if (active) {
+          judgeActive = {
+            needAttendEvents: events,
+          };
+        } else {
+          judgeActive = {
+            events,
+          };
+        }
+      }
+      
       return {
         ...state,
         ...judgeActive,
         isGettingEvents: false,
         getEventsSuccess: true,
       };
+    }
 
     case GET_EVENTS_ERROR:
       // if get events error, merge error message into the state tree
