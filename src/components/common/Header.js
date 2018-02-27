@@ -44,7 +44,6 @@ const Header = (props) => {
 
 const styles = StyleSheet.create({
   linearGradient: {
-    height: 90,
     flexDirection: 'row',
     width: width,
     ...Platform.select({
@@ -53,9 +52,10 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 3},
         shadowRadius: 40,
         shadowOpacity: 0.5,
+        height: 90,
       },
       android: {
-        marginTop: 20.5,
+        height: 90,
       }
     })
   },

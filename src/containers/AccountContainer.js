@@ -15,6 +15,8 @@ import {
 // import action constants for get profile
 import { GET_PROFILE } from '../constants/';
 
+import px2dp from '../util/index';
+
 // create container component
 class AccountContainer extends PureComponent {
   componentDidMount() {
@@ -41,7 +43,7 @@ class AccountContainer extends PureComponent {
 
 AccountContainer.navigationOptions = ({ navigation }) => ({
   headerTitle: (
-    <View>
+    <View style={{ height: px2dp(90) }}>
       <Header 
         headerText="我的账号"
         navigation={navigation}

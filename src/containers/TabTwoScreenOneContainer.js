@@ -18,6 +18,8 @@ import {
   GET_SINGLE_NEWS,
 } from '../constants/';
 
+import px2dp from '../util/index';
+
 
 class TabTwoScreenOneContainer extends PureComponent {
   constructor(props) {
@@ -62,7 +64,7 @@ class TabTwoScreenOneContainer extends PureComponent {
 // define the header for this component
 TabTwoScreenOneContainer.navigationOptions = ({ navigation }) => ({
   headerTitle: (
-    <View>
+    <View style={{ height: px2dp(90) }}>
       <Header 
         headerText="在线学习"
         navigation={navigation}
